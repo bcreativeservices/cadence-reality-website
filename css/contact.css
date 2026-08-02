@@ -1,0 +1,100 @@
+.form-success,
+.form-error {
+    display: none;
+    margin-top: 15px;
+    font-size: 0.9rem;
+    text-align: center;
+}
+
+.form-success {
+    color: #2e7d32;
+}
+
+.form-error {
+    color: #c62828;
+}
+/* --------------------------------------------------
+   MICRO-INTERACTION LIBRARY
+   -------------------------------------------------- */
+
+/* Button Tap Animation */
+.button-tap,
+.submit-button,
+.cta-button {
+    transition: transform 0.15s ease, opacity 0.15s ease;
+}
+
+.button-tap:active,
+.submit-button:active,
+.cta-button:active {
+    transform: scale(0.96);
+    opacity: 0.85;
+}
+
+/* Input Focus Glow */
+.form-field input:focus,
+.form-field textarea:focus {
+    outline: none;
+    border-color: rgba(0,0,0,0.35);
+    box-shadow: 0 0 0 3px rgba(0,0,0,0.08);
+    transition: box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+/* Link Underline Slide */
+.link-slide {
+    position: relative;
+    display: inline-block;
+}
+
+.link-slide::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -2px;
+    width: 0%;
+    height: 2px;
+    background: currentColor;
+    transition: width 0.25s ease;
+}
+
+.link-slide:hover::after {
+    width: 100%;
+}
+
+/* Icon Micro-Scale */
+.icon-scale {
+    transition: transform 0.2s ease;
+}
+
+.icon-scale:hover {
+    transform: scale(1.15);
+}
+
+/* Soft Pulse (for CTA or important elements) */
+.soft-pulse {
+    animation: softPulse 2.5s infinite ease-in-out;
+}
+
+@keyframes softPulse {
+    0% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.03); opacity: 0.95; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+/* Divider Shimmer */
+.divider-shimmer {
+    height: 1px;
+    background: linear-gradient(
+        90deg,
+        rgba(0,0,0,0.05),
+        rgba(0,0,0,0.15),
+        rgba(0,0,0,0.05)
+    );
+    background-size: 200% 100%;
+    animation: shimmer 3s infinite linear;
+}
+
+@keyframes shimmer {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
