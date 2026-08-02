@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadence Realty – Under Construction</title>
+
+    <!-- Global Styles -->
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/contact.css"> <!-- reuse spacing + micro-interactions -->
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header class="site-header">
+        <a href="index.html" class="logo-link">
+            <img src="assets/images/general/CandaceLogo.webp" alt="Cadence Realty Logo" class="site-logo">
+        </a>
+
+        <nav class="site-nav">
+            <a href="index.html">Home</a>
+            <a href="contact.html">Contact</a>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="construction-hero">
+        <img src="assets/images/general/CandaceLogo_transparent.webp" alt="Cadence Realty Logo Transparent" class="hero-logo">
+        <h1 class="construction-title">Cadence Realty</h1>
+        <p class="construction-subtitle">Our new experience is coming soon.</p>
+
+        <div class="divider-shimmer"></div>
+
+        <p class="construction-note">
+            We’re crafting a premium, mobile‑first real estate experience.<br>
+            Please check back shortly.
+        </p>
+    </section>
+
+    <!-- Sticky CTA -->
+    <button class="cta-button" id="ctaButton">
+        Contact Us
+    </button>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <img src="assets/images/general/CandaceLogo.webp" alt="Cadence Realty Logo" class="footer-logo">
+        <p>© 2024 Cadence Realty. All rights reserved.</p>
+    </footer>
+
+    <!-- Motion System -->
+    <script src="js/scroll-animations.js"></script>
+
+    <!-- Micro-Interactions -->
+    <script src="js/micro-interactions.js"></script>
+
+    <!-- Sticky CTA Behavior -->
+    <script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const cta = document.getElementById("ctaButton");
+        let lastScroll = 0;
+
+        // Soft pulse on load
+        setTimeout(() => {
+            cta.classList.add("cta-pulse");
+            setTimeout(() => cta.classList.remove("cta-pulse"), 3000);
+        }, 800);
+
+        // Hide CTA when scrolling down, show when scrolling up
+        window.addEventListener("scroll", () => {
+            const currentScroll = window.pageYOffset;
+            if (currentScroll > lastScroll) {
+                cta.classList.add("cta-hidden");
+            } else {
+                cta.classList.remove("cta-hidden");
+            }
+            lastScroll = currentScroll;
+        });
+
+        // CTA action
+        cta.addEventListener("click", () => {
+            window.location.href = "contact.html";
+        });
+    });
+    </script>
+
+</body>
+</html>
