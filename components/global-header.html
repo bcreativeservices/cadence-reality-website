@@ -1,46 +1,35 @@
-<header class="site-header">
+<header class="global-header">
     <div class="header-inner">
 
         <!-- Logo -->
         <a href="index.html" class="logo">
-			<img src="assets/images/general/cadencelogo_transparent.webp" alt="Cadence Realty Services Logo">
-		</a>
+            <img src="assets/images/general/cadencelogo_transparent.webp" alt="Cadence Realty Logo">
+        </a>
 
-
-        <!-- Desktop Navigation -->
-        <nav class="header-nav">
-            <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="buyers.html">Buy</a></li>
-                <li><a href="sellers.html">Sell</a></li>
-                <li><a href="about.html">About</a></li>
-                <li><a href="market.html">Market Snapshot</a></li>
-                <li><a href="join.html">Join Cadence</a></li>
-                <li><a href="register.html">Register</a></li>
-                <li><a href="signin.html">Sign In</a></li>
-            </ul>
-        </nav>
-
-        <!-- Mobile Menu Button -->
-        <button class="mobile-menu-btn" id="mobileMenuBtn">
-            <span></span>
-            <span></span>
-            <span></span>
+        <!-- Mobile Menu Toggle -->
+        <button class="mobile-menu-toggle" aria-label="Toggle navigation">
+            <span></span><span></span><span></span>
         </button>
 
-    </div>
+        <!-- Navigation -->
+        <nav class="main-nav">
+            <ul>
+                <li><a href="buyers.html">Buyers</a></li>
+                <li><a href="sellers.html">Sellers</a></li>
+                <li><a href="market.html">Market Snapshot</a></li>
 
-    <!-- Mobile Menu Drawer -->
-    <div class="mobile-menu" id="mobileMenu">
-        <ul>
-            <li><a href="index.html">Home</a></li>
-            <li><a href="buyers.html">Buy</a></li>
-            <li><a href="sellers.html">Sell</a></li>
-            <li><a href="about.html">About</a></li>
-            <li><a href="market.html">Market Snapshot</a></li>
-            <li><a href="join.html">Join Cadence</a></li>
-            <li><a href="register.html">Register</a></li>
-            <li><a href="signin.html">Sign In</a></li>
-        </ul>
+                <!-- About Dropdown -->
+                <li class="has-submenu">
+                    <a href="about.html">About</a>
+                    <ul class="submenu">
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="team.html">Our Team</a></li>
+                        <li><a href="contact.html">Contact Us</a></li>
+                    </ul>
+                </li>
+
+                <li><a href="join.html">Join Cadence</a></li>
+            </ul>
+        </nav>
     </div>
 </header>
