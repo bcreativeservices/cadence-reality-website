@@ -1,36 +1,40 @@
-<header class="global-header">
+<!-- Global Header Component for Cadence Realty -->
+
+<header class="site-header">
     <div class="header-inner">
 
         <!-- Logo -->
-        <a href="index.html" class="logo">
-            <img src="assets/images/general/cadencelogo_transparent.webp" alt="Cadence Realty Logo">
+        <a href="index.html" class="header-logo">
+            <img src="assets/images/general/CandaceLogo.webp" alt="Cadence Realty Logo">
         </a>
 
-        <!-- Mobile Menu Toggle -->
-        <button class="mobile-menu-toggle" aria-label="Toggle navigation">
-            <span></span><span></span><span></span>
-        </button>
-
         <!-- Navigation -->
-        <nav class="main-nav">
+        <nav class="header-nav">
             <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="search.html">Search</a></li>
                 <li><a href="buyers.html">Buyers</a></li>
                 <li><a href="sellers.html">Sellers</a></li>
-                <li><a href="market.html">Market Snapshot</a></li>
-
-                <!-- About Dropdown -->
-                <li class="has-submenu">
-                    <a href="about.html">About</a>
-                    <ul class="submenu">
-                        <li><a href="about.html">About Us</a></li>
-                        <li><a href="team.html">Our Team</a></li>
-                        <li><a href="contact.html">Contact Us</a></li>
-                    </ul>
-                </li>
-
-                <li><a href="join.html">Join Cadence</a></li>
+                <li><a href="team.html">Team</a></li>
+                <li><a href="contact.html">Contact</a></li>
             </ul>
         </nav>
 
+        <!-- Mobile Menu Button -->
+        <button class="mobile-menu-btn" id="mobileMenuBtn">
+            <span></span><span></span><span></span>
+        </button>
+    </div>
+
+    <!-- Mobile Menu Drawer -->
+    <div class="mobile-menu" id="mobileMenu">
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="search.html">Search</a></li>
+            <li><a href="buyers.html">Buyers</a></li>
+            <li><a href="sellers.html">Sellers</a></li>
+            <li><a href="team.html">Team</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
     </div>
 </header>
