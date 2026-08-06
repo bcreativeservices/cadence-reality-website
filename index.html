@@ -1,84 +1,158 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<div data-include="components/global-header.html"></div>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadence Realty Services | Jimmy Janes Team</title>
 
+    <!-- Global Styles -->
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/home.css">
+
+    <!-- Motion & Interaction -->
+    <script src="js/scroll-animations.js" defer></script>
+    <script src="js/micro-interactions.js" defer></script>
+    <script src="js/parallax.js" defer></script>
 </head>
 
 <body>
 
-    <!-- Header -->
-    <header class="site-header">
-        <a href="index.html" class="logo-link">
-            <img src="assets/images/general/CandaceLogo.webp" alt="Cadence Realty Logo" class="site-logo">
-        </a>
-
-        <nav class="site-nav">
-            <a href="index.html">Home</a>
-            <a href="contact.html">Contact</a>
-        </nav>
-    </header>
+    <!-- Inject Global Header -->
+    <div id="header-placeholder"></div>
 
     <!-- Hero Section -->
-    <section class="construction-hero">
-        <img src="assets/images/general/CandaceLogo_transparent.webp" alt="Cadence Realty Logo Transparent" class="hero-logo">
-        <h1 class="construction-title">Cadence Realty</h1>
-        <p class="construction-subtitle">Our new experience is coming soon.</p>
+    <section class="hero animate-section">
+        <div class="hero-media parallax-bg">
+            <div class="hero-vignette"></div>
+            <img src="assets/images/home/hero1.webp" alt="Luxury home exterior" class="hero-image">
+        </div>
 
-        <div class="divider-shimmer"></div>
+        <div class="hero-content">
+            <img 
+                src="assets/images/general/CandaceLogo_transparent.webp" 
+                alt="Cadence Realty Logo" 
+                class="hero-logo fade-in-logo"
+            >
 
-        <p class="construction-note">
-            We’re crafting a premium, mobile‑first real estate experience.<br>
-            Please check back shortly.
-        </p>
+            <h1 class="hero-title stagger-1">The Jimmy Janes Team</h1>
+            <p class="hero-subtitle stagger-2">Cadence Realty Services</p>
+
+            <div class="hero-cta-group slide-up-cta stagger-3">
+                <a href="search.html" class="btn btn-primary">View Listings</a>
+                <a href="contact.html" class="btn btn-secondary">Contact Us</a>
+            </div>
+
+            <!-- Floating Scroll Indicator -->
+            <div class="scroll-indicator stagger-5">
+                <span class="scroll-dot"></span>
+                <p>Scroll</p>
+            </div>
+        </div>
     </section>
 
-    <!-- Sticky CTA -->
-    <button class="cta-button" id="ctaButton">
-        Contact Us
-    </button>
+    <!-- About Section -->
+    <section class="about-section animate-section">
+        <div class="section-divider"></div>
 
-    <!-- Footer -->
-    <footer class="site-footer">
-		<div data-include="components/global-footer.html"></div>
-    </footer>
+        <div class="about-inner">
+            <div class="about-text">
+                <h2 class="stagger-1">Luxury Real Estate & Lifestyle</h2>
 
-    <!-- Motion System -->
-    <script src="js/scroll-animations.js"></script>
+                <p class="stagger-2">
+                    The Jimmy Janes Team – Cadence Realty Services is a full‑service, luxury real estate brokerage and lifestyle company representing clients worldwide in a broad spectrum of classes, including residential, new development, resort real estate, and residential leasing.
+                </p>
 
-    <!-- Micro-Interactions -->
-    <script src="js/micro-interactions.js"></script>
+                <p class="stagger-3">
+                    Since its inception in 2011, The Jimmy Janes Team has redefined the business of real estate — modernizing and advancing the industry by fostering a culture of partnership in which all clients and listings are represented collaboratively by all of its agents.
+                </p>
 
-    <!-- Sticky CTA Behavior -->
-    <script>
-    document.addEventListener("DOMContentLoaded", () => {
-        const cta = document.getElementById("ctaButton");
-        let lastScroll = 0;
+                <p class="stagger-4">
+                    Shunning the traditional model of how real estate is practiced, our agents share their knowledge, spheres of influence, contacts, and expertise — ensuring our clients better representation and a true competitive edge.
+                </p>
 
-        // Soft pulse on load
-        setTimeout(() => {
-            cta.classList.add("cta-pulse");
-            setTimeout(() => cta.classList.remove("cta-pulse"), 3000);
-        }, 800);
+                <a href="mailto:info@cadencerealty.com" class="btn btn-primary stagger-5">Work With Us</a>
+            </div>
 
-        // Hide CTA when scrolling down, show when scrolling up
-        window.addEventListener("scroll", () => {
-            const currentScroll = window.pageYOffset;
-            if (currentScroll > lastScroll) {
-                cta.classList.add("cta-hidden");
-            } else {
-                cta.classList.remove("cta-hidden");
-            }
-            lastScroll = currentScroll;
-        });
+            <div class="about-media stagger-3">
+                <img src="assets/images/home/hero3.webp" alt="Modern luxury property" class="about-image">
+            </div>
+        </div>
+    </section>
 
-        // CTA action
-        cta.addEventListener("click", () => {
-            window.location.href = "contact.html";
-        });
-    });
-    </script>
-	<script src="js/includes.js"></script>
+    <!-- Featured Properties -->
+    <section class="featured-properties animate-section">
+        <div class="section-divider"></div>
+
+        <h2 class="section-title stagger-1">Featured Properties</h2>
+
+        <div class="property-grid">
+
+            <!-- Property Card 1 -->
+            <div class="property-card stagger-2">
+                <div class="property-image-wrapper">
+                    <img src="assets/images/home/hero2.webp" alt="Luxury Property" class="property-image">
+                </div>
+                <div class="property-info">
+                    <h3 class="property-title">Modern Luxury Estate</h3>
+                    <p class="property-location">Houston, TX</p>
+                    <a href="#" class="btn btn-secondary property-btn">View Details</a>
+                </div>
+            </div>
+
+            <!-- Property Card 2 -->
+            <div class="property-card stagger-3">
+                <div class="property-image-wrapper">
+                    <img src="assets/images/home/hero3.webp" alt="Luxury Property" class="property-image">
+                </div>
+                <div class="property-info">
+                    <h3 class="property-title">Contemporary Retreat</h3>
+                    <p class="property-location">Katy, TX</p>
+                    <a href="#" class="btn btn-secondary property-btn">View Details</a>
+                </div>
+            </div>
+
+            <!-- Property Card 3 -->
+            <div class="property-card stagger-4">
+                <div class="property-image-wrapper">
+                    <img src="assets/images/home/hero1.webp" alt="Luxury Property" class="property-image">
+                </div>
+                <div class="property-info">
+                    <h3 class="property-title">Elegant Urban Home</h3>
+                    <p class="property-location">Sugar Land, TX</p>
+                    <a href="#" class="btn btn-secondary property-btn">View Details</a>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- HAR Integration Placeholder -->
+    <section class="har-section animate-section">
+        <div class="section-divider"></div>
+
+        <div class="har-inner">
+            <img src="assets/images/home/HARLogo_transparent.webp" alt="Houston Association of REALTORS Logo" class="har-logo stagger-1">
+            <h2 class="stagger-2">Search Powered by HAR.com</h2>
+
+            <p class="stagger-3">
+                Information contained on the computer print‑outs of the Multiple Listing Service (MLS) of the Houston REALTORS® Information Service (HRIS) is furnished by MLS Participants for dissemination to other MLS Participants, for their exclusive use, and should not be relied upon by Buyer/Tenant or any other person.
+            </p>
+
+            <p class="stagger-4">
+                There is no express or implied warranty by HAR or MLS as to the accuracy of such information, which should be independently verified by Buyer/Tenant or such other person. MLS does not verify the information and disclaims any responsibility for its accuracy.
+            </p>
+
+            <p class="stagger-5">
+                IDX information is provided exclusively for consumers’ personal, non‑commercial use and may not be used for any purpose other than to identify prospective properties consumers may be interested in purchasing. Information deemed reliable but not guaranteed to be accurate. Listing information updated daily.
+            </p>
+        </div>
+    </section>
+
+    <!-- Inject Global Footer -->
+    <div id="footer-placeholder"></div>
+
+    <!-- Component Loader -->
+    <script src="components/includes.js"></script>
 
 </body>
 </html>

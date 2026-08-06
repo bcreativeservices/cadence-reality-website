@@ -12,12 +12,8 @@
 
 <body>
 
-    <!-- Header (unchanged, on-brand) -->
-    <header class="site-header">
-        <a href="index.html" class="logo-link">
-            <img src="assets/images/logo.png" alt="Cadence Realty Logo" class="site-logo">
-        </a>
-    </header>
+    <!-- Inject Global Header -->
+    <div id="header-placeholder"></div>
 
     <!-- Hero -->
     <section class="contact-hero">
@@ -33,9 +29,15 @@
     <!-- Contact Details -->
     <section class="contact-details contact-section">
         <h2>Contact Information</h2>
-        <p><strong>Phone:</strong> (XXX) XXX‑XXXX</p>
+
+        <p><strong>Phone:</strong> (832) 222‑9000</p>
         <p><strong>Email:</strong> info@cadencerealty.com</p>
-        <p><strong>Office:</strong> 123 Cadence Blvd, Houston, TX</p>
+
+        <p>
+            <strong>Office:</strong><br>
+            22762 Westheimer Pkwy, Suite 420<br>
+            Katy, TX 77450
+        </p>
     </section>
 
     <!-- Contact Form -->
@@ -83,73 +85,73 @@
         </form>
     </section>
 
-    <!-- Footer -->
-    <footer class="site-footer">
-        <p>© 2024 Cadence Realty. All rights reserved.</p>
-    </footer>
+    <!-- Inject Global Footer -->
+    <div id="footer-placeholder"></div>
 
- <!-- Luxury Motion System -->
-<script src="js/scroll-animations.js"></script>
+    <!-- Component Loader -->
+    <script src="components/includes.js"></script>
 
-<!-- Micro-Interactions Library -->
-<script src="js/micro-interactions.js"></script>
+    <!-- Luxury Motion System -->
+    <script src="js/scroll-animations.js"></script>
 
-<!-- Web3Forms Submission Handler -->
-<script>
-document.querySelector(".contact-form").addEventListener("submit", async function(e) {
-    e.preventDefault();
+    <!-- Micro-Interactions Library -->
+    <script src="js/micro-interactions.js"></script>
 
-    const form = e.target;
-    const formData = new FormData(form);
+    <!-- Web3Forms Submission Handler -->
+    <script>
+    document.querySelector(".contact-form").addEventListener("submit", async function(e) {
+        e.preventDefault();
 
-    const response = await fetch(form.action, {
-        method: form.method,
-        body: formData
-    });
+        const form = e.target;
+        const formData = new FormData(form);
 
-    if (response.ok) {
-        document.getElementById("formSuccess").style.display = "block";
-        form.reset();
-    } else {
-        document.getElementById("formError").style.display = "block";
-    }
-});
-</script>
+        const response = await fetch(form.action, {
+            method: form.method,
+            body: formData
+        });
 
-<!-- ⭐ Sticky CTA Behavior (place this AFTER the above scripts) -->
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-
-    const cta = document.getElementById("ctaButton");
-    let lastScroll = 0;
-
-    // Soft pulse on load
-    setTimeout(() => {
-        cta.classList.add("cta-pulse");
-        setTimeout(() => cta.classList.remove("cta-pulse"), 3000);
-    }, 800);
-
-    // Hide CTA when scrolling down, show when scrolling up
-    window.addEventListener("scroll", () => {
-        const currentScroll = window.pageYOffset;
-
-        if (currentScroll > lastScroll) {
-            cta.classList.add("cta-hidden");
+        if (response.ok) {
+            document.getElementById("formSuccess").style.display = "block";
+            form.reset();
         } else {
-            cta.classList.remove("cta-hidden");
+            document.getElementById("formError").style.display = "block";
         }
-
-        lastScroll = currentScroll;
     });
+    </script>
 
-    // Optional: make CTA actually call
-    cta.addEventListener("click", () => {
-        window.location.href = "tel:+1XXXXXXXXXX"; // replace with Cadence phone number
+    <!-- Sticky CTA Behavior -->
+    <script>
+    document.addEventListener("DOMContentLoaded", () => {
+
+        const cta = document.getElementById("ctaButton");
+        let lastScroll = 0;
+
+        // Soft pulse on load
+        setTimeout(() => {
+            cta.classList.add("cta-pulse");
+            setTimeout(() => cta.classList.remove("cta-pulse"), 3000);
+        }, 800);
+
+        // Hide CTA when scrolling down, show when scrolling up
+        window.addEventListener("scroll", () => {
+            const currentScroll = window.pageYOffset;
+
+            if (currentScroll > lastScroll) {
+                cta.classList.add("cta-hidden");
+            } else {
+                cta.classList.remove("cta-hidden");
+            }
+
+            lastScroll = currentScroll;
+        });
+
+        // Actual click-to-call
+        cta.addEventListener("click", () => {
+            window.location.href = "tel:+18322229000";
+        });
+
     });
-
-});
-</script>
-
+    </script>
 
 </body>
 </html>

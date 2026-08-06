@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Join Cadence Realty</title>
+
+  <!-- Global Styles -->
+  <link rel="stylesheet" href="css/global.css" />
+
+  <!-- Join Page Styles -->
+  <link rel="stylesheet" href="css/join.css" />
+
+  <!-- Global Component Loader -->
+  <script defer src="js/includes.js"></script>
+
+  <!-- Animation + Interaction Systems -->
+  <script defer src="js/scroll-animations.js"></script>
+  <script defer src="js/micro-interactions.js"></script>
+  <script defer src="js/parallax.js"></script>
+</head>
+
+<body>
+  <!-- Header Injection -->
+  <div id="header-placeholder"></div>
+
+  <!-- Hero Section -->
+  <section class="join-hero animate-section">
+    <div class="hero-overlay"></div>
+
+    <div class="hero-content stagger-1">
+      <h1>Join Cadence Realty</h1>
+      <p>
+        Elevate your career with a brokerage built on integrity, innovation, and luxury service.
+      </p>
+    </div>
+  </section>
+
+  <!-- Join Cadence Form Section -->
+  <section class="join-cadence-section animate-section">
+    <div class="section-divider"></div>
+
+    <div class="join-inner">
+      <h2 class="stagger-1">Apply to Join</h2>
+      <p class="stagger-2">
+        We’re always looking for passionate agents who share our vision of modern luxury and integrity.
+        Tell us a bit about yourself — we’ll reach out personally.
+      </p>
+
+      <form
+        class="join-form stagger-3"
+        action="https://api.web3forms.com/submit"
+        method="POST"
+      >
+        <!-- Web3Forms Access Key -->
+        <input type="hidden" name="access_key" value="YOUR_WEB3FORMS_KEY_HERE" />
+
+        <!-- Identify this form type -->
+        <input type="hidden" name="formType" value="Join Cadence" />
+
+        <div class="form-group">
+          <label>Full Name</label>
+          <input type="text" name="fullName" required />
+        </div>
+
+        <div class="form-group">
+          <label>Email Address</label>
+          <input type="email" name="email" required />
+        </div>
+
+        <div class="form-group">
+          <label>Phone Number</label>
+          <input type="tel" name="phone" required />
+        </div>
+
+        <div class="form-group">
+          <label>Message</label>
+          <textarea
+            name="message"
+            rows="4"
+            placeholder="Tell us why you’d love to join Cadence"
+          ></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary join-submit-btn">
+          Submit Application
+        </button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Footer Injection -->
+  <div id="footer-placeholder"></div>
+</body>
+</html>

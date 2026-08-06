@@ -1,9 +1,13 @@
-// Micro-Interaction Library for Cadence Realty
-// App-like luxury interactions
+// ------------------------------------------------------------
+// Cadence Realty — Micro Interaction System
+// Subtle luxury interactions for buttons, links, icons & CTA
+// ------------------------------------------------------------
 
 document.addEventListener("DOMContentLoaded", () => {
 
-    /* Sticky CTA Tap Feedback */
+    // ------------------------------------------------------------
+    // Sticky CTA Tap Feedback (if present on page)
+    // ------------------------------------------------------------
     const cta = document.getElementById("ctaButton");
     if (cta) {
         cta.addEventListener("click", () => {
@@ -12,19 +16,32 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    /* Auto-apply button tap class */
-    document.querySelectorAll("button").forEach(btn => {
+
+    // ------------------------------------------------------------
+    // Auto-apply button tap animation
+    // ------------------------------------------------------------
+    const buttons = document.querySelectorAll("button, .btn, .submit-button, .cta-button");
+    buttons.forEach(btn => {
         btn.classList.add("button-tap");
     });
 
-    /* Auto-apply link slide class */
-    document.querySelectorAll("a").forEach(link => {
+
+    // ------------------------------------------------------------
+    // Auto-apply link underline slide
+    // ------------------------------------------------------------
+    const links = document.querySelectorAll("a");
+    links.forEach(link => {
         link.classList.add("link-slide");
     });
 
-    /* Auto-apply icon micro-scale */
-    document.querySelectorAll("img, svg").forEach(icon => {
-        if (icon.classList.contains("site-logo")) return; // avoid scaling logo
+
+    // ------------------------------------------------------------
+    // Auto-apply icon micro-scale
+    // ------------------------------------------------------------
+    const icons = document.querySelectorAll("img, svg");
+    icons.forEach(icon => {
+        // Avoid scaling the main site logo
+        if (icon.classList.contains("site-logo")) return;
         icon.classList.add("icon-scale");
     });
 
