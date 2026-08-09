@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sellers | Cadence Realty Services</title>
+    <title>Sell My Home | Cadence Realty Services</title>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -19,6 +19,7 @@
     <script src="js/scroll-animations.js" defer></script>
     <script src="js/micro-interactions.js" defer></script>
     <script src="js/global.js" defer></script>
+    <script src="js/lead-modal.js" defer></script>
 </head>
 
 <body>
@@ -27,11 +28,11 @@
     <div id="header-placeholder"></div>
 
     <!-- Hero -->
-    <section class="page-hero animate-section" style="background-image:url('assets/images/home/hero3.webp');">
+    <section class="page-hero seller-hero animate-section" style="background-image:url('assets/images/sellers/sellerservices.webp');">
         <div class="hero-overlay"></div>
         <div class="hero-content stagger-1">
-            <h1>For Sellers</h1>
-            <p>Positioning your property to sell for what it's truly worth</p>
+            <h1>Sell My Home</h1>
+            <button type="button" class="btn btn-primary stagger-2 js-open-leadform">Let's Talk</button>
         </div>
     </section>
 
@@ -39,10 +40,7 @@
     <section class="content-section narrow animate-section" style="text-align:center;">
         <div class="section-divider"></div>
         <p class="section-intro stagger-1">
-            Selling a luxury property takes more than a listing — it takes positioning,
-            presentation, and a network that reaches the right buyers. Every listing at
-            Cadence Realty is represented collaboratively by the full team, giving your home
-            more exposure than a single agent could provide alone.
+            We're committed to delivering a premium selling experience. Let us show you the strategy behind our success.
         </p>
     </section>
 
@@ -51,26 +49,42 @@
         <div class="section-divider"></div>
         <h2 class="stagger-1" style="text-align:center;">How We Sell Your Home</h2>
 
-        <div class="process-grid">
+        <div class="process-grid process-grid-icons">
             <div class="process-card stagger-2">
-                <span class="process-number">01</span>
-                <h3>Home Valuation</h3>
-                <p>A data-driven pricing strategy based on current market conditions and comparable sales.</p>
+                <div class="process-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg>
+                </div>
+                <h3>Marketing Analysis &amp; Pricing</h3>
             </div>
             <div class="process-card stagger-3">
-                <span class="process-number">02</span>
-                <h3>Present &amp; Prepare</h3>
-                <p>Guidance on staging, photography, and positioning to make the strongest first impression.</p>
+                <div class="process-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/></svg>
+                </div>
+                <h3>Home Preparation &amp; Staging</h3>
             </div>
             <div class="process-card stagger-4">
-                <span class="process-number">03</span>
-                <h3>Market Broadly</h3>
-                <p>Your listing goes out through HAR/MLS, our agent network, and targeted digital marketing.</p>
+                <div class="process-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l18-5v12L3 14v-3z"/><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"/></svg>
+                </div>
+                <h3>Marketing &amp; Showings</h3>
             </div>
             <div class="process-card stagger-5">
-                <span class="process-number">04</span>
-                <h3>Negotiate &amp; Close</h3>
-                <p>We evaluate every offer, negotiate firmly on your behalf, and manage the process to closing.</p>
+                <div class="process-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M9 15l2 2 4-4"/></svg>
+                </div>
+                <h3>Offers &amp; Negotiation</h3>
+            </div>
+            <div class="process-card stagger-1">
+                <div class="process-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M16 13H8"/><path d="M16 17H8"/><path d="M10 9H8"/></svg>
+                </div>
+                <h3>Contract &amp; Paperwork</h3>
+            </div>
+            <div class="process-card stagger-2">
+                <div class="process-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="7.5" cy="15.5" r="5.5"/><path d="M21 2l-9.6 9.6"/><path d="M15.5 7.5L18 10"/><path d="M17.5 5.5L20 8"/></svg>
+                </div>
+                <h3>Closing &amp; Beyond</h3>
             </div>
         </div>
     </section>
@@ -83,12 +97,9 @@
             Get a complimentary, no-obligation home valuation, or connect directly with our team to get started.
         </p>
         <div class="hero-cta-group stagger-3" style="justify-content:center; display:flex; gap:1rem; flex-wrap:wrap;">
-            <a href="https://www.har.com/idx/leadform?sitetype=aws&cid=736316" target="_blank" rel="noopener" class="btn btn-primary">Sell My Home</a>
-            <a href="https://www.har.com/idx/mls/homevalue/search?sitetype=aws&cid=736316" target="_blank" rel="noopener" class="btn btn-secondary">Get a Home Valuation</a>
+            <button type="button" class="btn btn-primary js-open-leadform">Sell My Home</button>
+            <a href="valuation.html" class="btn btn-secondary">Get a Home Valuation</a>
         </div>
-        <p class="seller-cta-note stagger-4">
-            These tools open in a new tab via HAR.com — your information goes directly to our team.
-        </p>
     </section>
 
     <!-- Inject Global Footer -->

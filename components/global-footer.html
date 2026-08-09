@@ -13,14 +13,96 @@
         </p>
         <p class="footer-text stagger-4">Cadence Realty Services — License ID: 9007474</p>
 
-        <div class="footer-legal stagger-5">
-            <a href="privacy.html">Privacy Policy</a>
-            <span class="footer-dot">•</span>
-            <a href="terms.html">Terms of Service</a>
-            <span class="footer-dot">•</span>
-            <a href="https://www.har.com/mhf/terms/dispBrokerInfo?sitetype=aws&cid=736316" target="_blank" rel="noopener">TREC Information About Brokerage Services</a>
+        <div class="footer-social stagger-4">
+            <a href="https://www.facebook.com/thejimmyjanesteam#" target="_blank" rel="noopener" aria-label="Cadence Realty Services on Facebook">
+                <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M22 12.06C22 6.5 17.52 2 12 2S2 6.5 2 12.06c0 5.02 3.66 9.18 8.44 9.94v-7.03H7.9v-2.91h2.54V9.85c0-2.51 1.49-3.9 3.77-3.9 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56v1.89h2.78l-.44 2.91h-2.34V22c4.78-.76 8.44-4.92 8.44-9.94z"/></svg>
+            </a>
         </div>
 
-        <p class="footer-text footer-copyright stagger-5">© 2026 Cadence Realty Services. All rights reserved.</p>
+        <div class="footer-legal stagger-5">
+            <a href="https://jimmyjanesteam.com/site/privacy-terms#cookie-policy" target="_blank" rel="noopener">Cookie Policy</a>
+            <span class="footer-dot">•</span>
+            <a href="https://jimmyjanesteam.com/site/privacy-terms#privacy-policy" target="_blank" rel="noopener">Privacy Policy</a>
+            <span class="footer-dot">•</span>
+            <a href="https://jimmyjanesteam.com/site/privacy-terms#terms-of-service" target="_blank" rel="noopener">Terms of Service</a>
+            <span class="footer-dot">•</span>
+            <button type="button" class="footer-link-btn js-open-cookie-prefs">Cookie Preferences</button>
+        </div>
+
+        <p class="footer-text footer-copyright stagger-5">
+            Powered by <a href="https://bdgrindustries.com/" target="_blank" rel="noopener">BDGR Industries, LLC.</a>
+            &nbsp;&middot;&nbsp; © 2026 Cadence Realty Services. All rights reserved.
+        </p>
     </div>
 </footer>
+
+<!-- Shared Lead-Form Modal (HAR IDX lead capture embed) -->
+<div class="modal-overlay" id="leadFormModal" aria-hidden="true">
+    <div class="modal-box">
+        <button type="button" class="modal-close" aria-label="Close">&times;</button>
+        <iframe title="Contact Cadence Realty Services" loading="lazy"></iframe>
+    </div>
+</div>
+
+<!-- Cookie Preferences Modal -->
+<div class="modal-overlay" id="cookiePrefsModal" aria-hidden="true">
+    <div class="modal-box cookie-modal-box">
+        <button type="button" class="modal-close" aria-label="Close">&times;</button>
+        <div class="cookie-modal-content">
+            <h3>Cookie Preferences</h3>
+            <p class="cookie-modal-intro">
+                We use cookies to improve your experience on our site. Choose which categories you're comfortable with below.
+            </p>
+
+            <div class="cookie-row">
+                <div>
+                    <h4>Necessary</h4>
+                    <p>Required for the site to function. Always on.</p>
+                </div>
+                <label class="cookie-toggle disabled">
+                    <input type="checkbox" checked disabled>
+                    <span class="cookie-toggle-slider"></span>
+                </label>
+            </div>
+
+            <div class="cookie-row">
+                <div>
+                    <h4>Analytics</h4>
+                    <p>Helps us understand how visitors use the site.</p>
+                </div>
+                <label class="cookie-toggle">
+                    <input type="checkbox" id="cookieAnalytics">
+                    <span class="cookie-toggle-slider"></span>
+                </label>
+            </div>
+
+            <div class="cookie-row">
+                <div>
+                    <h4>Marketing</h4>
+                    <p>Used to personalize offers and outreach.</p>
+                </div>
+                <label class="cookie-toggle">
+                    <input type="checkbox" id="cookieMarketing">
+                    <span class="cookie-toggle-slider"></span>
+                </label>
+            </div>
+
+            <div class="cookie-modal-actions">
+                <button type="button" class="btn btn-secondary" id="cookieRejectAll">Reject Non-Essential</button>
+                <button type="button" class="btn btn-primary" id="cookieSavePrefs">Save Preferences</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- First-Visit Cookie Consent Banner -->
+<div class="cookie-banner" id="cookieBanner">
+    <p>
+        We use cookies to improve your experience.
+        <a href="https://jimmyjanesteam.com/site/privacy-terms#cookie-policy" target="_blank" rel="noopener">Learn more</a>
+    </p>
+    <div class="cookie-banner-actions">
+        <button type="button" class="btn btn-secondary" id="cookieBannerPrefs">Preferences</button>
+        <button type="button" class="btn btn-primary" id="cookieBannerAccept">Accept All</button>
+    </div>
+</div>

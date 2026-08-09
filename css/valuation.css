@@ -1,0 +1,11 @@
+/* Home Valuation page - iframe embed sizing */
+
+.valuation-embed-frame {
+    height: 850px;
+}
+
+@media (max-width: 700px) {
+    .valuation-embed-frame {
+        height: 700px;
+    }
+}

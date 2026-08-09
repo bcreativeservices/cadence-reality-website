@@ -17,12 +17,26 @@
     text-align: center;
 }
 
+.stat-card {
+    transition: transform 0.35s ease;
+    cursor: default;
+}
+
+.stat-card:hover {
+    transform: translateY(-4px);
+}
+
+.stat-card:hover .stat-number {
+    color: #e5c491;
+}
+
 .stat-number {
     font-family: 'Cormorant Garamond', serif;
     font-size: 3rem;
     font-weight: 600;
     color: #d4af7a;
     margin-bottom: 0.4rem;
+    transition: color 0.3s ease;
 }
 
 .stat-label {
@@ -40,6 +54,7 @@
     position: relative;
     max-width: 1300px;
     margin: 0 auto;
+    padding: 0 3.2rem;
 }
 
 .agent-carousel {
@@ -48,16 +63,73 @@
     overflow-x: auto;
     scroll-snap-type: x mandatory;
     padding: 1rem 0.2rem 1.5rem 0.2rem;
-    scrollbar-width: thin;
+    scrollbar-width: none;
 }
 
 .agent-carousel::-webkit-scrollbar {
-    height: 6px;
+    display: none;
 }
 
-.agent-carousel::-webkit-scrollbar-thumb {
-    background: rgba(0,0,0,0.15);
-    border-radius: 3px;
+.carousel-arrow {
+    position: absolute;
+    top: 40%;
+    transform: translateY(-50%);
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: #fff;
+    border: 1px solid rgba(0,0,0,0.1);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #1a1a1a;
+    z-index: 20;
+    transition: background 0.25s ease, transform 0.25s ease;
+}
+
+.carousel-arrow svg {
+    width: 20px;
+    height: 20px;
+}
+
+.carousel-arrow:hover {
+    background: #1a1a1a;
+    color: #fff;
+    transform: translateY(-50%) scale(1.08);
+}
+
+.carousel-arrow-prev {
+    left: 0;
+}
+
+.carousel-arrow-next {
+    right: 0;
+}
+
+@media (max-width: 700px) {
+    .carousel-wrapper {
+        padding: 0;
+    }
+
+    .carousel-arrow {
+        display: none;
+    }
+
+    .agent-carousel {
+        scrollbar-width: thin;
+    }
+
+    .agent-carousel::-webkit-scrollbar {
+        display: block;
+        height: 6px;
+    }
+
+    .agent-carousel::-webkit-scrollbar-thumb {
+        background: rgba(0,0,0,0.15);
+        border-radius: 3px;
+    }
 }
 
 .carousel-card {
@@ -142,4 +214,79 @@
     gap: 1rem;
     flex-wrap: wrap;
     margin-top: 1.5rem;
+}
+
+/* ----------------------------------------------------------
+   AREAS OF EXPERTISE TILES
+---------------------------------------------------------- */
+
+.expertise-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+    gap: 2.5rem;
+    margin-top: 2.5rem;
+}
+
+.expertise-tile {
+    background: #fff;
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    transition: transform 0.35s ease, box-shadow 0.35s ease;
+}
+
+.expertise-tile:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 18px 44px rgba(0,0,0,0.14);
+}
+
+/* Golden-ratio framed image (source images are already ~1.618:1) */
+.expertise-tile-image {
+    aspect-ratio: 1.618 / 1;
+    overflow: hidden;
+}
+
+.expertise-tile-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.expertise-tile:hover .expertise-tile-image img {
+    transform: scale(1.05);
+}
+
+.expertise-tile-info {
+    padding: 2rem 2.2rem 2.4rem 2.2rem;
+}
+
+.expertise-tile-info h3 {
+    font-size: 1.3rem;
+    letter-spacing: 1px;
+    margin-bottom: 1rem;
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    color: #1a1a1a;
+}
+
+.expertise-tile-info p {
+    color: #555;
+    font-size: 0.98rem;
+    line-height: 1.65;
+    margin-bottom: 1.6rem;
+}
+
+/* ----------------------------------------------------------
+   GET MORE INFORMATION — embedded HAR lead form
+---------------------------------------------------------- */
+
+.har-embed-frame-form {
+    height: 620px;
+}
+
+@media (max-width: 700px) {
+    .har-embed-frame-form {
+        height: 560px;
+    }
 }

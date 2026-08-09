@@ -5,16 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Market Snapshot – Cadence Realty</title>
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Cormorant+Garamond:wght@400;500;600&display=swap" rel="stylesheet">
 
-<link rel="stylesheet" href="css/global.css" />
+  <link rel="stylesheet" href="css/global.css" />
   <link rel="stylesheet" href="css/market.css" />
 
   <script defer src="components/includes.js"></script>
   <script defer src="js/scroll-animations.js"></script>
   <script defer src="js/micro-interactions.js"></script>
+  <script src="js/global.js" defer></script>
+  <script src="js/lead-modal.js" defer></script>
   <script defer src="js/parallax.js"></script>
 </head>
 
@@ -22,7 +24,7 @@
   <div id="header-placeholder"></div>
 
   <!-- Hero -->
-  <section class="market-hero animate-section">
+  <section class="page-hero market-hero animate-section" style="background-image:url('assets/images/market/marketsnapshothero.webp');">
     <div class="hero-overlay"></div>
     <div class="hero-content stagger-1">
       <h1>Houston Market Snapshot</h1>
@@ -39,66 +41,57 @@
     <div class="metrics-grid stagger-2">
       <div class="metric-card">
         <h3>Median Home Sale Price</h3>
-        <p class="metric-value">$340,000</p>
-        <p class="metric-source">Source: Redfin, Houston TX &middot; as of May 2025</p>
+        <p class="metric-value">$334,990</p>
       </div>
 
       <div class="metric-card">
         <h3>Average Days on Market</h3>
-        <p class="metric-value">37 Days</p>
-        <p class="metric-source">Source: Redfin, Houston TX &middot; as of May 2025</p>
+        <p class="metric-value">64 Days</p>
       </div>
 
-      <a href="https://www.har.com/idx/mls/listing?sitetype=aws&cid=736316&mlsorgid=1&allmls=n" target="_blank" rel="noopener" class="metric-card metric-card-link">
-        <h3>Active Listings</h3>
-        <p class="metric-value metric-cta">View Listings &rarr;</p>
-        <p class="metric-source">Live via HAR.com</p>
-      </a>
-
-      <a href="https://www.har.com/idx/mls/sold/listing?sitetype=aws&cid=736316&allmls=n&mlsorgid=1" target="_blank" rel="noopener" class="metric-card metric-card-link">
-        <h3>Recently Sold</h3>
-        <p class="metric-value metric-cta">View Sold Homes &rarr;</p>
-        <p class="metric-source">Live via HAR.com</p>
-      </a>
-    </div>
-
-    <p class="metrics-disclaimer stagger-3">
-      Price and days-on-market figures reflect Houston, TX city-wide data from Redfin and are
-      updated periodically, not in real time. For current, live listing data, use the links above.
-      <a href="https://www.redfin.com/city/30749/TX/Houston/housing-market" target="_blank" rel="noopener">View full Redfin market data &rarr;</a>
-    </p>
-  </section>
-
-  <!-- Trends -->
-  <section class="market-trends animate-section">
-    <h2 class="stagger-1">Market Trends</h2>
-
-    <div class="trend-placeholder stagger-2">
-      <p>Trend charts will appear here once HAR data is connected.</p>
-    </div>
-  </section>
-
-  <!-- Neighborhood Spotlight -->
-  <section class="market-neighborhoods animate-section">
-    <h2 class="stagger-1">Neighborhood Spotlight</h2>
-
-    <div class="neighborhood-grid stagger-2">
-      <div class="neighborhood-card">
-        <h3>Katy</h3>
-        <p>Snapshot data coming soon.</p>
-      </div>
-
-      <div class="neighborhood-card">
-        <h3>Cinco Ranch</h3>
-        <p>Snapshot data coming soon.</p>
-      </div>
-
-      <div class="neighborhood-card">
-        <h3>Memorial</h3>
-        <p>Snapshot data coming soon.</p>
+      <div class="metric-card">
+        <h3>Number of Homes Sold</h3>
+        <p class="metric-value">88,634</p>
       </div>
     </div>
   </section>
+
+  <!-- Active Listings — embedded, not a link-out -->
+  <section class="content-section animate-section">
+    <div class="section-divider"></div>
+    <h2 class="stagger-1" style="text-align:center;">Active Listings</h2>
+    <p class="section-intro stagger-2">Current listings from Cadence Realty Services, updated live via HAR.com</p>
+
+    <div class="har-embed-frame stagger-3">
+      <iframe
+        src="https://www.har.com/idx/mls/listing?sitetype=aws&cid=736316&mlsorgid=1&allmls=n"
+        title="Active Listings — Cadence Realty Services"
+        loading="lazy"
+      ></iframe>
+    </div>
+  </section>
+
+  <!-- Recently Sold — embedded, not a link-out -->
+  <section class="content-section animate-section">
+    <div class="section-divider"></div>
+    <h2 class="stagger-1" style="text-align:center;">Recently Sold</h2>
+    <p class="section-intro stagger-2">Closed transactions from Cadence Realty Services, updated live via HAR.com</p>
+
+    <div class="har-embed-frame stagger-3">
+      <iframe
+        src="https://www.har.com/idx/mls/sold/listing?sitetype=aws&cid=736316&allmls=n&mlsorgid=1"
+        title="Recently Sold — Cadence Realty Services"
+        loading="lazy"
+      ></iframe>
+    </div>
+  </section>
+
+  <p class="metrics-disclaimer">
+    Median price, days-on-market, and homes-sold figures are single-family home totals for
+    full-year 2025, Houston, TX — per the Houston Association of REALTORS® December/Full-Year
+    2025 Housing Market Update. Updated periodically, not in real time.
+    <a href="https://www.har.com/content/department/newsroom?pid=2212&pid=2212" target="_blank" rel="noopener">View the full HAR report &rarr;</a>
+  </p>
 
   <div id="footer-placeholder"></div>
 </body>

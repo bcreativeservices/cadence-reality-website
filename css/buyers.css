@@ -1,4 +1,101 @@
 /* ----------------------------------------------------------
+   BUY PAGE — LISTINGS + ACTIONS + RESOURCES
+---------------------------------------------------------- */
+
+.buy-listings-section h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.4rem;
+}
+
+.har-embed-frame-tall {
+    height: 1000px;
+}
+
+@media (max-width: 700px) {
+    .har-embed-frame-tall {
+        height: 750px;
+    }
+}
+
+.buy-actions-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.6rem;
+}
+
+.buy-action-card {
+    display: block;
+    width: 100%;
+    background: #fff;
+    border: 1px solid rgba(0,0,0,0.08);
+    border-radius: 14px;
+    padding: 2.2rem 1.6rem;
+    text-align: center;
+    text-decoration: none;
+    color: #1a1a1a;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.buy-action-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 14px 30px rgba(0,0,0,0.12);
+    border-color: rgba(0,0,0,0.15);
+    opacity: 1;
+}
+
+.buy-action-icon {
+    width: 52px;
+    height: 52px;
+    margin: 0 auto 1rem auto;
+    border-radius: 50%;
+    background: rgba(176, 141, 87, 0.12);
+    color: #b08d57;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.buy-action-card:hover .buy-action-icon {
+    background: #b08d57;
+    color: #fff;
+    transform: scale(1.08);
+}
+
+.buy-action-icon svg {
+    width: 24px;
+    height: 24px;
+}
+
+.buy-action-card h3 {
+    font-size: 1.1rem;
+    margin-bottom: 0.4rem;
+}
+
+.buy-action-card p {
+    font-size: 0.85rem;
+    color: #777;
+}
+
+.buy-resources {
+    text-align: center;
+    padding: 1.5rem 2rem 3.5rem 2rem;
+    font-size: 0.85rem;
+    color: #999;
+}
+
+.buy-resources a {
+    color: #888;
+}
+
+.buy-resources .footer-dot {
+    margin: 0 0.4rem;
+    opacity: 0.5;
+}
+
+/* ----------------------------------------------------------
    BUYERS / SELLERS — PROCESS GRID
    (shared pattern between buyers.css and sellers.css)
 ---------------------------------------------------------- */

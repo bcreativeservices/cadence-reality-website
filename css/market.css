@@ -1,29 +1,8 @@
-.market-hero {
-  position: relative;
-  height: 60vh;
-  background: url('assets/images/home/hero1.webp') center/cover no-repeat;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  color: #fff;
-}
-
-.hero-overlay {
-  position: absolute;
-  inset: 0;
-  background: rgba(0,0,0,0.45);
-}
-
-.hero-content {
-  position: relative;
-  z-index: 10;
-  max-width: 800px;
-  padding: 0 2rem;
-}
+/* Hero uses the shared .page-hero pattern from global.css.
+   .market-hero only adds page-specific overrides if needed. */
 
 .market-metrics {
-  padding: 5rem 2rem;
+  padding: 5rem 2rem 2rem 2rem;
   max-width: 1100px;
   margin: 0 auto;
   text-align: center;
@@ -31,22 +10,12 @@
 
 .metrics-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 2rem;
   margin-top: 2rem;
 }
 
-@media (max-width: 900px) {
-  .metrics-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .neighborhood-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-@media (max-width: 520px) {
+@media (max-width: 800px) {
   .metrics-grid {
     grid-template-columns: 1fr;
   }
@@ -54,99 +23,50 @@
 
 .metric-card {
   background: #fff;
-  padding: 2rem;
+  padding: 2.2rem 2rem;
   border-radius: 14px;
   box-shadow: 0 6px 18px rgba(0,0,0,0.08);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .metric-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 10px 24px rgba(0,0,0,0.12);
+  transform: translateY(-6px);
+  box-shadow: 0 14px 30px rgba(0,0,0,0.14);
+}
+
+.metric-card h3 {
+  font-size: 1rem;
+  color: #555;
+  font-weight: 500;
+  margin-bottom: 0.6rem;
 }
 
 .metric-value {
-  font-size: 2rem;
+  font-size: 2.2rem;
   margin-top: 0.5rem;
   font-family: 'Cormorant Garamond', serif;
   font-weight: 600;
   color: #1a1a1a;
+  transition: color 0.3s ease;
 }
 
-.metric-source {
-  margin-top: 0.7rem;
-  font-size: 0.72rem;
-  color: #999;
-  letter-spacing: 0.2px;
-}
-
-.metric-card-link {
-  display: block;
-  text-decoration: none;
-  color: inherit;
-  cursor: pointer;
-}
-
-.metric-card-link:hover {
-  opacity: 1;
-}
-
-.metric-cta {
-  font-size: 1.35rem;
+.metric-card:hover .metric-value {
   color: #b08d57;
 }
 
+/* Source attribution moved to a single, unobtrusive line at the
+   bottom of the page rather than repeated small print on every card */
 .metrics-disclaimer {
-  margin-top: 2.2rem;
-  font-size: 0.82rem;
-  color: #888;
-  max-width: 700px;
-  margin-left: auto;
-  margin-right: auto;
+  max-width: 800px;
+  margin: 1rem auto 4rem auto;
+  padding: 0 2rem;
+  font-size: 0.72rem;
+  color: #aaa;
   line-height: 1.6;
-}
-
-.metrics-disclaimer a {
-  color: #666;
-  font-weight: 600;
-}
-
-.market-trends {
-  padding: 5rem 2rem;
-  max-width: 900px;
-  margin: 0 auto;
   text-align: center;
 }
 
-.trend-placeholder {
-  background: #f7f7f7;
-  padding: 3rem;
-  border-radius: 14px;
-  font-size: 1.1rem;
-  color: #555;
-}
-
-.market-neighborhoods {
-  padding: 5rem 2rem;
-  max-width: 1100px;
-  margin: 0 auto;
-}
-
-.neighborhood-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 2rem;
-}
-
-.neighborhood-card {
-  background: #fff;
-  padding: 2rem;
-  border-radius: 14px;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.neighborhood-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 10px 24px rgba(0,0,0,0.12);
+.metrics-disclaimer a {
+  color: #999;
+  font-weight: 600;
 }

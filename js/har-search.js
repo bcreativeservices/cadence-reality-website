@@ -5,6 +5,8 @@
 //
 // Endpoint: https://search.har.com/idx/doSearch.cfm
 // CID (client/company ID) identifies Cadence Realty Services on HAR.
+// ALLMLS=Y searches the full Houston-area MLS, not just this
+// brokerage's own listings.
 //
 // NOTE ON PROPERTY_CLASS_ID mapping: HAR does not publish official
 // IDX parameter documentation. This mapping (1 = Single Family,
@@ -34,7 +36,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const params = new URLSearchParams({
             CID: HAR_CID,
             SITETYPE: "AWS",
-            ALLMLS: "N",
+            ALLMLS: "Y",
             FOR_SALE: "1",
             PROPERTY_STATUS: "A",
             SORTBY: "listing_price desc"

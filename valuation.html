@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Valuation | Cadence Realty Services</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Cormorant+Garamond:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <!-- Global Styles -->
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/valuation.css">
+
+    <!-- Motion & Interaction -->
+    <script src="js/scroll-animations.js" defer></script>
+    <script src="js/micro-interactions.js" defer></script>
+    <script src="js/global.js" defer></script>
+    <script src="js/lead-modal.js" defer></script>
+</head>
+
+<body>
+
+    <!-- Inject Global Header -->
+    <div id="header-placeholder"></div>
+
+    <!-- Hero -->
+    <section class="page-hero animate-section" style="background-image:url('assets/images/sellers/sellerservices.webp');">
+        <div class="hero-overlay"></div>
+        <div class="hero-content stagger-1">
+            <h1>What's Your Home Worth?</h1>
+            <p>Get a complimentary, data-driven home valuation in minutes.</p>
+        </div>
+    </section>
+
+    <!-- Embedded Valuation Tool -->
+    <section class="content-section animate-section">
+        <div class="section-divider"></div>
+        <p class="section-intro stagger-1">
+            Enter your address below for an instant estimate, powered by HAR.com — no need to leave our site.
+        </p>
+
+        <div class="har-embed-frame valuation-embed-frame stagger-2">
+            <iframe
+                src="https://www.har.com/idx/mls/homevalue/search?sitetype=aws&cid=736316"
+                title="Home Valuation — Cadence Realty Services"
+                loading="lazy"
+            ></iframe>
+        </div>
+    </section>
+
+    <!-- Alternate CTA -->
+    <section class="content-section narrow animate-section" style="text-align:center;">
+        <div class="section-divider"></div>
+        <h2 class="stagger-1">Prefer to Talk It Through?</h2>
+        <p class="section-intro stagger-2">
+            Automated estimates are a starting point — our team can give you a much more precise picture of your home's value.
+        </p>
+        <button type="button" class="btn btn-primary stagger-3 js-open-leadform">Talk to Our Team</button>
+    </section>
+
+    <!-- Inject Global Footer -->
+    <div id="footer-placeholder"></div>
+
+    <!-- Component Loader -->
+    <script src="components/includes.js"></script>
+
+</body>
+</html>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Buyers | Cadence Realty Services</title>
+    <title>Buy | Cadence Realty Services</title>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -18,6 +18,7 @@
     <script src="js/scroll-animations.js" defer></script>
     <script src="js/micro-interactions.js" defer></script>
     <script src="js/global.js" defer></script>
+    <script src="js/lead-modal.js" defer></script>
 </head>
 
 <body>
@@ -25,66 +26,56 @@
     <!-- Inject Global Header -->
     <div id="header-placeholder"></div>
 
-    <!-- Hero -->
-    <section class="page-hero animate-section" style="background-image:url('assets/images/home/hero1.webp');">
-        <div class="hero-overlay"></div>
-        <div class="hero-content stagger-1">
-            <h1>For Buyers</h1>
-            <p>Guiding you home, from first showing to closing day</p>
+    <!-- Our Listings — embedded, lands here directly, no hero -->
+    <section class="content-section buy-listings-section animate-section">
+        <div class="section-divider"></div>
+        <h1 class="stagger-1" style="text-align:center;">Our Listings</h1>
+        <p class="section-intro stagger-2">Current listings from Cadence Realty Services, updated live via HAR.com</p>
+
+        <div class="har-embed-frame stagger-3">
+            <iframe
+                src="https://www.har.com/idx/mls/listing?sitetype=aws&cid=736316&mlsorgid=1&allmls=n"
+                title="Our Listings — Cadence Realty Services"
+                loading="lazy"
+            ></iframe>
         </div>
     </section>
 
-    <!-- Intro -->
-    <section class="content-section narrow animate-section" style="text-align:center;">
-        <div class="section-divider"></div>
-        <p class="section-intro stagger-1">
-            Buying a home — especially in the luxury market — is as much about strategy and
-            representation as it is about finding the right property. Our agents work
-            collaboratively, pooling their networks and expertise so you get access to listings
-            and insight no single agent could offer alone.
+    <!-- Three Action Buttons -->
+    <section class="content-section narrow animate-section buy-actions-section" style="text-align:center;">
+        <div class="buy-actions-grid stagger-1">
+            <a href="listing-search.html" class="buy-action-card">
+                <div class="buy-action-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+                </div>
+                <h3>View More</h3>
+                <p>Search the full Houston MLS</p>
+            </a>
+            <a href="neighborhood-finder.html" class="buy-action-card">
+                <div class="buy-action-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 6v16l7-4 8 4 7-4V2l-7 4-8-4-7 4z"/><path d="M8 2v16"/><path d="M16 6v16"/></svg>
+                </div>
+                <h3>Neighborhood Finder</h3>
+                <p>Explore Houston-area communities</p>
+            </a>
+            <button type="button" class="buy-action-card js-open-leadform">
+                <div class="buy-action-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                </div>
+                <h3>Let's Talk</h3>
+                <p>Connect directly with our team</p>
+            </button>
+        </div>
+    </section>
+
+    <!-- Resources -->
+    <section class="buy-resources animate-section">
+        <p class="stagger-1">
+            Resources:
+            <a href="real-estate-dictionary.html">Real Estate Dictionary</a>
+            <span class="footer-dot">•</span>
+            <a href="mortgage-dictionary.html">Mortgage Dictionary</a>
         </p>
-    </section>
-
-    <!-- Process Steps -->
-    <section class="content-section animate-section">
-        <div class="section-divider"></div>
-        <h2 class="stagger-1" style="text-align:center;">How We Work With Buyers</h2>
-
-        <div class="process-grid">
-            <div class="process-card stagger-2">
-                <span class="process-number">01</span>
-                <h3>Understand Your Goals</h3>
-                <p>We start with a conversation — budget, timeline, must-haves, and the lifestyle you're buying into.</p>
-            </div>
-            <div class="process-card stagger-3">
-                <span class="process-number">02</span>
-                <h3>Search With Purpose</h3>
-                <p>Using our custom HAR-powered search and off-market connections to surface homes that actually fit.</p>
-            </div>
-            <div class="process-card stagger-4">
-                <span class="process-number">03</span>
-                <h3>Tour &amp; Evaluate</h3>
-                <p>Private showings, honest guidance on value, and a clear-eyed read on every property's condition.</p>
-            </div>
-            <div class="process-card stagger-5">
-                <span class="process-number">04</span>
-                <h3>Negotiate &amp; Close</h3>
-                <p>We negotiate on your behalf and manage the process through inspection, financing, and closing.</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- CTA -->
-    <section class="content-section narrow animate-section" style="text-align:center;">
-        <div class="section-divider"></div>
-        <h2 class="stagger-1">Ready to Start Your Search?</h2>
-        <p class="section-intro stagger-2">
-            Browse active listings or connect with an agent to begin.
-        </p>
-        <div class="hero-cta-group stagger-3" style="justify-content:center; display:flex; gap:1rem; flex-wrap:wrap;">
-            <a href="search.html" class="btn btn-primary">Search Listings</a>
-            <a href="contact.html" class="btn btn-secondary">Talk to an Agent</a>
-        </div>
     </section>
 
     <!-- Inject Global Footer -->

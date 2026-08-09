@@ -13,3 +13,42 @@
     font-size: 0.82rem;
     color: #888;
 }
+
+/* Seller hero: heading + button, no paragraph */
+.seller-hero .hero-content h1 {
+    margin-bottom: 1.6rem;
+}
+
+/* Icon-based process cards */
+.process-grid-icons .process-card {
+    text-align: center;
+}
+
+.process-icon {
+    width: 56px;
+    height: 56px;
+    margin: 0 auto 1.2rem auto;
+    border-radius: 50%;
+    background: rgba(176, 141, 87, 0.12);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #b08d57;
+    transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.process-card:hover .process-icon {
+    background: #b08d57;
+    color: #fff;
+    transform: scale(1.08);
+}
+
+.process-icon svg {
+    width: 26px;
+    height: 26px;
+}
+
+.process-grid-icons .process-card h3 {
+    font-size: 1.05rem;
+    margin-bottom: 0;
+}

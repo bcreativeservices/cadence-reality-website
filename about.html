@@ -27,11 +27,10 @@
     <div id="header-placeholder"></div>
 
     <!-- Hero -->
-    <section class="page-hero animate-section" style="background-image:url('assets/images/home/hero-main.webp');">
+    <section class="page-hero animate-section" style="background-image:url('assets/images/about/abouthero.webp');">
         <div class="hero-overlay"></div>
         <div class="hero-content stagger-1">
-            <h1>About Us</h1>
-            <p>Luxury Real Estate &amp; Lifestyle — The Jimmy Janes Team, Cadence Realty Services</p>
+            <h1>A Modern Approach to Houston Luxury Real Estate</h1>
         </div>
     </section>
 
@@ -54,27 +53,19 @@
         </p>
     </section>
 
-    <!--
-        STATS SECTION — PLACEHOLDER DATA
-        HAR's IDX tools don't expose an API for sold-listing counts, sales
-        volume, or average price, so these can't be pulled live like the
-        search bar. The numbers below are placeholders (marked with
-        data-placeholder) until real figures are provided — swap the
-        stat-number text in the three .stat-card blocks below.
-    -->
     <section class="stats-section animate-section">
         <div class="stats-grid">
-            <div class="stat-card stagger-1" data-placeholder="true">
-                <div class="stat-number">500+</div>
-                <div class="stat-label">Homes Sold</div>
+            <div class="stat-card stagger-1">
+                <div class="stat-number">$4,524,490</div>
+                <div class="stat-label">Value of Real Estate Sold</div>
             </div>
-            <div class="stat-card stagger-2" data-placeholder="true">
-                <div class="stat-number">$250M+</div>
-                <div class="stat-label">Total Sales Volume</div>
+            <div class="stat-card stagger-2">
+                <div class="stat-number">37</div>
+                <div class="stat-label">Number of Properties Sold</div>
             </div>
-            <div class="stat-card stagger-3" data-placeholder="true">
-                <div class="stat-number">2011</div>
-                <div class="stat-label">Founded</div>
+            <div class="stat-card stagger-3">
+                <div class="stat-number">$122,284</div>
+                <div class="stat-label">Average Listing Price</div>
             </div>
         </div>
     </section>
@@ -88,7 +79,13 @@
         </p>
 
         <div class="carousel-wrapper stagger-3">
-            <div class="agent-carousel">
+            <button type="button" class="carousel-arrow carousel-arrow-prev" id="carouselPrev" aria-label="Previous agents">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+            </button>
+            <button type="button" class="carousel-arrow carousel-arrow-next" id="carouselNext" aria-label="Next agents">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+            </button>
+            <div class="agent-carousel" id="agentCarousel">
                 <a href="team.html#agent-jimmy-dale-janes" class="carousel-card">
                     <div class="carousel-card-photo">
                         <img src="assets/images/team/jimmy-dale-janes.webp" alt="Jimmy Dale Janes">
@@ -225,20 +222,53 @@
                     </div>
                 </a>
             </div>
-            <p class="carousel-hint">Swipe or scroll to see the full team — tap a card for their profile</p>
+            <p class="carousel-hint">Use the arrows to browse, or swipe on mobile — tap a card for their profile</p>
         </div>
     </section>
 
-    <!-- Dual CTA -->
+    <!-- Areas of Expertise -->
+    <section class="content-section animate-section">
+        <div class="section-divider"></div>
+        <h2 class="stagger-1" style="text-align:center;">Areas of Expertise</h2>
+
+        <div class="expertise-grid">
+            <div class="expertise-tile stagger-2">
+                <div class="expertise-tile-image">
+                    <img src="assets/images/buyers/buyerservices.webp" alt="Buyer Services">
+                </div>
+                <div class="expertise-tile-info">
+                    <h3>BUYER SERVICES</h3>
+                    <p>We're here to help you find the home of your dreams. With a team of experts guiding you every step of the way, our extensive knowledge and experience will ensure you have the best home buying experience possible.</p>
+                    <button type="button" class="btn btn-primary js-open-leadform">Schedule a Chat</button>
+                </div>
+            </div>
+
+            <div class="expertise-tile stagger-3">
+                <div class="expertise-tile-image">
+                    <img src="assets/images/sellers/sellerservices.webp" alt="Seller Services">
+                </div>
+                <div class="expertise-tile-info">
+                    <h3>SELLER SERVICES</h3>
+                    <p>We take the stress out of selling your home by providing a seamless experience from start to finish. Our team will put you in the best position to market your home and sell it for the highest possible price.</p>
+                    <button type="button" class="btn btn-primary js-open-leadform">Set a Listing Appointment</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Get More Information -->
     <section class="content-section narrow animate-section about-cta-section">
         <div class="section-divider"></div>
-        <h2 class="stagger-1">Let's Talk</h2>
+        <h2 class="stagger-1">Get More Information</h2>
         <p class="section-intro stagger-2">
             Whether you're buying, selling, or just exploring, we'd love to hear from you.
         </p>
-        <div class="about-cta-buttons stagger-3">
-            <button type="button" class="btn btn-primary js-open-leadform">Schedule a Chat</button>
-            <button type="button" class="btn btn-secondary js-open-leadform">Set a Listing Appointment</button>
+        <div class="har-embed-frame har-embed-frame-form stagger-3">
+            <iframe
+                src="https://www.har.com/idx/leadform?sitetype=aws&cid=736316"
+                title="Get More Information — Cadence Realty Services"
+                loading="lazy"
+            ></iframe>
         </div>
     </section>
 
@@ -248,13 +278,25 @@
     <!-- Component Loader -->
     <script src="components/includes.js"></script>
 
-    <!-- Shared Lead-Form Modal -->
-    <div class="modal-overlay" id="leadFormModal" aria-hidden="true">
-        <div class="modal-box">
-            <button type="button" class="modal-close" aria-label="Close">&times;</button>
-            <iframe title="Contact Cadence Realty Services" loading="lazy"></iframe>
-        </div>
-    </div>
+    <!-- Carousel Arrow Navigation -->
+    <script>
+        (function () {
+            const track = document.getElementById("agentCarousel");
+            const prevBtn = document.getElementById("carouselPrev");
+            const nextBtn = document.getElementById("carouselNext");
+            if (!track || !prevBtn || !nextBtn) return;
+
+            function scrollByCard(direction) {
+                const card = track.querySelector(".carousel-card");
+                const gap = 22; // matches CSS gap
+                const cardWidth = card ? card.offsetWidth + gap : 220;
+                track.scrollBy({ left: direction * cardWidth * 2, behavior: "smooth" });
+            }
+
+            prevBtn.addEventListener("click", () => scrollByCard(-1));
+            nextBtn.addEventListener("click", () => scrollByCard(1));
+        })();
+    </script>
 
 </body>
 </html>
