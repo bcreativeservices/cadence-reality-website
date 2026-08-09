@@ -1,0 +1,145 @@
+/* ----------------------------------------------------------
+   ABOUT PAGE — STATS
+---------------------------------------------------------- */
+
+.stats-section {
+    background: #1a1a1a;
+    color: #fff;
+    padding: 5rem 2rem;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2.5rem;
+    max-width: 1100px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.stat-number {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 3rem;
+    font-weight: 600;
+    color: #d4af7a;
+    margin-bottom: 0.4rem;
+}
+
+.stat-label {
+    font-size: 0.9rem;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.75);
+}
+
+/* ----------------------------------------------------------
+   ABOUT PAGE — AGENT CAROUSEL
+---------------------------------------------------------- */
+
+.carousel-wrapper {
+    position: relative;
+    max-width: 1300px;
+    margin: 0 auto;
+}
+
+.agent-carousel {
+    display: flex;
+    gap: 1.4rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding: 1rem 0.2rem 1.5rem 0.2rem;
+    scrollbar-width: thin;
+}
+
+.agent-carousel::-webkit-scrollbar {
+    height: 6px;
+}
+
+.agent-carousel::-webkit-scrollbar-thumb {
+    background: rgba(0,0,0,0.15);
+    border-radius: 3px;
+}
+
+.carousel-card {
+    flex: 0 0 200px;
+    scroll-snap-align: start;
+    text-decoration: none;
+    color: inherit;
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.carousel-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 14px 28px rgba(0,0,0,0.14);
+    opacity: 1;
+}
+
+.carousel-card-photo {
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    background: #eee;
+}
+
+.carousel-card-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.carousel-card-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #1a1a1a, #3a3a3a);
+    color: #fff;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.2rem;
+    font-weight: 600;
+}
+
+.carousel-card-info {
+    padding: 0.9rem 1rem 1.1rem 1rem;
+    text-align: center;
+}
+
+.carousel-card-info h3 {
+    font-size: 1rem;
+    margin-bottom: 0.2rem;
+}
+
+.carousel-card-info p {
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #b08d57;
+    font-weight: 600;
+}
+
+.carousel-hint {
+    text-align: center;
+    font-size: 0.85rem;
+    color: #888;
+    margin-top: 0.5rem;
+}
+
+/* ----------------------------------------------------------
+   ABOUT PAGE — DUAL CTA
+---------------------------------------------------------- */
+
+.about-cta-section {
+    text-align: center;
+}
+
+.about-cta-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-top: 1.5rem;
+}

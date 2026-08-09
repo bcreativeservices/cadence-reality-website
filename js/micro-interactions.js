@@ -16,33 +16,26 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
+    // ------------------------------------------------------------
+    // Auto-apply tap/hover classes to buttons, links, icons.
+    // Re-run on "partialsLoaded" too, since the header/footer (and their
+    // nav links, logo, icons) are injected asynchronously after this
+    // first pass and would otherwise never get these classes.
+    // ------------------------------------------------------------
+    function applyMicroInteractions() {
+        document.querySelectorAll("button, .btn, .submit-button, .cta-button")
+            .forEach(btn => btn.classList.add("button-tap"));
 
-    // ------------------------------------------------------------
-    // Auto-apply button tap animation
-    // ------------------------------------------------------------
-    const buttons = document.querySelectorAll("button, .btn, .submit-button, .cta-button");
-    buttons.forEach(btn => {
-        btn.classList.add("button-tap");
-    });
+        document.querySelectorAll("a")
+            .forEach(link => link.classList.add("link-slide"));
 
+        document.querySelectorAll("img, svg").forEach(icon => {
+            if (icon.classList.contains("site-logo")) return;
+            icon.classList.add("icon-scale");
+        });
+    }
 
-    // ------------------------------------------------------------
-    // Auto-apply link underline slide
-    // ------------------------------------------------------------
-    const links = document.querySelectorAll("a");
-    links.forEach(link => {
-        link.classList.add("link-slide");
-    });
-
-
-    // ------------------------------------------------------------
-    // Auto-apply icon micro-scale
-    // ------------------------------------------------------------
-    const icons = document.querySelectorAll("img, svg");
-    icons.forEach(icon => {
-        // Avoid scaling the main site logo
-        if (icon.classList.contains("site-logo")) return;
-        icon.classList.add("icon-scale");
-    });
+    applyMicroInteractions();
+    document.addEventListener("partialsLoaded", applyMicroInteractions);
 
 });

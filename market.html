@@ -5,10 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Market Snapshot – Cadence Realty</title>
 
-  <link rel="stylesheet" href="css/global.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Cormorant+Garamond:wght@400;500;600&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="css/global.css" />
   <link rel="stylesheet" href="css/market.css" />
 
-  <script defer src="js/includes.js"></script>
+  <script defer src="components/includes.js"></script>
   <script defer src="js/scroll-animations.js"></script>
   <script defer src="js/micro-interactions.js"></script>
   <script defer src="js/parallax.js"></script>
@@ -34,25 +38,35 @@
 
     <div class="metrics-grid stagger-2">
       <div class="metric-card">
-        <h3>Median Home Price</h3>
-        <p class="metric-value">$—</p>
+        <h3>Median Home Sale Price</h3>
+        <p class="metric-value">$340,000</p>
+        <p class="metric-source">Source: Redfin, Houston TX &middot; as of May 2025</p>
       </div>
 
       <div class="metric-card">
         <h3>Average Days on Market</h3>
-        <p class="metric-value">—</p>
+        <p class="metric-value">37 Days</p>
+        <p class="metric-source">Source: Redfin, Houston TX &middot; as of May 2025</p>
       </div>
 
-      <div class="metric-card">
+      <a href="https://www.har.com/idx/mls/listing?sitetype=aws&cid=736316&mlsorgid=1&allmls=n" target="_blank" rel="noopener" class="metric-card metric-card-link">
         <h3>Active Listings</h3>
-        <p class="metric-value">—</p>
-      </div>
+        <p class="metric-value metric-cta">View Listings &rarr;</p>
+        <p class="metric-source">Live via HAR.com</p>
+      </a>
 
-      <div class="metric-card">
-        <h3>Closed Sales</h3>
-        <p class="metric-value">—</p>
-      </div>
+      <a href="https://www.har.com/idx/mls/sold/listing?sitetype=aws&cid=736316&allmls=n&mlsorgid=1" target="_blank" rel="noopener" class="metric-card metric-card-link">
+        <h3>Recently Sold</h3>
+        <p class="metric-value metric-cta">View Sold Homes &rarr;</p>
+        <p class="metric-source">Live via HAR.com</p>
+      </a>
     </div>
+
+    <p class="metrics-disclaimer stagger-3">
+      Price and days-on-market figures reflect Houston, TX city-wide data from Redfin and are
+      updated periodically, not in real time. For current, live listing data, use the links above.
+      <a href="https://www.redfin.com/city/30749/TX/Houston/housing-market" target="_blank" rel="noopener">View full Redfin market data &rarr;</a>
+    </p>
   </section>
 
   <!-- Trends -->

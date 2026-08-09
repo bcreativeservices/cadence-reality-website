@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terms of Service – Cadence Realty</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Cormorant+Garamond:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <!-- Global Styles -->
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/privacy.css">
+
+    <!-- Motion & Interaction -->
+    <script src="js/scroll-animations.js" defer></script>
+    <script src="js/micro-interactions.js" defer></script>
+    <script src="js/global.js" defer></script>
+</head>
+
+<body>
+
+    <!-- Inject Global Header -->
+    <div id="header-placeholder"></div>
+
+    <!-- Hero -->
+    <section class="privacy-hero animate-section">
+        <h1 class="privacy-title">Terms of Service</h1>
+        <p class="privacy-subtitle">Please read these terms carefully before using our site.</p>
+    </section>
+
+    <!-- Sticky TOC Button -->
+    <button class="toc-button" id="tocButton">
+        Sections
+    </button>
+
+    <!-- Slide-Up TOC Drawer -->
+    <div class="toc-drawer" id="tocDrawer">
+        <h3>Contents</h3>
+        <ul>
+            <li><a href="#acceptance">Acceptance of Terms</a></li>
+            <li><a href="#use">Use of This Website</a></li>
+            <li><a href="#idx">IDX / MLS Data</a></li>
+            <li><a href="#liability">Limitation of Liability</a></li>
+            <li><a href="#contact">Contact Us</a></li>
+        </ul>
+    </div>
+
+    <!-- Content Sections -->
+    <section id="acceptance" class="privacy-section animate-section">
+        <h2>Acceptance of Terms</h2>
+        <p>
+            By accessing and using this website, you accept and agree to be bound by these
+            Terms of Service. If you do not agree to these terms, please do not use this site.
+        </p>
+    </section>
+
+    <section id="use" class="privacy-section animate-section">
+        <h2>Use of This Website</h2>
+        <p>
+            This website is provided for informational purposes related to real estate services
+            offered by Cadence Realty Services — The Jimmy Janes Team. Content may not be
+            reproduced, distributed, or used for commercial purposes without written permission.
+        </p>
+    </section>
+
+    <section id="idx" class="privacy-section animate-section">
+        <h2>IDX / MLS Data</h2>
+        <p>
+            Property search results are provided via HAR.com's IDX service, sourced from the
+            Houston REALTORS® Information Service (HRIS) Multiple Listing Service (MLS). IDX
+            information is provided exclusively for consumers' personal, non‑commercial use and
+            may not be used for any purpose other than to identify prospective properties
+            consumers may be interested in purchasing. Information is deemed reliable but not
+            guaranteed accurate, and listing data is updated daily.
+        </p>
+    </section>
+
+    <section id="liability" class="privacy-section animate-section">
+        <h2>Limitation of Liability</h2>
+        <p>
+            Cadence Realty Services makes no warranties, express or implied, regarding the
+            accuracy or completeness of information on this site. We are not liable for any
+            damages arising from the use of, or inability to use, this website or its content.
+        </p>
+    </section>
+
+    <section id="contact" class="privacy-section animate-section">
+        <h2>Contact Us</h2>
+        <p>
+            Questions about these Terms of Service can be directed to our team via the
+            <a href="contact.html">Contact page</a>.
+        </p>
+    </section>
+
+    <!-- Inject Global Footer -->
+    <div id="footer-placeholder"></div>
+
+    <!-- Component Loader -->
+    <script src="components/includes.js"></script>
+
+    <!-- TOC drawer toggle -->
+    <script>
+        document.getElementById("tocButton").addEventListener("click", () => {
+            document.getElementById("tocDrawer").classList.toggle("open");
+        });
+    </script>
+
+</body>
+</html>

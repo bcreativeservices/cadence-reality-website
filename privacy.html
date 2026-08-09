@@ -5,22 +5,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Privacy Policy – Cadence Realty</title>
 
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Cormorant+Garamond:wght@400;500;600&display=swap" rel="stylesheet">
+
     <!-- Global Styles -->
     <link rel="stylesheet" href="css/global.css">
     <link rel="stylesheet" href="css/privacy.css">
+
+    <!-- Motion & Interaction -->
+    <script src="js/scroll-animations.js" defer></script>
+    <script src="js/micro-interactions.js" defer></script>
+    <script src="js/global.js" defer></script>
 </head>
 
 <body>
 
-    <!-- Header -->
-    <header class="site-header">
-        <a href="index.html" class="logo-link">
-            <img src="assets/images/logo.png" alt="Cadence Realty Logo" class="site-logo">
-        </a>
-    </header>
+    <!-- Inject Global Header -->
+    <div id="header-placeholder"></div>
 
     <!-- Hero -->
-    <section class="privacy-hero">
+    <section class="privacy-hero animate-section">
         <h1 class="privacy-title">Privacy Policy</h1>
         <p class="privacy-subtitle">Your privacy matters. Here’s how we protect it.</p>
     </section>
@@ -43,7 +49,7 @@
     </div>
 
     <!-- Content Sections -->
-    <section id="intro" class="privacy-section">
+    <section id="intro" class="privacy-section animate-section">
         <h2>Introduction</h2>
         <p>
             We value your trust. This Privacy Policy explains how Cadence Realty collects, uses,
@@ -51,7 +57,7 @@
         </p>
     </section>
 
-    <section id="data" class="privacy-section">
+    <section id="data" class="privacy-section animate-section">
         <h2>Data We Collect</h2>
         <p>
             We collect information you provide directly, such as contact details, and information
@@ -59,7 +65,7 @@
         </p>
     </section>
 
-    <section id="usage" class="privacy-section">
+    <section id="usage" class="privacy-section animate-section">
         <h2>How We Use Your Data</h2>
         <p>
             Your information helps us improve your experience, personalize content, and ensure
@@ -67,27 +73,32 @@
         </p>
     </section>
 
-    <section id="rights" class="privacy-section">
+    <section id="rights" class="privacy-section animate-section">
         <h2>Your Rights</h2>
         <p>
             You may request access, updates, or deletion of your personal information at any time.
         </p>
     </section>
 
-    <section id="contact" class="privacy-section">
+    <section id="contact" class="privacy-section animate-section">
         <h2>Contact Us</h2>
         <p>
             If you have questions about this Privacy Policy, please reach out to our team.
         </p>
     </section>
 
-    <!-- Footer -->
-    <footer class="site-footer">
-        <p>© 2024 Cadence Realty. All rights reserved.</p>
-    </footer>
+    <!-- Inject Global Footer -->
+    <div id="footer-placeholder"></div>
 
-    <!-- ⭐ Luxury Motion System JS (place here) -->
-    <script src="js/scroll-animations.js"></script>
+    <!-- Component Loader -->
+    <script src="components/includes.js"></script>
+
+    <!-- TOC drawer toggle -->
+    <script>
+        document.getElementById("tocButton").addEventListener("click", () => {
+            document.getElementById("tocDrawer").classList.toggle("open");
+        });
+    </script>
 
 </body>
 </html>

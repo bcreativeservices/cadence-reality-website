@@ -35,7 +35,9 @@
 .hero-vignette {
     position: absolute;
     inset: 0;
-    background: radial-gradient(circle, rgba(0,0,0,0) 40%, rgba(0,0,0,0.45) 100%);
+    background:
+        radial-gradient(circle, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.5) 100%),
+        linear-gradient(180deg, rgba(0,0,0,0.25) 0%, rgba(0,0,0,0.15) 40%, rgba(0,0,0,0.45) 100%);
     pointer-events: none;
 }
 
@@ -80,27 +82,8 @@
     margin-top: 1rem;
 }
 
-.btn {
-    padding: 0.8rem 1.6rem;
-    border-radius: 8px;
-    font-size: 1rem;
-    text-decoration: none;
-    transition: background 0.3s ease, transform 0.3s ease;
-}
-
-.btn-primary {
-    background: #1a1a1a;
-    color: #fff;
-}
-
-.btn-secondary {
-    background: #ffffff;
-    color: #1a1a1a;
-}
-
-.btn:hover {
-    transform: translateY(-3px);
-}
+/* .btn / .btn-primary / .btn-secondary base styles now live in global.css
+   so buttons work consistently across every page, not just home.html */
 
 /* Slide-up CTA */
 .slide-up-cta {
@@ -112,6 +95,127 @@
 .slide-up-cta.animate-in {
     opacity: 1;
     transform: translateY(0);
+}
+
+/* ------------------------------------------
+   HERO SEARCH BAR (HAR-powered)
+   ------------------------------------------ */
+
+.hero-search {
+    display: flex;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    gap: 0.9rem;
+    margin-top: 2.5rem;
+    padding: 1.4rem 1.6rem;
+    background: rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    border-radius: 16px;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
+    max-width: 980px;
+    margin-left: auto;
+    margin-right: auto;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 1.2s ease-out, transform 1.2s ease-out, background 0.3s ease;
+}
+
+.hero-search.animate-in {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.hero-search:hover {
+    background: rgba(255, 255, 255, 0.16);
+}
+
+.hero-search-field {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    flex: 1 1 150px;
+    min-width: 130px;
+}
+
+.hero-search-location {
+    flex: 2 1 220px;
+}
+
+.hero-search-narrow {
+    flex: 1 1 90px;
+    min-width: 90px;
+}
+
+.hero-search-field label {
+    font-size: 0.72rem;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.85);
+    margin-bottom: 0.4rem;
+    font-weight: 500;
+}
+
+.hero-search-field input,
+.hero-search-field select {
+    appearance: none;
+    -webkit-appearance: none;
+    border: none;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.92);
+    color: #1a1a1a;
+    padding: 0.65rem 0.8rem;
+    font-size: 0.92rem;
+    font-family: 'Inter', sans-serif;
+    transition: box-shadow 0.25s ease, background 0.25s ease;
+    cursor: pointer;
+}
+
+.hero-search-field input {
+    cursor: text;
+}
+
+.hero-search-field select {
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='6'><path d='M0 0l5 6 5-6z' fill='%23555'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 0.7rem center;
+    padding-right: 1.8rem;
+}
+
+.hero-search-field input:focus,
+.hero-search-field select:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.35);
+    background: #ffffff;
+}
+
+.hero-search-btn {
+    flex: 0 0 auto;
+    height: 42px;
+    align-self: flex-end;
+    white-space: nowrap;
+}
+
+@media (max-width: 900px) {
+    .hero-search {
+        flex-direction: column;
+        align-items: stretch;
+        padding: 1.2rem;
+        max-width: 92%;
+    }
+
+    .hero-search-field,
+    .hero-search-narrow,
+    .hero-search-location {
+        flex: 1 1 auto;
+        width: 100%;
+    }
+
+    .hero-search-btn {
+        width: 100%;
+        margin-top: 0.4rem;
+    }
 }
 
 /* ------------------------------------------

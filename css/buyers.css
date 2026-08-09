@@ -1,0 +1,44 @@
+/* ----------------------------------------------------------
+   BUYERS / SELLERS — PROCESS GRID
+   (shared pattern between buyers.css and sellers.css)
+---------------------------------------------------------- */
+
+.process-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 2rem;
+    margin-top: 2.5rem;
+}
+
+.process-card {
+    background: #fff;
+    border-radius: 14px;
+    padding: 2.2rem 1.8rem;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.process-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 14px 30px rgba(0,0,0,0.12);
+}
+
+.process-number {
+    display: block;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.2rem;
+    color: #b08d57;
+    font-weight: 600;
+    margin-bottom: 0.6rem;
+}
+
+.process-card h3 {
+    font-size: 1.2rem;
+    margin-bottom: 0.6rem;
+}
+
+.process-card p {
+    font-size: 0.95rem;
+    color: #555;
+    line-height: 1.55;
+}

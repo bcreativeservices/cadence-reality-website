@@ -1,0 +1,15 @@
+/* Sellers page reuses .process-grid/.process-card from buyers.css.
+   Page-specific overrides only. */
+
+.seller-cta {
+    background: #f8f8f8;
+    border-radius: 20px;
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+}
+
+.seller-cta-note {
+    margin-top: 1.4rem;
+    font-size: 0.82rem;
+    color: #888;
+}

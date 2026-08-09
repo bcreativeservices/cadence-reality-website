@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Houston Homes | Cadence Realty Services</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Cormorant+Garamond:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <!-- Global Styles -->
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/home.css">
+    <link rel="stylesheet" href="css/search.css">
+
+    <!-- Motion & Interaction -->
+    <script src="js/scroll-animations.js" defer></script>
+    <script src="js/micro-interactions.js" defer></script>
+    <script src="js/global.js" defer></script>
+    <script src="js/har-search.js" defer></script>
+</head>
+
+<body>
+
+    <!-- Inject Global Header -->
+    <div id="header-placeholder"></div>
+
+    <!-- Search Hero -->
+    <section class="search-hero animate-section">
+        <div class="hero-vignette"></div>
+        <img src="assets/images/home/hero-main.webp" alt="Historic Houston street" class="search-hero-image">
+
+        <div class="search-hero-content">
+            <h1 class="stagger-1">Find Your Next Home</h1>
+            <p class="stagger-2">Search active Houston-area listings, powered by HAR.com</p>
+
+            <!-- HAR-Powered Search Bar (same engine as the homepage) -->
+            <form class="hero-search stagger-3" id="harSearchForm" aria-label="Search Houston homes for sale">
+
+                <div class="hero-search-field hero-search-location">
+                    <label for="harLocation">Location</label>
+                    <input type="text" id="harLocation" name="location" placeholder="City, ZIP, or Neighborhood" autocomplete="off">
+                </div>
+
+                <div class="hero-search-field">
+                    <label for="harMinPrice">Min Price</label>
+                    <select id="harMinPrice" name="minPrice">
+                        <option value="">No Min</option>
+                        <option value="100000">$100,000</option>
+                        <option value="150000">$150,000</option>
+                        <option value="200000">$200,000</option>
+                        <option value="300000">$300,000</option>
+                        <option value="400000">$400,000</option>
+                        <option value="600000">$600,000</option>
+                        <option value="800000">$800,000</option>
+                        <option value="1000000">$1,000,000</option>
+                        <option value="1500000">$1,500,000</option>
+                        <option value="2000000">$2,000,000</option>
+                    </select>
+                </div>
+
+                <div class="hero-search-field">
+                    <label for="harMaxPrice">Max Price</label>
+                    <select id="harMaxPrice" name="maxPrice">
+                        <option value="">No Max</option>
+                        <option value="200000">$200,000</option>
+                        <option value="300000">$300,000</option>
+                        <option value="400000">$400,000</option>
+                        <option value="600000">$600,000</option>
+                        <option value="800000">$800,000</option>
+                        <option value="1000000">$1,000,000</option>
+                        <option value="1500000">$1,500,000</option>
+                        <option value="2000000">$2,000,000</option>
+                        <option value="3000000">$3,000,000</option>
+                        <option value="5000000">$5,000,000+</option>
+                    </select>
+                </div>
+
+                <div class="hero-search-field hero-search-narrow">
+                    <label for="harBeds">Beds</label>
+                    <select id="harBeds" name="beds">
+                        <option value="">Any</option>
+                        <option value="1">1+</option>
+                        <option value="2">2+</option>
+                        <option value="3">3+</option>
+                        <option value="4">4+</option>
+                        <option value="5">5+</option>
+                    </select>
+                </div>
+
+                <div class="hero-search-field hero-search-narrow">
+                    <label for="harBaths">Baths</label>
+                    <select id="harBaths" name="baths">
+                        <option value="">Any</option>
+                        <option value="1">1+</option>
+                        <option value="2">2+</option>
+                        <option value="3">3+</option>
+                        <option value="4">4+</option>
+                        <option value="5">5+</option>
+                    </select>
+                </div>
+
+                <div class="hero-search-field">
+                    <label for="harPropertyType">Property Type</label>
+                    <select id="harPropertyType" name="propertyType">
+                        <option value="">Any</option>
+                        <option value="1">Single Family</option>
+                        <option value="2">Townhouse / Condo</option>
+                        <option value="3">Lease / Rental</option>
+                        <option value="5">Land</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="hero-search-btn btn btn-primary">Search</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Quick Search Shortcuts -->
+    <section class="content-section animate-section">
+        <div class="section-divider"></div>
+        <h2 class="stagger-1" style="text-align:center;">Browse By Category</h2>
+        <p class="section-intro stagger-2">
+            Prefer to browse instead of filtering? Jump straight into a curated view of Houston's market.
+        </p>
+
+        <div class="search-shortcut-grid">
+            <a href="https://search.har.com/idx/doSearch.cfm?CID=736316&SITETYPE=AWS&ALLMLS=N&FOR_SALE=1&PROPERTY_STATUS=A&PROPERTY_CLASS_ID=1&SORTBY=listing_price+desc" target="_blank" rel="noopener" class="search-shortcut-card stagger-2">
+                <h3>Single Family Homes</h3>
+                <p>Detached houses across Greater Houston</p>
+            </a>
+            <a href="https://search.har.com/idx/doSearch.cfm?CID=736316&SITETYPE=AWS&ALLMLS=N&FOR_SALE=1&PROPERTY_STATUS=A&PROPERTY_CLASS_ID=2&SORTBY=listing_price+desc" target="_blank" rel="noopener" class="search-shortcut-card stagger-3">
+                <h3>Townhomes &amp; Condos</h3>
+                <p>Low-maintenance urban living</p>
+            </a>
+            <a href="https://search.har.com/idx/doSearch.cfm?CID=736316&SITETYPE=AWS&ALLMLS=N&FOR_SALE=1&PROPERTY_STATUS=A&LISTING_PRICE_MIN=1000000&SORTBY=listing_price+desc" target="_blank" rel="noopener" class="search-shortcut-card stagger-4">
+                <h3>Luxury Estates $1M+</h3>
+                <p>Houston's finest properties</p>
+            </a>
+            <a href="https://search.har.com/idx/doSearch.cfm?CID=736316&SITETYPE=AWS&ALLMLS=N&FOR_SALE=1&PROPERTY_STATUS=A&PROPERTY_CLASS_ID=5&SORTBY=listing_price+desc" target="_blank" rel="noopener" class="search-shortcut-card stagger-5">
+                <h3>Land &amp; New Construction</h3>
+                <p>Build your dream from the ground up</p>
+            </a>
+        </div>
+    </section>
+
+    <!-- HAR Compliance Section -->
+    <section class="har-section animate-section">
+        <div class="section-divider"></div>
+
+        <div class="har-inner">
+            <img src="assets/images/home/harlogo_transparent.webp" alt="Houston Association of REALTORS Logo" class="har-logo stagger-1">
+            <h2 class="stagger-2">Search Powered by HAR.com</h2>
+
+            <p class="stagger-3">
+                Information contained on the computer print‑outs of the Multiple Listing Service (MLS) of the Houston REALTORS® Information Service (HRIS) is furnished by MLS Participants for dissemination to other MLS Participants, for their exclusive use, and should not be relied upon by Buyer/Tenant or any other person.
+            </p>
+
+            <p class="stagger-4">
+                IDX information is provided exclusively for consumers' personal, non‑commercial use and may not be used for any purpose other than to identify prospective properties consumers may be interested in purchasing. Information deemed reliable but not guaranteed to be accurate. Listing information updated daily.
+            </p>
+        </div>
+    </section>
+
+    <!-- Inject Global Footer -->
+    <div id="footer-placeholder"></div>
+
+    <!-- Component Loader -->
+    <script src="components/includes.js"></script>
+
+</body>
+</html>
