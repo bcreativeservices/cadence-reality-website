@@ -353,7 +353,6 @@ textarea:hover {
 }
 
 .mobile-menu {
-    display: none;
     position: fixed;
     top: 0;
     right: -100%;
@@ -363,6 +362,7 @@ textarea:hover {
     box-shadow: -4px 0 18px rgba(0,0,0,0.1);
     padding: 4rem 2rem;
     transition: right 0.4s ease;
+    z-index: 1000;
 }
 
 .mobile-menu ul {
