@@ -88,12 +88,16 @@ document.addEventListener("DOMContentLoaded", () => {
     function hideCookieBanner() {
         const banner = document.getElementById("cookieBanner");
         if (banner) banner.classList.remove("visible");
+        const cta = document.getElementById("mobileFloatingCta");
+        if (cta) cta.classList.remove("banner-open");
     }
 
     function showCookieBannerIfNeeded() {
         if (getStoredPrefs()) return;
         const banner = document.getElementById("cookieBanner");
         if (banner) banner.classList.add("visible");
+        const cta = document.getElementById("mobileFloatingCta");
+        if (cta) cta.classList.add("banner-open");
     }
 
     function syncTogglesFromStorage() {

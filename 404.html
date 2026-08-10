@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page Not Found | Cadence Realty Services</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="assets/favicon/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/favicon/apple-touch-icon.png">
+    <link rel="manifest" href="assets/favicon/site.webmanifest">
+    <meta name="theme-color" content="#1a1a1a">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Cormorant+Garamond:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <!-- Global Styles -->
+    <link rel="stylesheet" href="css/global.css">
+
+    <!-- Motion & Interaction -->
+    <script src="js/scroll-animations.js" defer></script>
+    <script src="js/micro-interactions.js" defer></script>
+    <script src="js/global.js" defer></script>
+    <script src="js/lead-modal.js" defer></script>
+
+    <style>
+        .not-found-section {
+            min-height: 80vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 8rem 2rem 4rem 2rem;
+        }
+        .not-found-inner {
+            max-width: 520px;
+        }
+        .not-found-eyebrow {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 6rem;
+            font-weight: 600;
+            color: #b08d57;
+            line-height: 1;
+            margin-bottom: 1rem;
+        }
+        .not-found-inner h1 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+        }
+        .not-found-inner p {
+            color: #666;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+        .not-found-actions {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Inject Global Header -->
+    <div id="header-placeholder"></div>
+
+    <section class="not-found-section">
+        <div class="not-found-inner">
+            <div class="not-found-eyebrow">404</div>
+            <h1>This page has moved, or never existed.</h1>
+            <p>
+                Whatever brought you here, let's get you back on track — search current
+                listings, or head back to the homepage.
+            </p>
+            <div class="not-found-actions">
+                <a href="index.html" class="btn btn-primary">Back to Home</a>
+                <a href="search.html" class="btn btn-secondary">Search Listings</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Inject Global Footer -->
+    <div id="footer-placeholder"></div>
+
+    <!-- Component Loader -->
+    <script src="components/includes.js"></script>
+
+</body>
+</html>

@@ -8,6 +8,12 @@
   text-align: center;
 }
 
+@media (max-width: 700px) {
+  .market-metrics {
+    padding: 2.8rem 1.5rem 1rem 1.5rem;
+  }
+}
+
 .metrics-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -69,4 +75,21 @@
 .metrics-disclaimer a {
   color: #999;
   font-weight: 600;
+}
+
+/* Full-bleed embed sections (Active Listings, Recently Sold) */
+.market-embed-section {
+  padding: 3rem 0 1rem 0;
+}
+
+.market-embed-header {
+  max-width: 900px;
+  margin: 0 auto 1.5rem auto;
+  padding: 0 1.5rem;
+}
+
+.market-embed-header h2 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2.2rem;
+  margin-bottom: 0.8rem;
 }

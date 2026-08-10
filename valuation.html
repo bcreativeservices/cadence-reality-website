@@ -5,6 +5,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home Valuation | Cadence Realty Services</title>
 
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="assets/favicon/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/favicon/apple-touch-icon.png">
+    <link rel="manifest" href="assets/favicon/site.webmanifest">
+    <meta name="theme-color" content="#1a1a1a">
+
+    <!-- Open Graph / Social Share -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Cadence Realty Services">
+    <meta property="og:title" content="Home Valuation | Cadence Realty Services">
+    <meta property="og:description" content="Get a free, instant home valuation for your Houston-area property.">
+    <meta property="og:image" content="assets/general/og-image.jpg">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Home Valuation | Cadence Realty Services">
+    <meta name="twitter:description" content="Get a free, instant home valuation for your Houston-area property.">
+    <meta name="twitter:image" content="assets/general/og-image.jpg">
+
+    <!-- SEO -->
+    <meta name="description" content="Get a free, instant home valuation for your Houston-area property.">
+
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -19,6 +43,7 @@
     <script src="js/micro-interactions.js" defer></script>
     <script src="js/global.js" defer></script>
     <script src="js/lead-modal.js" defer></script>
+    <script src="js/embed-loader.js" defer></script>
 </head>
 
 <body>
@@ -36,17 +61,20 @@
     </section>
 
     <!-- Embedded Valuation Tool -->
-    <section class="content-section animate-section">
-        <div class="section-divider"></div>
-        <p class="section-intro stagger-1">
-            Enter your address below for an instant estimate, powered by HAR.com — no need to leave our site.
-        </p>
+    <section class="valuation-section animate-section">
+        <div class="valuation-header">
+            <div class="section-divider"></div>
+            <p class="section-intro">
+                Enter your address below for an instant estimate, powered by HAR.com — no need to leave our site.
+            </p>
+        </div>
 
-        <div class="har-embed-frame valuation-embed-frame stagger-2">
+        <div class="har-embed-frame har-embed-frame-full-bleed stagger-2">
             <iframe
                 src="https://www.har.com/idx/mls/homevalue/search?sitetype=aws&cid=736316"
                 title="Home Valuation — Cadence Realty Services"
                 loading="lazy"
+                scrolling="no"
             ></iframe>
         </div>
     </section>

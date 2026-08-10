@@ -201,3 +201,10 @@
 }
 
 /* .btn-secondary base styling now lives in global.css */
+
+@media (max-width: 700px) {
+  .join-cadence-section,
+  .join-success-section {
+    padding: 3rem 1.5rem;
+  }
+}

@@ -10,13 +10,59 @@
 
 html {
     scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
 }
 
+/* ------------------------------------------
+   PAGE LOAD / NAVIGATION TRANSITIONS
+   Native cross-document view transitions for browsers that support
+   them (Chrome/Edge, Safari 18+) — smooth crossfade between pages
+   with zero JS. Browsers without support just ignore this and get
+   the plain instant navigation below as a fallback.
+   ------------------------------------------ */
+
+@view-transition {
+    navigation: auto;
+}
+
+/* Universal fallback: every page fades in on load, in every browser,
+   regardless of view-transition support. */
 body {
     font-family: 'Inter', sans-serif;
     color: #222;
     background: #fff;
     line-height: 1.6;
+    -webkit-tap-highlight-color: transparent;
+    overflow-x: hidden;
+    animation: pageFadeIn 0.5s ease-out;
+}
+
+@keyframes pageFadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body {
+        animation: none;
+    }
+}
+
+a, button {
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* Refined focus states — replaces inconsistent default browser
+   outlines with one deliberate style, shown only for keyboard
+   navigation (not mouse/touch clicks) via :focus-visible */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+    outline: 2px solid #b08d57;
+    outline-offset: 3px;
+    border-radius: 4px;
 }
 
 h1, h2, h3,
@@ -235,12 +281,21 @@ textarea:hover {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    transition: padding 0.3s ease;
+}
+
+.scrolled-header .header-inner {
+    padding: 0.65rem 2rem;
+}
+
+.scrolled-header .header-logo img {
+    height: 56px;
 }
 
 .header-logo img {
     height: 72px;
     width: auto;
-    transition: transform 0.25s ease;
+    transition: transform 0.25s ease, height 0.3s ease;
 }
 
 .header-logo:hover img {
@@ -338,10 +393,15 @@ textarea:hover {
 .mobile-menu-btn {
     display: none;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
     gap: 5px;
+    width: 44px;
+    height: 44px;
     background: none;
     border: none;
     cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
 }
 
 .mobile-menu-btn span {
@@ -363,6 +423,25 @@ textarea:hover {
     padding: 4rem 2rem;
     transition: right 0.4s ease;
     z-index: 1000;
+}
+
+.mobile-menu-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.4);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.4s ease, visibility 0.4s ease;
+    z-index: 999;
+}
+
+.mobile-menu-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+body.menu-open {
+    overflow: hidden;
 }
 
 .mobile-menu ul {
@@ -421,10 +500,10 @@ textarea:hover {
    ------------------------------------------ */
 
 .site-footer {
-    padding: 3rem 2rem;
+    padding: 3.5rem 2rem 3rem 2rem;
     text-align: center;
-    background: #f8f8f8;
-    border-top: 1px solid rgba(0,0,0,0.06);
+    background: #1a1a1a;
+    border-top: 1px solid rgba(255,255,255,0.08);
     opacity: 0;
     transform: translateY(40px);
     transition: opacity 1.2s ease-out, transform 1.2s ease-out;
@@ -442,7 +521,7 @@ textarea:hover {
     background: linear-gradient(
         90deg,
         rgba(255,255,255,0) 0%,
-        rgba(0,0,0,0.25) 50%,
+        rgba(212,175,122,0.6) 50%,
         rgba(255,255,255,0) 100%
     );
     opacity: 0;
@@ -461,35 +540,35 @@ textarea:hover {
 
 .footer-text {
     font-size: 0.95rem;
-    color: #444;
+    color: rgba(255,255,255,0.75);
     margin: 0.4rem 0;
     letter-spacing: 0.3px;
 }
 
 .site-footer a {
-    color: #222;
+    color: #fff;
     text-decoration: none;
     transition: opacity 0.25s ease;
 }
 
 .site-footer a:hover {
-    opacity: 0.6;
+    opacity: 0.65;
 }
 
 .footer-legal {
     margin-top: 1.2rem;
     padding-top: 1.2rem;
-    border-top: 1px solid rgba(0,0,0,0.08);
+    border-top: 1px solid rgba(255,255,255,0.12);
     font-size: 0.85rem;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     gap: 0.5rem;
-    color: #666;
+    color: rgba(255,255,255,0.55);
 }
 
 .footer-legal a {
-    color: #666;
+    color: rgba(255,255,255,0.6);
 }
 
 .footer-dot {
@@ -499,7 +578,11 @@ textarea:hover {
 .footer-copyright {
     margin-top: 1rem;
     font-size: 0.8rem;
-    color: #888;
+    color: rgba(255,255,255,0.4);
+}
+
+.footer-copyright a {
+    color: rgba(255,255,255,0.55);
 }
 
 /* ------------------------------------------
@@ -554,8 +637,8 @@ textarea:hover {
     position: absolute;
     top: 8px;
     right: 10px;
-    width: 34px;
-    height: 34px;
+    width: 44px;
+    height: 44px;
     border: none;
     border-radius: 50%;
     background: rgba(255, 255, 255, 0.92);
@@ -566,6 +649,9 @@ textarea:hover {
     z-index: 10;
     box-shadow: 0 2px 10px rgba(0,0,0,0.15);
     transition: transform 0.2s ease, background 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .modal-close:hover {
@@ -581,13 +667,13 @@ textarea:hover {
 }
 
 .footer-social a {
-    color: #444;
+    color: rgba(255,255,255,0.75);
     display: inline-flex;
     transition: color 0.25s ease, transform 0.25s ease;
 }
 
 .footer-social a:hover {
-    color: #1a1a1a;
+    color: #d4af7a;
     transform: scale(1.12);
     opacity: 1;
 }
@@ -599,7 +685,7 @@ textarea:hover {
     padding: 0;
     font-family: 'Inter', sans-serif;
     font-size: inherit;
-    color: #222;
+    color: rgba(255,255,255,0.6);
     cursor: pointer;
     text-decoration: none;
 }
@@ -761,6 +847,63 @@ textarea:hover {
 }
 
 /* ------------------------------------------
+   FLOATING MOBILE CTA
+   Mobile-only persistent path to the lead form.
+   Hidden by default; JS reveals it after the visitor
+   scrolls past the hero.
+   ------------------------------------------ */
+
+.mobile-floating-cta {
+    display: none;
+    position: fixed;
+    right: 1.2rem;
+    bottom: 1.2rem;
+    bottom: calc(1.2rem + env(safe-area-inset-bottom, 0px));
+    z-index: 900;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.85rem 1.3rem;
+    background: #1a1a1a;
+    color: #fff;
+    border: none;
+    border-radius: 50px;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.92rem;
+    font-weight: 600;
+    box-shadow: 0 10px 28px rgba(0,0,0,0.28);
+    cursor: pointer;
+    opacity: 0;
+    transform: translateY(16px) scale(0.94);
+    transition: opacity 0.35s ease, transform 0.35s ease, bottom 0.35s ease;
+    pointer-events: none;
+}
+
+.mobile-floating-cta svg {
+    width: 18px;
+    height: 18px;
+}
+
+.mobile-floating-cta.visible {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    pointer-events: auto;
+}
+
+.mobile-floating-cta.banner-open {
+    bottom: calc(6.5rem + env(safe-area-inset-bottom, 0px));
+}
+
+.mobile-floating-cta:active {
+    transform: scale(0.96);
+}
+
+@media (max-width: 700px) {
+    .mobile-floating-cta {
+        display: flex;
+    }
+}
+
+/* ------------------------------------------
    SHARED HAR IDX EMBED FRAME
    Used for Featured Properties (home), Get More
    Information (about), and Home Valuation pages
@@ -769,12 +912,14 @@ textarea:hover {
 .har-embed-frame {
     position: relative;
     width: 100%;
-    height: 900px;
-    border-radius: 18px;
-    overflow: hidden;
-    box-shadow: 0 16px 44px rgba(0,0,0,0.12);
-    border: 1px solid rgba(0,0,0,0.06);
-    background: #f8f8f8;
+    /* Generous fixed height rather than a clipped box: cross-origin
+       iframes can't report their real content height back to us (the
+       browser blocks that read across origins), so we can't auto-size
+       to the exact content. Instead we give it enough room that HAR's
+       page fits without needing its own internal scrollbar, and hide
+       any excess via the iframe's own scrolling, disabled below. */
+    height: 1400px;
+    background: transparent;
 }
 
 .har-embed-frame iframe {
@@ -782,12 +927,68 @@ textarea:hover {
     height: 100%;
     border: none;
     display: block;
+    overflow: hidden;
+}
+
+/* Full-bleed variant: breaks out of the page's normal max-width so
+   listing/search embeds span true edge-to-edge width, like a native
+   part of the page rather than a boxed-in widget. Use on a section
+   that itself has no max-width — see .buy-listings-section, etc. */
+.har-embed-frame-full-bleed {
+    height: 2400px;
+}
+
+.embed-loading-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    background: linear-gradient(135deg, #ffffff 0%, #f5f5f5 50%, #ffffff 100%);
+    background-size: 200% 100%;
+    animation: embedShimmer 1.8s ease-in-out infinite;
+    transition: opacity 0.5s ease;
+    z-index: 5;
+}
+
+.embed-loading-overlay.loaded {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.embed-loading-overlay p {
+    font-size: 0.85rem;
+    color: #888;
+    letter-spacing: 0.3px;
+}
+
+.embed-loading-spinner {
+    width: 32px;
+    height: 32px;
+    border: 3px solid rgba(176, 141, 87, 0.2);
+    border-top-color: #b08d57;
+    border-radius: 50%;
+    animation: embedSpin 0.8s linear infinite;
+}
+
+@keyframes embedShimmer {
+    0% { background-position: 0% 0; }
+    100% { background-position: -200% 0; }
+}
+
+@keyframes embedSpin {
+    to { transform: rotate(360deg); }
 }
 
 @media (max-width: 700px) {
     .har-embed-frame {
-        height: 700px;
-        border-radius: 12px;
+        height: 1800px;
+    }
+
+    .har-embed-frame-full-bleed {
+        height: 3400px;
     }
 }
 
@@ -885,5 +1086,33 @@ textarea:hover {
 @media (max-width: 600px) {
     .footer-text {
         font-size: 0.85rem;
+    }
+}
+
+/* ------------------------------------------
+   MOBILE SPACING — reduce accumulated section
+   padding site-wide. Desktop values (6-7rem)
+   look intentional once, but stack into a lot
+   of dead scroll space when every section on
+   every page uses the same large padding on a
+   narrow screen.
+   ------------------------------------------ */
+
+@media (max-width: 700px) {
+    .content-section {
+        padding: 3rem 1.5rem;
+    }
+
+    .section-divider {
+        margin-bottom: 1.8rem;
+    }
+
+    .page-hero {
+        height: 46vh;
+        min-height: 320px;
+    }
+
+    .page-hero .hero-content h1 {
+        font-size: 2.1rem;
     }
 }

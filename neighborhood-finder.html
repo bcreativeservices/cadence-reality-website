@@ -5,6 +5,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Neighborhood Finder | Cadence Realty Services</title>
 
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="assets/favicon/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/favicon/apple-touch-icon.png">
+    <link rel="manifest" href="assets/favicon/site.webmanifest">
+    <meta name="theme-color" content="#1a1a1a">
+
+    <!-- Open Graph / Social Share -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Cadence Realty Services">
+    <meta property="og:title" content="Neighborhood Finder | Cadence Realty Services">
+    <meta property="og:description" content="Explore Houston-area neighborhoods and communities.">
+    <meta property="og:image" content="assets/general/og-image.jpg">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Neighborhood Finder | Cadence Realty Services">
+    <meta name="twitter:description" content="Explore Houston-area neighborhoods and communities.">
+    <meta name="twitter:image" content="assets/general/og-image.jpg">
+
+    <!-- SEO -->
+    <meta name="description" content="Explore Houston-area neighborhoods and communities.">
+
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -19,6 +43,7 @@
     <script src="js/micro-interactions.js" defer></script>
     <script src="js/global.js" defer></script>
     <script src="js/lead-modal.js" defer></script>
+    <script src="js/embed-loader.js" defer></script>
 </head>
 
 <body>
@@ -26,16 +51,19 @@
     <!-- Inject Global Header -->
     <div id="header-placeholder"></div>
 
-    <section class="content-section animate-section">
-        <div class="section-divider"></div>
-        <h1 class="stagger-1" style="text-align:center;">Neighborhood Finder</h1>
-        <p class="section-intro stagger-2">Explore Houston-area communities, powered by HAR.com</p>
+    <section class="embed-page-section animate-section">
+        <div class="embed-page-header">
+            <div class="section-divider"></div>
+            <h1 style="text-align:center;">Neighborhood Finder</h1>
+            <p class="section-intro">Explore Houston-area communities, powered by HAR.com</p>
+        </div>
 
-        <div class="har-embed-frame har-embed-frame-tall stagger-3">
+        <div class="har-embed-frame har-embed-frame-full-bleed stagger-3">
             <iframe
                 src="https://www.har.com/idx/neighborhood/search?sitetype=aws&cid=736316"
                 title="Neighborhood Finder — HAR.com"
                 loading="lazy"
+                scrolling="no"
             ></iframe>
         </div>
     </section>

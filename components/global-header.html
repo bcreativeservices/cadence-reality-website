@@ -32,20 +32,25 @@
             <span></span><span></span><span></span>
         </button>
     </div>
-
-    <!-- Mobile Menu Drawer -->
-    <div class="mobile-menu" id="mobileMenu">
-        <ul>
-            <li><a href="index.html">Home</a></li>
-            <li><a href="about.html">About</a></li>
-            <li><a href="search.html">Search</a></li>
-            <li><a href="buyers.html">Buy</a></li>
-            <li><a href="sellers.html">Sell My Home</a></li>
-            <li class="mobile-submenu-item"><a href="valuation.html">Home Valuation</a></li>
-            <li><a href="market.html">Market Snapshot</a></li>
-            <li><a href="team.html">Team</a></li>
-            <li><a href="join.html">Join Cadence</a></li>
-            <li><button type="button" class="mobile-nav-link-btn js-open-leadform">Contact</button></li>
-        </ul>
-    </div>
 </header>
+
+<!-- Mobile Menu Backdrop -->
+<div class="mobile-menu-overlay" id="mobileMenuOverlay"></div>
+
+<!-- Mobile Menu Drawer (deliberately OUTSIDE <header> — that element has
+     backdrop-filter, which creates a new containing block for position:fixed
+     descendants, breaking this drawer's positioning relative to the viewport) -->
+<div class="mobile-menu" id="mobileMenu">
+    <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="search.html">Search</a></li>
+        <li><a href="buyers.html">Buy</a></li>
+        <li><a href="sellers.html">Sell My Home</a></li>
+        <li class="mobile-submenu-item"><a href="valuation.html">Home Valuation</a></li>
+        <li><a href="market.html">Market Snapshot</a></li>
+        <li><a href="team.html">Team</a></li>
+        <li><a href="join.html">Join Cadence</a></li>
+        <li><button type="button" class="mobile-nav-link-btn js-open-leadform">Contact</button></li>
+    </ul>
+</div>

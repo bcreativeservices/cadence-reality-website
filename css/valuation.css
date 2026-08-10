@@ -1,11 +1,12 @@
-/* Home Valuation page - iframe embed sizing */
+/* Home Valuation page - full-bleed embed section */
 
-.valuation-embed-frame {
-    height: 850px;
+.valuation-section {
+    padding: 3rem 0 1rem 0;
 }
 
-@media (max-width: 700px) {
-    .valuation-embed-frame {
-        height: 700px;
-    }
+.valuation-header {
+    max-width: 700px;
+    margin: 0 auto 1.5rem auto;
+    padding: 0 1.5rem;
+    text-align: center;
 }

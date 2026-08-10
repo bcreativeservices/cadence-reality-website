@@ -5,6 +5,30 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Market Snapshot – Cadence Realty</title>
 
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="assets/favicon/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/favicon/apple-touch-icon.png">
+    <link rel="manifest" href="assets/favicon/site.webmanifest">
+    <meta name="theme-color" content="#1a1a1a">
+
+    <!-- Open Graph / Social Share -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Cadence Realty Services">
+    <meta property="og:title" content="Market Snapshot – Cadence Realty">
+    <meta property="og:description" content="Houston real estate market snapshot — median price, days on market, and homes sold, plus live listings.">
+    <meta property="og:image" content="assets/general/og-image.jpg">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Market Snapshot – Cadence Realty">
+    <meta name="twitter:description" content="Houston real estate market snapshot — median price, days on market, and homes sold, plus live listings.">
+    <meta name="twitter:image" content="assets/general/og-image.jpg">
+
+    <!-- SEO -->
+    <meta name="description" content="Houston real estate market snapshot — median price, days on market, and homes sold, plus live listings.">
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Cormorant+Garamond:wght@400;500;600&display=swap" rel="stylesheet">
@@ -17,6 +41,7 @@
   <script defer src="js/micro-interactions.js"></script>
   <script src="js/global.js" defer></script>
   <script src="js/lead-modal.js" defer></script>
+    <script src="js/embed-loader.js" defer></script>
   <script defer src="js/parallax.js"></script>
 </head>
 
@@ -57,31 +82,37 @@
   </section>
 
   <!-- Active Listings — embedded, not a link-out -->
-  <section class="content-section animate-section">
-    <div class="section-divider"></div>
-    <h2 class="stagger-1" style="text-align:center;">Active Listings</h2>
-    <p class="section-intro stagger-2">Current listings from Cadence Realty Services, updated live via HAR.com</p>
+  <section class="market-embed-section animate-section">
+    <div class="market-embed-header">
+      <div class="section-divider"></div>
+      <h2 style="text-align:center;">Active Listings</h2>
+      <p class="section-intro">Current listings from Cadence Realty Services, updated live via HAR.com</p>
+    </div>
 
-    <div class="har-embed-frame stagger-3">
+    <div class="har-embed-frame har-embed-frame-full-bleed stagger-3">
       <iframe
         src="https://www.har.com/idx/mls/listing?sitetype=aws&cid=736316&mlsorgid=1&allmls=n"
         title="Active Listings — Cadence Realty Services"
         loading="lazy"
+        scrolling="no"
       ></iframe>
     </div>
   </section>
 
   <!-- Recently Sold — embedded, not a link-out -->
-  <section class="content-section animate-section">
-    <div class="section-divider"></div>
-    <h2 class="stagger-1" style="text-align:center;">Recently Sold</h2>
-    <p class="section-intro stagger-2">Closed transactions from Cadence Realty Services, updated live via HAR.com</p>
+  <section class="market-embed-section animate-section">
+    <div class="market-embed-header">
+      <div class="section-divider"></div>
+      <h2 style="text-align:center;">Recently Sold</h2>
+      <p class="section-intro">Closed transactions from Cadence Realty Services, updated live via HAR.com</p>
+    </div>
 
-    <div class="har-embed-frame stagger-3">
+    <div class="har-embed-frame har-embed-frame-full-bleed stagger-3">
       <iframe
         src="https://www.har.com/idx/mls/sold/listing?sitetype=aws&cid=736316&allmls=n&mlsorgid=1"
         title="Recently Sold — Cadence Realty Services"
         loading="lazy"
+        scrolling="no"
       ></iframe>
     </div>
   </section>

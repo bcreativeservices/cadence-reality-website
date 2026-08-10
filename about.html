@@ -5,6 +5,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About Us | Cadence Realty Services</title>
 
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="assets/favicon/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/favicon/apple-touch-icon.png">
+    <link rel="manifest" href="assets/favicon/site.webmanifest">
+    <meta name="theme-color" content="#1a1a1a">
+
+    <!-- Open Graph / Social Share -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Cadence Realty Services">
+    <meta property="og:title" content="About Us | Cadence Realty Services">
+    <meta property="og:description" content="Learn about The Jimmy Janes Team at Cadence Realty Services — a modern approach to Houston luxury real estate since 2011.">
+    <meta property="og:image" content="assets/general/og-image.jpg">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="About Us | Cadence Realty Services">
+    <meta name="twitter:description" content="Learn about The Jimmy Janes Team at Cadence Realty Services — a modern approach to Houston luxury real estate since 2011.">
+    <meta name="twitter:image" content="assets/general/og-image.jpg">
+
+    <!-- SEO -->
+    <meta name="description" content="Learn about The Jimmy Janes Team at Cadence Realty Services — a modern approach to Houston luxury real estate since 2011.">
+
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -19,6 +43,7 @@
     <script src="js/micro-interactions.js" defer></script>
     <script src="js/global.js" defer></script>
     <script src="js/lead-modal.js" defer></script>
+    <script src="js/embed-loader.js" defer></script>
 </head>
 
 <body>
@@ -56,15 +81,15 @@
     <section class="stats-section animate-section">
         <div class="stats-grid">
             <div class="stat-card stagger-1">
-                <div class="stat-number">$4,524,490</div>
+                <div class="stat-number" data-count-to="4524490" data-prefix="$">$0</div>
                 <div class="stat-label">Value of Real Estate Sold</div>
             </div>
             <div class="stat-card stagger-2">
-                <div class="stat-number">37</div>
+                <div class="stat-number" data-count-to="37">0</div>
                 <div class="stat-label">Number of Properties Sold</div>
             </div>
             <div class="stat-card stagger-3">
-                <div class="stat-number">$122,284</div>
+                <div class="stat-number" data-count-to="122284" data-prefix="$">$0</div>
                 <div class="stat-label">Average Listing Price</div>
             </div>
         </div>
@@ -88,7 +113,7 @@
             <div class="agent-carousel" id="agentCarousel">
                 <a href="team.html#agent-jimmy-dale-janes" class="carousel-card">
                     <div class="carousel-card-photo">
-                        <img src="assets/images/team/jimmy-dale-janes.webp" alt="Jimmy Dale Janes">
+                        <img src="assets/images/team/jimmy-dale-janes.webp" alt="Jimmy Dale Janes" loading="lazy">
                     </div>
                     <div class="carousel-card-info">
                         <h3>Jimmy Dale Janes</h3>
@@ -97,7 +122,7 @@
                 </a>
                 <a href="team.html#agent-alexandra-leal" class="carousel-card">
                     <div class="carousel-card-photo">
-                        <img src="assets/images/team/alexandra-leal.webp" alt="Alexandra Leal">
+                        <img src="assets/images/team/alexandra-leal.webp" alt="Alexandra Leal" loading="lazy">
                     </div>
                     <div class="carousel-card-info">
                         <h3>Alexandra Leal</h3>
@@ -106,7 +131,7 @@
                 </a>
                 <a href="team.html#agent-danny-cheng" class="carousel-card">
                     <div class="carousel-card-photo">
-                        <img src="assets/images/team/danny-cheng.webp" alt="Danny Cheng">
+                        <img src="assets/images/team/danny-cheng.webp" alt="Danny Cheng" loading="lazy">
                     </div>
                     <div class="carousel-card-info">
                         <h3>Danny Cheng</h3>
@@ -115,7 +140,7 @@
                 </a>
                 <a href="team.html#agent-dena-swinney-jackson" class="carousel-card">
                     <div class="carousel-card-photo">
-                        <img src="assets/images/team/dena-swinney-jackson.webp" alt="Dena Swinney Jackson">
+                        <img src="assets/images/team/dena-swinney-jackson.webp" alt="Dena Swinney Jackson" loading="lazy">
                     </div>
                     <div class="carousel-card-info">
                         <h3>Dena Swinney Jackson</h3>
@@ -124,7 +149,7 @@
                 </a>
                 <a href="team.html#agent-eugene-lozano" class="carousel-card">
                     <div class="carousel-card-photo">
-                        <img src="assets/images/team/eugene-lozano.webp" alt="Eugene Lozano">
+                        <img src="assets/images/team/eugene-lozano.webp" alt="Eugene Lozano" loading="lazy">
                     </div>
                     <div class="carousel-card-info">
                         <h3>Eugene Lozano</h3>
@@ -133,7 +158,7 @@
                 </a>
                 <a href="team.html#agent-jakia-triggs" class="carousel-card">
                     <div class="carousel-card-photo">
-                        <img src="assets/images/team/jakia-triggs.webp" alt="Jakia Triggs">
+                        <img src="assets/images/team/jakia-triggs.webp" alt="Jakia Triggs" loading="lazy">
                     </div>
                     <div class="carousel-card-info">
                         <h3>Jakia Triggs</h3>
@@ -142,7 +167,7 @@
                 </a>
                 <a href="team.html#agent-james-terenzi" class="carousel-card">
                     <div class="carousel-card-photo">
-                        <img src="assets/images/team/james-terenzi.webp" alt="James Terenzi">
+                        <img src="assets/images/team/james-terenzi.webp" alt="James Terenzi" loading="lazy">
                     </div>
                     <div class="carousel-card-info">
                         <h3>James Terenzi</h3>
@@ -151,7 +176,7 @@
                 </a>
                 <a href="team.html#agent-jennifer-setterbo" class="carousel-card">
                     <div class="carousel-card-photo">
-                        <img src="assets/images/team/jennifer-setterbo.webp" alt="Jennifer Setterbo">
+                        <img src="assets/images/team/jennifer-setterbo.webp" alt="Jennifer Setterbo" loading="lazy">
                     </div>
                     <div class="carousel-card-info">
                         <h3>Jennifer Setterbo</h3>
@@ -169,7 +194,7 @@
                 </a>
                 <a href="team.html#agent-kristina-lanningham" class="carousel-card">
                     <div class="carousel-card-photo">
-                        <img src="assets/images/team/kristina-lanningham.webp" alt="Kristina Lanningham">
+                        <img src="assets/images/team/kristina-lanningham.webp" alt="Kristina Lanningham" loading="lazy">
                     </div>
                     <div class="carousel-card-info">
                         <h3>Kristina Lanningham</h3>
@@ -178,7 +203,7 @@
                 </a>
                 <a href="team.html#agent-rhonda-janes" class="carousel-card">
                     <div class="carousel-card-photo">
-                        <img src="assets/images/team/rhonda-janes.webp" alt="Rhonda Janes">
+                        <img src="assets/images/team/rhonda-janes.webp" alt="Rhonda Janes" loading="lazy">
                     </div>
                     <div class="carousel-card-info">
                         <h3>Rhonda Janes</h3>
@@ -187,7 +212,7 @@
                 </a>
                 <a href="team.html#agent-ricardo-sanchez" class="carousel-card">
                     <div class="carousel-card-photo">
-                        <img src="assets/images/team/ricardo-sanchez.webp" alt="Ricardo Sanchez">
+                        <img src="assets/images/team/ricardo-sanchez.webp" alt="Ricardo Sanchez" loading="lazy">
                     </div>
                     <div class="carousel-card-info">
                         <h3>Ricardo Sanchez</h3>
@@ -196,7 +221,7 @@
                 </a>
                 <a href="team.html#agent-savannah-burns" class="carousel-card">
                     <div class="carousel-card-photo">
-                        <img src="assets/images/team/savannah-burns.webp" alt="Savannah Burns">
+                        <img src="assets/images/team/savannah-burns.webp" alt="Savannah Burns" loading="lazy">
                     </div>
                     <div class="carousel-card-info">
                         <h3>Savannah Burns</h3>
@@ -205,7 +230,7 @@
                 </a>
                 <a href="team.html#agent-tamara-adair" class="carousel-card">
                     <div class="carousel-card-photo">
-                        <img src="assets/images/team/tamara-adair.webp" alt="Tamara Adair">
+                        <img src="assets/images/team/tamara-adair.webp" alt="Tamara Adair" loading="lazy">
                     </div>
                     <div class="carousel-card-info">
                         <h3>Tamara Adair</h3>
@@ -214,7 +239,7 @@
                 </a>
                 <a href="team.html#agent-taylor-mcbride" class="carousel-card">
                     <div class="carousel-card-photo">
-                        <img src="assets/images/team/taylor-mcbride.webp" alt="Taylor McBride">
+                        <img src="assets/images/team/taylor-mcbride.webp" alt="Taylor McBride" loading="lazy">
                     </div>
                     <div class="carousel-card-info">
                         <h3>Taylor McBride</h3>
@@ -234,7 +259,7 @@
         <div class="expertise-grid">
             <div class="expertise-tile stagger-2">
                 <div class="expertise-tile-image">
-                    <img src="assets/images/buyers/buyerservices.webp" alt="Buyer Services">
+                    <img src="assets/images/buyers/buyerservices.webp" alt="Buyer Services" loading="lazy">
                 </div>
                 <div class="expertise-tile-info">
                     <h3>BUYER SERVICES</h3>
@@ -245,7 +270,7 @@
 
             <div class="expertise-tile stagger-3">
                 <div class="expertise-tile-image">
-                    <img src="assets/images/sellers/sellerservices.webp" alt="Seller Services">
+                    <img src="assets/images/sellers/sellerservices.webp" alt="Seller Services" loading="lazy">
                 </div>
                 <div class="expertise-tile-info">
                     <h3>SELLER SERVICES</h3>
@@ -268,6 +293,7 @@
                 src="https://www.har.com/idx/leadform?sitetype=aws&cid=736316"
                 title="Get More Information — Cadence Realty Services"
                 loading="lazy"
+                scrolling="no"
             ></iframe>
         </div>
     </section>
@@ -295,6 +321,51 @@
 
             prevBtn.addEventListener("click", () => scrollByCard(-1));
             nextBtn.addEventListener("click", () => scrollByCard(1));
+        })();
+    </script>
+
+    <!-- Stat Count-Up Animation -->
+    <script>
+        (function () {
+            const statNumbers = document.querySelectorAll(".stat-number[data-count-to]");
+            if (!statNumbers.length) return;
+
+            const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+            function animateCount(el) {
+                const target = parseInt(el.getAttribute("data-count-to"), 10);
+                const prefix = el.getAttribute("data-prefix") || "";
+
+                if (prefersReducedMotion || isNaN(target)) {
+                    el.textContent = prefix + target.toLocaleString("en-US");
+                    return;
+                }
+
+                const duration = 1400;
+                const start = performance.now();
+
+                function tick(now) {
+                    const progress = Math.min((now - start) / duration, 1);
+                    // ease-out cubic
+                    const eased = 1 - Math.pow(1 - progress, 3);
+                    const current = Math.round(target * eased);
+                    el.textContent = prefix + current.toLocaleString("en-US");
+                    if (progress < 1) requestAnimationFrame(tick);
+                }
+
+                requestAnimationFrame(tick);
+            }
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        animateCount(entry.target);
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.4 });
+
+            statNumbers.forEach((el) => observer.observe(el));
         })();
     </script>
 

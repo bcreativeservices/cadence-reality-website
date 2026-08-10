@@ -2,24 +2,49 @@
    BUY PAGE — LISTINGS + ACTIONS + RESOURCES
 ---------------------------------------------------------- */
 
-.buy-listings-section h1 {
+.buy-listings-section {
+    padding: 3rem 0 1rem 0;
+}
+
+.buy-listings-header {
+    max-width: 900px;
+    margin: 0 auto 1.5rem auto;
+    padding: 0 1.5rem;
+    text-align: center;
+}
+
+.buy-listings-header h1 {
     font-family: 'Cormorant Garamond', serif;
     font-size: 2.4rem;
 }
 
 .har-embed-frame-tall {
-    height: 1000px;
+    /* legacy - superseded by .har-embed-frame-full-bleed, kept in case
+       anything still references it */
+    height: 1400px;
 }
 
-@media (max-width: 700px) {
-    .har-embed-frame-tall {
-        height: 750px;
-    }
+/* Shared full-bleed embed page pattern (listing-search.html,
+   neighborhood-finder.html) */
+.embed-page-section {
+    padding: 3rem 0 1rem 0;
+}
+
+.embed-page-header {
+    max-width: 900px;
+    margin: 0 auto 1.5rem auto;
+    padding: 0 1.5rem;
+    text-align: center;
+}
+
+.embed-page-header h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.4rem;
 }
 
 .buy-actions-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr));
     gap: 1.6rem;
 }
 
@@ -102,7 +127,7 @@
 
 .process-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr));
     gap: 2rem;
     margin-top: 2.5rem;
 }
