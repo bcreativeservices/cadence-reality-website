@@ -282,20 +282,19 @@
         </div>
     </section>
 
-    <!-- Get More Information -->
+    <!-- Get More Information — this embed is the exact same HAR lead
+         form already used by the site-wide "Contact" button, so instead
+         of a second, separate inline instance of it, this just reuses
+         the same shared js-open-leadform modal used everywhere else on
+         the site. One consistent contact experience site-wide, and one
+         less iframe on this page. -->
     <section class="content-section narrow animate-section about-cta-section">
         <div class="section-divider"></div>
         <h2 class="stagger-1">Get More Information</h2>
         <p class="section-intro stagger-2">
             Whether you're buying, selling, or just exploring, we'd love to hear from you.
         </p>
-        <div class="har-embed-frame har-embed-frame-form stagger-3">
-            <iframe
-                src="https://www.har.com/idx/leadform?sitetype=aws&cid=736316"
-                title="Get More Information — Cadence Realty Services"
-                loading="lazy"
-                            ></iframe>
-        </div>
+        <button type="button" class="btn btn-primary js-open-leadform stagger-3">Get In Touch</button>
     </section>
 
     <!-- Inject Global Footer -->

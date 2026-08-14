@@ -278,18 +278,12 @@
 }
 
 /* ----------------------------------------------------------
-   GET MORE INFORMATION — embedded HAR lead form
+   GET MORE INFORMATION — now reuses the shared js-open-leadform
+   modal (see about.html) instead of its own inline embed, so this
+   modifier is retired.
 ---------------------------------------------------------- */
 
-.har-embed-frame-form {
-    height: 620px;
-}
-
 @media (max-width: 700px) {
-    .har-embed-frame-form {
-        height: 560px;
-    }
-
     .stats-section {
         padding: 2.8rem 1.5rem;
     }

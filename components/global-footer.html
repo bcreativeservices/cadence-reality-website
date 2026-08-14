@@ -44,6 +44,20 @@
     </div>
 </div>
 
+<!-- Shared HAR Tool Modal — reused by every "View Live Listings" / "Get My
+     Free Valuation" style trigger site-wide. Which HAR tool it shows is
+     set dynamically from the triggering button's data-har-src /
+     data-har-title attributes — see js/lead-modal.js for the handler and
+     .har-teaser-card in global.css for the triggers themselves. One
+     shared modal instead of one per page keeps this consistent with how
+     leadFormModal above already works. -->
+<div class="modal-overlay" id="harEmbedModal" aria-hidden="true">
+    <div class="modal-box modal-box-large">
+        <button type="button" class="modal-close" aria-label="Close">&times;</button>
+        <iframe title="" loading="lazy"></iframe>
+    </div>
+</div>
+
 <!-- Cookie Preferences Modal -->
 <div class="modal-overlay" id="cookiePrefsModal" aria-hidden="true">
     <div class="modal-box cookie-modal-box">

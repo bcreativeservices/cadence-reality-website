@@ -24,6 +24,35 @@ document.addEventListener("DOMContentLoaded", () => {
         document.body.style.overflow = "hidden";
     }
 
+    // Opens the shared #harEmbedModal with whichever HAR tool the
+    // clicked trigger points at (data-har-src / data-har-title). The
+    // iframe's src is only ever set here, at the moment the modal
+    // actually opens — never loaded up front — so pages with a teaser
+    // card don't pay the cost of loading a HAR iframe until someone
+    // actually asks to see it.
+    function openHarModal(trigger) {
+        const modal = document.getElementById("harEmbedModal");
+        if (!modal) return;
+
+        const src = trigger.getAttribute("data-har-src");
+        const title = trigger.getAttribute("data-har-title") || "";
+        if (!src) return;
+
+        const iframe = modal.querySelector("iframe");
+        if (iframe) {
+            // Reset src first if switching between two different HAR
+            // tools without a full page reload (e.g. Market Snapshot's
+            // two separate teaser cards) — avoids briefly showing the
+            // previous tool's stale content while the new one loads.
+            if (iframe.src !== src) iframe.src = src;
+            iframe.title = title;
+        }
+
+        modal.classList.add("active");
+        modal.setAttribute("aria-hidden", "false");
+        document.body.style.overflow = "hidden";
+    }
+
     function closeModal(modal) {
         modal.classList.remove("active");
         modal.setAttribute("aria-hidden", "true");
@@ -40,6 +69,11 @@ document.addEventListener("DOMContentLoaded", () => {
             e.preventDefault();
             openModal("cookiePrefsModal");
             hideCookieBanner();
+        }
+        const harTrigger = e.target.closest(".js-open-har-modal");
+        if (harTrigger) {
+            e.preventDefault();
+            openHarModal(harTrigger);
         }
     });
 
