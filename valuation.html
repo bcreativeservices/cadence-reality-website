@@ -45,6 +45,7 @@
     <script src="js/lead-modal.js" defer></script>
     <script src="js/embed-loader.js" defer></script>
     <script src="js/har-embed-resize.js" defer></script>
+    <script src="js/address-search.js" defer></script>
 </head>
 
 <body>
@@ -61,21 +62,91 @@
         </div>
     </section>
 
-    <!-- Embedded Valuation Tool -->
+    <!-- Address Search + Valuation Tool -->
     <section class="valuation-section animate-section">
         <div class="valuation-header">
             <div class="section-divider"></div>
             <p class="section-intro">
-                Enter your address below for an instant estimate, powered by HAR.com — no need to leave our site.
+                Enter your address below and our team will prepare your free, personalized home valuation report.
             </p>
         </div>
 
-        <div class="har-embed-frame har-embed-frame-compact stagger-2">
-            <iframe
-                src="https://www.har.com/idx/mls/homevalue/search?sitetype=aws&cid=736316"
-                title="Home Valuation — Cadence Realty Services"
-                loading="lazy"
-                            ></iframe>
+        <div class="address-search-wrap">
+            <div class="address-search-card stagger-2">
+                <div class="address-search-bar">
+                    <input
+                        type="text"
+                        id="valuationAddressInput"
+                        placeholder="Enter your home address"
+                        autocomplete="off"
+                        aria-label="Home address"
+                    >
+                    <button type="button" id="valuationSearchBtn" class="btn btn-primary">Search</button>
+                    <ul class="address-suggestions" id="addressSuggestions" hidden></ul>
+                </div>
+            </div>
+
+            <!-- Result card: hidden until an address is found -->
+            <div class="valuation-result" id="valuationResult" hidden>
+                <div class="valuation-result-inner">
+                    <div class="valuation-result-map">
+                        <img id="valuationMapImage" alt="Map showing the property location">
+                    </div>
+                    <div class="valuation-result-details">
+                        <span class="valuation-result-badge">Selected Property</span>
+                        <h3 id="valuationResultAddress"></h3>
+                        <p>Get your free, no-obligation valuation report sent directly to you.</p>
+
+                        <form
+                            id="valuationLeadForm"
+                            class="valuation-lead-form"
+                            action="https://api.web3forms.com/submit"
+                            method="POST"
+                        >
+                            <input type="hidden" name="access_key" value="0b752324-af5d-4cf2-9720-dbc8faf81596">
+                            <input type="hidden" name="subject" value="New Home Valuation Request — Cadence Realty Services">
+                            <input type="hidden" name="from_name" value="Cadence Realty Website">
+                            <input type="hidden" name="property_address" id="valuationHiddenAddress">
+                            <!-- Honeypot spam trap — real visitors never see or fill this in -->
+                            <input type="checkbox" name="botcheck" style="display:none">
+
+                            <div class="valuation-form-row">
+                                <label for="valuationName">Name</label>
+                                <input type="text" id="valuationName" name="name" required>
+                            </div>
+                            <div class="valuation-form-row">
+                                <label for="valuationPhone">Phone</label>
+                                <input type="tel" id="valuationPhone" name="phone" required>
+                            </div>
+                            <div class="valuation-form-row">
+                                <label for="valuationEmail">Email</label>
+                                <input type="email" id="valuationEmail" name="email" required>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary valuation-submit-btn">Get My Free Valuation Report</button>
+
+                            <p class="form-success" id="valuationFormSuccess">Thanks! We'll be in touch shortly with your home's valuation report.</p>
+                            <p class="form-error" id="valuationFormError">Something went wrong — please try again, or call us directly.</p>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Fallback: HAR's own instant/automated tool, collapsed by default -->
+            <div class="har-tool-toggle-wrap">
+                <button type="button" class="har-tool-toggle-link" id="harToolToggle" aria-expanded="false">
+                    Prefer to search it yourself? Try HAR.com's live tool <span class="har-tool-toggle-arrow">→</span>
+                </button>
+                <div class="har-tool-accordion" id="harToolAccordion">
+                    <div class="har-embed-frame">
+                        <iframe
+                            id="harToolIframe"
+                            title="Home Valuation — HAR.com"
+                            loading="lazy"
+                        ></iframe>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 

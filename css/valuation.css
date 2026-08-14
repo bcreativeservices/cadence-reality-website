@@ -10,3 +10,407 @@
     padding: 0 1.5rem;
     text-align: center;
 }
+
+/* ------------------------------------------
+   ADDRESS SEARCH + VALUATION LEAD CAPTURE
+   Custom-built address autocomplete (LocationIQ) + map preview + lead
+   form (Web3Forms), with HAR's own automated tool tucked behind a
+   "prefer to search yourself" accordion as a fallback. See
+   js/address-search.js for all the interactive logic.
+
+   DESIGN SYSTEM NOTES:
+   - Vertical rhythm between the search card, result card, and the HAR
+     fallback link uses the golden-ratio spacing tokens already defined
+     in global.css (--space-*), so this component's spacing reads as
+     part of the same system as the rest of the site, not a one-off.
+   - The map/details split in the result card uses a golden-ratio
+     column proportion (~38.2% / ~61.8%) instead of an arbitrary pixel
+     split.
+   - Every interactive element (input, button, suggestion row) has a
+     deliberate micro-transition — border glow on focus, a slight press
+     on click, a soft slide-in for suggestions — rather than snapping
+     instantly, which is what reads as "considered" rather than
+     "functional but plain."
+   ------------------------------------------ */
+
+.address-search-wrap {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 1.5rem var(--space-3xl) 1.5rem;
+}
+
+.address-search-card {
+    position: relative;
+    background: #fff;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 18px;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
+    padding: var(--space-lg);
+    transition: box-shadow 0.3s ease;
+}
+
+/* Subtle lift on hover — the card reads as a tactile, considered
+   object rather than a flat form background. */
+.address-search-card:hover {
+    box-shadow: 0 16px 50px rgba(0, 0, 0, 0.1);
+}
+
+.address-search-bar {
+    position: relative;
+    display: flex;
+    gap: var(--space-sm);
+}
+
+.address-search-bar input[type="text"] {
+    flex: 1;
+    /* 16px minimum is deliberate, not decorative — anything smaller
+       triggers an unwanted auto-zoom on focus in iOS Safari. */
+    font-size: 16px;
+    padding: 0.95rem 1.1rem;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-radius: 10px;
+    font-family: 'Inter', sans-serif;
+    transition: border-color 0.25s ease, box-shadow 0.25s ease;
+    /* Minimum comfortable touch target height regardless of font
+       metrics, so this is reliably tappable on any device. */
+    min-height: 48px;
+}
+
+.address-search-bar input[type="text"]:focus {
+    outline: none;
+    border-color: #b08d57;
+    box-shadow: 0 0 0 4px rgba(176, 141, 87, 0.14);
+}
+
+.address-search-bar .btn {
+    flex: 0 0 auto;
+    padding: 0.95rem 1.9rem;
+    min-height: 48px;
+    transition: transform 0.15s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+/* Tactile press feedback — a small, quick scale-down on click reads
+   as a physical button rather than a flat clickable rectangle. */
+.address-search-bar .btn:active,
+.valuation-submit-btn:active {
+    transform: scale(0.97);
+}
+
+.address-suggestions {
+    position: absolute;
+    top: calc(100% + var(--space-sm));
+    left: 0;
+    right: 0;
+    background: #fff;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.14);
+    list-style: none;
+    padding: 0.4rem;
+    z-index: 50;
+    max-height: 280px;
+    overflow-y: auto;
+    /* Slide + fade in rather than an instant snap-open — this is the
+       "considered" version of a plain hidden/visible toggle. Runs every
+       time the list re-renders since it's re-inserted into the DOM
+       flow (innerHTML reset) on each new query. */
+    animation: suggestionsSlideIn 0.18s ease;
+}
+
+@keyframes suggestionsSlideIn {
+    from { opacity: 0; transform: translateY(-6px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.address-suggestions li {
+    /* 44px+ touch target, not just readable text size */
+    padding: 0.85rem 0.9rem;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.95rem;
+    color: #333;
+    transition: background 0.15s ease, padding-left 0.15s ease;
+}
+
+.address-suggestions li:hover,
+.address-suggestions li.active {
+    background: rgba(176, 141, 87, 0.1);
+    /* A small rightward nudge on hover/keyboard-focus is a common
+       "premium list" micro-interaction — implies direction/selection
+       without needing an icon. */
+    padding-left: 1.15rem;
+}
+
+/* Subtle loading indicator while a query is in flight — a plain input
+   with no feedback during the debounce+fetch window reads as
+   unresponsive; this closes that gap without a heavy spinner. */
+.address-search-bar.is-loading input[type="text"] {
+    background-image: linear-gradient(90deg, transparent, rgba(176, 141, 87, 0.06), transparent);
+    background-size: 200% 100%;
+    animation: searchLoadingShimmer 1.2s ease-in-out infinite;
+}
+
+@keyframes searchLoadingShimmer {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+.valuation-result {
+    margin-top: var(--space-xl);
+    background: #fff;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 18px;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    animation: valuationResultFadeIn 0.5s ease;
+}
+
+@keyframes valuationResultFadeIn {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.valuation-result-inner {
+    display: grid;
+    /* Golden-ratio column split (~38.2% / ~61.8%) instead of an
+       arbitrary fixed pixel width — scales proportionally at any
+       container width rather than becoming lopsided. */
+    grid-template-columns: 38.2fr 61.8fr;
+}
+
+.valuation-result-map {
+    background: #eee;
+    position: relative;
+    overflow: hidden;
+}
+
+.valuation-result-map img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    min-height: 280px;
+    /* Map image fades in once loaded rather than popping in abruptly
+       after the network request resolves. */
+    opacity: 0;
+    animation: mapFadeIn 0.5s ease forwards;
+    animation-delay: 0.1s;
+}
+
+@keyframes mapFadeIn {
+    to { opacity: 1; }
+}
+
+.valuation-result-details {
+    padding: var(--space-2xl) var(--space-xl);
+}
+
+/* Self-contained staggered reveal for the result card's contents.
+   Deliberately NOT using the site's global .stagger-N + IntersectionObserver
+   system here: that system only fires once, when its ancestor section
+   first scrolls into view — by the time a search RESULT actually
+   appears (a user interaction, not a scroll event), that would have
+   already fired invisibly, so the stagger would never be seen.
+
+   These instead key off a .result-visible class toggled by JS on
+   .valuation-result — see showResult() in address-search.js, which
+   removes and re-adds this class on every search (not just the
+   first), forcing a reflow in between so the animation genuinely
+   replays each time someone looks up a new address, rather than only
+   playing once per page load. */
+.valuation-result-badge,
+.valuation-result-details h3,
+.valuation-result-details > p,
+.valuation-lead-form {
+    opacity: 0;
+}
+
+.result-visible .valuation-result-badge,
+.result-visible .valuation-result-details h3,
+.result-visible .valuation-result-details > p,
+.result-visible .valuation-lead-form {
+    animation: resultItemFadeIn 0.45s ease forwards;
+}
+
+.result-visible .valuation-result-badge { animation-delay: 0.08s; }
+.result-visible .valuation-result-details h3 { animation-delay: 0.16s; }
+.result-visible .valuation-result-details > p { animation-delay: 0.24s; }
+.result-visible .valuation-lead-form { animation-delay: 0.32s; }
+
+@keyframes resultItemFadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.valuation-result-badge {
+    display: inline-block;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    color: #8a6d3f;
+    background: rgba(176, 141, 87, 0.12);
+    border: 1px solid rgba(176, 141, 87, 0.35);
+    padding: 0.32rem 0.85rem;
+    border-radius: 20px;
+    font-weight: 600;
+    margin-bottom: var(--space-sm);
+}
+
+.valuation-result-details h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.5rem;
+    margin-bottom: var(--space-xs);
+    line-height: 1.3;
+}
+
+.valuation-result-details > p {
+    color: #666;
+    font-size: 0.95rem;
+    margin-bottom: var(--space-md);
+}
+
+.valuation-form-row {
+    margin-bottom: var(--space-sm);
+}
+
+.valuation-form-row label {
+    display: block;
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #666;
+    margin-bottom: 0.4rem;
+    font-weight: 500;
+}
+
+.valuation-form-row input {
+    width: 100%;
+    /* Same 16px iOS-zoom-safe minimum as the address input above. */
+    font-size: 16px;
+    padding: 0.8rem 0.9rem;
+    min-height: 46px;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-radius: 8px;
+    font-family: 'Inter', sans-serif;
+    transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.valuation-form-row input:focus {
+    outline: none;
+    border-color: #b08d57;
+    box-shadow: 0 0 0 4px rgba(176, 141, 87, 0.14);
+}
+
+.valuation-submit-btn {
+    width: 100%;
+    margin-top: var(--space-xs);
+    min-height: 48px;
+    transition: transform 0.15s ease, box-shadow 0.2s ease;
+}
+
+.valuation-submit-btn:hover {
+    box-shadow: 0 8px 24px rgba(176, 141, 87, 0.25);
+}
+
+.valuation-lead-form .form-success,
+.valuation-lead-form .form-error {
+    display: none;
+    margin-top: var(--space-sm);
+    font-size: 0.88rem;
+    text-align: center;
+}
+
+.valuation-lead-form .form-success.visible,
+.valuation-lead-form .form-error.visible {
+    display: block;
+    animation: resultItemFadeIn 0.35s ease;
+}
+
+.valuation-lead-form .form-success.visible {
+    color: #2e7d32;
+}
+
+.valuation-lead-form .form-error.visible {
+    color: #c62828;
+}
+
+.har-tool-toggle-wrap {
+    margin-top: var(--space-2xl);
+    text-align: center;
+}
+
+.har-tool-toggle-link {
+    background: none;
+    border: none;
+    font-size: 0.92rem;
+    color: #555;
+    cursor: pointer;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    padding: 0.75rem 1rem;
+    min-height: 44px;
+    transition: color 0.2s ease;
+}
+
+.har-tool-toggle-link:hover {
+    color: #b08d57;
+}
+
+.har-tool-toggle-arrow {
+    display: inline-block;
+    transition: transform 0.2s ease;
+}
+
+.har-tool-toggle-link[aria-expanded="true"] .har-tool-toggle-arrow {
+    transform: translateX(4px);
+}
+
+.har-tool-accordion {
+    margin-top: var(--space-md);
+    /* Expand/collapse via max-height transition. Deliberately does NOT
+       rely on the [hidden] attribute (display:none) for the closed
+       state — a max-height transition cannot animate starting from
+       display:none, since there's no rendered "before" frame to
+       transition from; it would just pop open instantly. Instead this
+       stays display:block always, and the .open class (toggled in JS)
+       does the actual showing/hiding via max-height + overflow. */
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.4s ease;
+}
+
+.har-tool-accordion.open {
+    /* Generous rather than exact — the iframe's real height is
+       unknowable up front (see js/har-embed-resize.js), this just
+       needs to exceed the tallest realistic case. */
+    max-height: 2000px;
+}
+
+@media (max-width: 800px) {
+    .valuation-result-inner {
+        grid-template-columns: 1fr;
+    }
+
+    .valuation-result-map img {
+        min-height: 200px;
+    }
+
+    .valuation-result-details {
+        padding: var(--space-lg) var(--space-md);
+    }
+
+    .address-search-bar {
+        flex-direction: column;
+    }
+
+    .address-search-bar .btn {
+        width: 100%;
+    }
+
+    .address-suggestions {
+        max-height: 220px;
+    }
+}
