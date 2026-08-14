@@ -965,24 +965,30 @@ body.menu-open {
    listing/search embeds span true edge-to-edge width, like a native
    part of the page rather than a boxed-in widget. Use on a section
    that itself has no max-width — see .buy-listings-section, etc.
-   Used for large, variable-length content: MLS listing grids, sold
-   listings, search results. These can legitimately run long depending
-   on result count, so this stays generous — but meaningfully less than
-   the previous 2400/3400px blanket value, which was oversized for most
-   result counts and was the direct cause of reported excess space on
-   Buy, Market Snapshot, and Neighborhood Finder pages. */
+   CORRECTION: 1900px was still too tall for a small result set (a real
+   screenshot with 3 listings left a large blank gap before the next
+   section). Content height here is inherently variable with result
+   count, which is the core limitation of a static value — this is
+   tuned toward a more typical/moderate result count, not a worst case.
+   If a page ever shows many more results than this, the bottom of the
+   grid could get clipped instead of leaving excess space; the
+   postMessage listener in har-embed-resize.js remains in place in case
+   HAR's embed does support dynamic sizing, which would make this whole
+   tradeoff unnecessary — see that file for the open question on whether
+   it's actually firing. */
 .har-embed-frame-full-bleed {
-    height: 1900px;
+    height: 1300px;
 }
 
 /* Compact variant: small, bounded-content embeds — currently just the
-   Home Valuation address-search form (valuation.html), which is a short
-   form widget, not a listings grid. It was previously stuck with the
-   same 2400/3400px as a full listings page, which is almost certainly
-   the exact "excess space after IDX" bug reported on that page
-   specifically. */
+   Home Valuation address-search form (valuation.html). CORRECTION: this
+   was initially assumed to be a simple address-only widget and set to
+   750px, but the live embed is actually a full multi-field search form
+   (date sold, property type, price range, subdivision, year built,
+   sort, etc.) — 750px was cutting off the form's own submit/reset
+   buttons. Raised to give it real room. */
 .har-embed-frame-compact {
-    height: 750px;
+    height: 1050px;
 }
 
 .embed-loading-overlay {
@@ -1035,11 +1041,11 @@ body.menu-open {
     }
 
     .har-embed-frame-full-bleed {
-        height: 2600px;
+        height: 1600px;
     }
 
     .har-embed-frame-compact {
-        height: 900px;
+        height: 1300px;
     }
 }
 
