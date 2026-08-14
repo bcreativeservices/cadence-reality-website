@@ -645,18 +645,6 @@ body.menu-open {
     transition: transform 0.3s ease;
 }
 
-/* Larger variant for richer HAR tools (listings search, valuation form)
-   vs. the compact contact-form modal above. Still bounded — the iframe
-   inside can still scroll internally if HAR's content exceeds this, for
-   the same reason described on .har-embed-frame in the IDX EMBED
-   FRAME section below — but at this size, on most screens, scrolling
-   rarely triggers, and when it does it reads as "a big tool with a lot
-   of content" rather than "a cramped box." */
-.modal-box-large {
-    max-width: 1100px;
-    height: min(920px, 92vh);
-}
-
 .modal-overlay.active .modal-box {
     transform: translateY(0) scale(1);
 }
@@ -940,30 +928,49 @@ body.menu-open {
 
 /* ------------------------------------------
    SHARED HAR IDX EMBED FRAME
-   Used only for reference/glossary content that stays inline (Mortgage
-   Dictionary, Real Estate Dictionary) — these are read-only content
-   pages, not interactive tools, so an inline scrollable panel is the
-   right fit: people expect to browse a glossary in place, the same way
-   a long terms-of-service box scrolls internally without feeling like
-   a bolted-on third-party widget.
+   Used for Featured Properties (home), Get More
+   Information (about), Home Valuation, Buy, Market
+   Snapshot, and Neighborhood Finder pages.
 
-   Interactive tools (listings search, valuation form, lead forms) have
-   moved to the CTA-card + modal pattern below instead — see
-   .har-teaser-card. Cross-origin height still can't be read or
-   auto-matched (confirmed: HAR's embed sends no postMessage/resize
-   signal), so this still uses a fixed viewport + the iframe's own
-   native internal scroll for anything taller — just with a more
-   generous, near-full-height default since there's no CTA card
-   competing for space above it.
+   STRATEGY (revised): every embed here is a cross-origin iframe pointing
+   at har.com. We do not control HAR's page and cannot read its real
+   content height — that's a hard browser security boundary, not
+   something any amount of CSS/JS on our side can work around. We
+   confirmed directly (listening for postMessage on the live embed) that
+   HAR's page does not send any resize/height signal either, so an
+   auto-matching height is not achievable at all, by any method, without
+   HAR adding that support on their end.
+
+   Previous approach tried to statically guess an exact height per embed
+   type. That's fundamentally the wrong tool for this job: HAR's actual
+   content height varies with result count (3 listings vs 30), so *any*
+   single fixed number is guaranteed to be wrong for some case — too
+   tall (excess blank space) for a small result set, too short (clipped
+   content, e.g. the Home Valuation form's own submit button) for a
+   large one. No amount of re-tuning the number fixes this; it's not a
+   calibration problem, it's a category error.
+
+   Correct fix: stop trying to make the box exactly fit unknowable
+   content. Instead, give the embed a fixed, comfortable "viewport"
+   height and let the iframe scroll *within itself* for anything beyond
+   that — the same pattern used by embedded Google Calendar, Calendly,
+   Typeform, etc. whenever the embed doesn't cooperate on auto-sizing.
+   This guarantees correctness for any result count: never oversized
+   (height is fixed), and nothing is ever unreachably clipped (the
+   iframe's own native scrollbar reaches all of it). The visible border
+   + shadow below make this read as an intentional, self-contained
+   widget rather than an accidental clipped viewport.
    ------------------------------------------ */
 
 .har-embed-frame {
     position: relative;
     width: 100%;
-    height: 85vh;
-    min-height: 600px;
-    max-height: 1100px;
+    height: 800px;
     background: transparent;
+    /* Rounded-corner clipping for the iframe's square edges only —
+       this does NOT suppress the iframe's own internal scrollbar (that
+       lives inside the iframe's own browsing context, independent of
+       this wrapper's overflow), it only clips visual corners. */
     overflow: hidden;
     border: 1px solid rgba(0, 0, 0, 0.08);
     border-radius: 14px;
@@ -975,78 +982,38 @@ body.menu-open {
     height: 100%;
     border: none;
     display: block;
+    /* Deliberately NOT overflow:hidden here, and scrolling="no" has been
+       removed from every <iframe> tag in the HTML. This lets the iframe
+       show its own native internal scrollbar when HAR's content is
+       taller than our fixed viewport — this is the mechanism that makes
+       the whole strategy above work. It is a single, clearly-bounded,
+       intentional scroll region (signaled by the border/shadow on the
+       wrapper), not a competing/unintentional nested scroll — different
+       from the earlier TOC-drawer bug, which was two independently
+       scrollable regions with no visual boundary between them and no
+       scroll lock on the page behind it. */
 }
 
-@media (max-width: 700px) {
-    .har-embed-frame {
-        height: 75vh;
-        min-height: 500px;
-    }
+/* Full-bleed variant: breaks out of the page's normal max-width so
+   listing/search embeds span true edge-to-edge width, like a native
+   part of the page rather than a boxed-in widget. Use on a section
+   that itself has no max-width — see .buy-listings-section, etc.
+   Larger fixed viewport than the base .har-embed-frame since these are
+   typically the primary content of their section (listing grids), so
+   they get more room before the internal scroll kicks in. */
+.har-embed-frame-full-bleed {
+    height: 1000px;
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
 }
 
-/* ------------------------------------------
-   HAR TOOL TEASER CARD
-   Replaces inline embedding for interactive HAR tools (listings search,
-   valuation form, lead capture). Shows a clean, on-brand summary in the
-   page itself; clicking opens the actual tool full-size in a modal
-   (see .modal-box-large + #harEmbedModal in global-footer.html). This
-   keeps the primary page free of any third-party widget chrome
-   (scrollbars, dense multi-field forms) — the embed only appears once
-   someone's actively chosen to use it, at which point a large modal
-   feels like an intentional, premium "opened a tool" moment rather
-   than a boxed-in widget competing for space in the page layout.
-   ------------------------------------------ */
-
-.har-teaser-card {
-    position: relative;
-    width: 100%;
-    max-width: 640px;
-    margin: 0 auto;
-    padding: 3rem 2.5rem;
-    text-align: center;
-    background: #fff;
-    border: 1px solid rgba(0, 0, 0, 0.08);
-    border-radius: 18px;
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.06);
-}
-
-.har-teaser-card .har-teaser-badge {
-    display: inline-block;
-    font-size: 0.7rem;
-    text-transform: uppercase;
-    letter-spacing: 1.2px;
-    color: #8a6d3f;
-    background: rgba(176, 141, 87, 0.12);
-    border: 1px solid rgba(176, 141, 87, 0.35);
-    padding: 0.32rem 0.85rem;
-    border-radius: 20px;
-    font-weight: 600;
-    margin-bottom: 1.2rem;
-}
-
-.har-teaser-card h3 {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.7rem;
-    margin-bottom: 0.7rem;
-}
-
-.har-teaser-card p {
-    color: #555;
-    font-size: 1rem;
-    max-width: 460px;
-    margin: 0 auto 1.8rem auto;
-    line-height: 1.55;
-}
-
-/* Full-bleed variant: for teaser cards inside a section with no
-   max-width container of its own (matches the pattern the old
-   .har-embed-frame-full-bleed used), keeping the card itself
-   comfortably contained rather than stretching edge-to-edge — a wide
-   card here would look sparse, not premium. */
-.har-teaser-section {
-    padding: 5rem 2rem;
-    display: flex;
-    justify-content: center;
+/* Compact variant: currently just the Home Valuation search form. Same
+   fixed-viewport-plus-internal-scroll strategy, just a shorter default
+   since this embed's content, while a full multi-field form, is
+   generally less tall than a listings grid. */
+.har-embed-frame-compact {
+    height: 850px;
 }
 
 .embed-loading-overlay {
@@ -1091,6 +1058,20 @@ body.menu-open {
 
 @keyframes embedSpin {
     to { transform: rotate(360deg); }
+}
+
+@media (max-width: 700px) {
+    .har-embed-frame {
+        height: 650px;
+    }
+
+    .har-embed-frame-full-bleed {
+        height: 750px;
+    }
+
+    .har-embed-frame-compact {
+        height: 700px;
+    }
 }
 
 /* ------------------------------------------

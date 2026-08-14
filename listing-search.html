@@ -59,18 +59,12 @@
             <p class="section-intro">Browse the full Houston-area MLS, powered by HAR.com</p>
         </div>
 
-        <div class="har-teaser-section">
-            <div class="har-teaser-card stagger-3">
-                <span class="har-teaser-badge">Full Houston MLS</span>
-                <h3>Search All Listings</h3>
-                <p>Filter by price, beds, baths, property type, and more across the entire Houston-area MLS.</p>
-                <button
-                    type="button"
-                    class="btn btn-primary js-open-har-modal"
-                    data-har-src="https://www.har.com/idx/mls/search?sitetype=aws&cid=736316&allmls=y&for_sale=1"
-                    data-har-title="Search All Listings — HAR.com"
-                >Search Listings</button>
-            </div>
+        <div class="har-embed-frame har-embed-frame-full-bleed stagger-3">
+            <iframe
+                src="https://www.har.com/idx/mls/search?sitetype=aws&cid=736316&allmls=y&for_sale=1"
+                title="Search All Listings — HAR.com"
+                loading="lazy"
+                            ></iframe>
         </div>
     </section>
 

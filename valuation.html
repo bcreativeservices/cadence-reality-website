@@ -66,22 +66,16 @@
         <div class="valuation-header">
             <div class="section-divider"></div>
             <p class="section-intro">
-                Enter your address below for an instant estimate, powered by HAR.com.
+                Enter your address below for an instant estimate, powered by HAR.com — no need to leave our site.
             </p>
         </div>
 
-        <div class="har-teaser-section">
-            <div class="har-teaser-card stagger-2">
-                <span class="har-teaser-badge">Powered by HAR.com</span>
-                <h3>What's Your Home Worth?</h3>
-                <p>Get a free, instant estimate based on live Houston MLS data — takes less than a minute.</p>
-                <button
-                    type="button"
-                    class="btn btn-primary js-open-har-modal"
-                    data-har-src="https://www.har.com/idx/mls/homevalue/search?sitetype=aws&cid=736316"
-                    data-har-title="Home Valuation — Cadence Realty Services"
-                >Get My Free Valuation</button>
-            </div>
+        <div class="har-embed-frame har-embed-frame-compact stagger-2">
+            <iframe
+                src="https://www.har.com/idx/mls/homevalue/search?sitetype=aws&cid=736316"
+                title="Home Valuation — Cadence Realty Services"
+                loading="lazy"
+                            ></iframe>
         </div>
     </section>
 

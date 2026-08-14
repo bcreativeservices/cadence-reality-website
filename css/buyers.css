@@ -18,10 +18,11 @@
     font-size: 2.4rem;
 }
 
-/* .har-embed-frame-tall retired — the base .har-embed-frame in
-   global.css now defaults to a tall (85vh) inline panel on its own, so
-   this modifier is no longer needed. mortgage-dictionary.html and
-   real-estate-dictionary.html use the base class directly. */
+.har-embed-frame-tall {
+    /* legacy - superseded by .har-embed-frame-full-bleed, kept in case
+       anything still references it */
+    height: 1400px;
+}
 
 /* Shared full-bleed embed page pattern (listing-search.html,
    neighborhood-finder.html) */
