@@ -4,7 +4,7 @@
     <div class="section-divider"></div>
 
     <div class="footer-inner">
-        <p class="footer-text stagger-1">The Jimmy Janes Team — Cadence Realty Services</p>
+        <p class="footer-text stagger-1">Cadence Realty Services</p>
         <p class="footer-text stagger-2">8100 Washington Ave, Houston, TX 77007</p>
         <p class="footer-text stagger-3">
             <a href="tel:+18323448077" class="footer-link">(832) 344‑8077</a>
@@ -41,6 +41,20 @@
     <div class="modal-box">
         <button type="button" class="modal-close" aria-label="Close">&times;</button>
         <iframe title="Contact Cadence Realty Services" loading="lazy"></iframe>
+    </div>
+</div>
+
+<!-- Shared HAR Tool Modal — reused by every "View Live Listings" / "Get My
+     Free Valuation" style trigger site-wide. Which HAR tool it shows is
+     set dynamically from the triggering button's data-har-src /
+     data-har-title attributes — see js/lead-modal.js for the handler and
+     .har-teaser-card in global.css for the triggers themselves. One
+     shared modal instead of one per page keeps this consistent with how
+     leadFormModal above already works. -->
+<div class="modal-overlay" id="harEmbedModal" aria-hidden="true">
+    <div class="modal-box modal-box-large">
+        <button type="button" class="modal-close" aria-label="Close">&times;</button>
+        <iframe title="" loading="lazy"></iframe>
     </div>
 </div>
 
