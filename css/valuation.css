@@ -36,7 +36,11 @@
 .address-search-wrap {
     max-width: 900px;
     margin: 0 auto;
-    padding: 0 1.5rem var(--space-3xl) 1.5rem;
+    /* Was --space-3xl (144px) — sized assuming the result card would
+       usually be filling this space below. With nothing searched yet
+       (just the search card + the HAR fallback link), that much
+       trailing space reads as an empty gap rather than breathing room. */
+    padding: 0 1.5rem var(--space-lg) 1.5rem;
 }
 
 .address-search-card {
@@ -338,7 +342,9 @@
 }
 
 .har-tool-toggle-wrap {
-    margin-top: var(--space-2xl);
+    /* Was --space-2xl (89px) — tightened for the same reason as the
+       wrap padding above. */
+    margin-top: var(--space-lg);
     text-align: center;
 }
 
