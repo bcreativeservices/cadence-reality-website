@@ -964,9 +964,25 @@ body.menu-open {
 /* Full-bleed variant: breaks out of the page's normal max-width so
    listing/search embeds span true edge-to-edge width, like a native
    part of the page rather than a boxed-in widget. Use on a section
-   that itself has no max-width — see .buy-listings-section, etc. */
+   that itself has no max-width — see .buy-listings-section, etc.
+   Used for large, variable-length content: MLS listing grids, sold
+   listings, search results. These can legitimately run long depending
+   on result count, so this stays generous — but meaningfully less than
+   the previous 2400/3400px blanket value, which was oversized for most
+   result counts and was the direct cause of reported excess space on
+   Buy, Market Snapshot, and Neighborhood Finder pages. */
 .har-embed-frame-full-bleed {
-    height: 2400px;
+    height: 1900px;
+}
+
+/* Compact variant: small, bounded-content embeds — currently just the
+   Home Valuation address-search form (valuation.html), which is a short
+   form widget, not a listings grid. It was previously stuck with the
+   same 2400/3400px as a full listings page, which is almost certainly
+   the exact "excess space after IDX" bug reported on that page
+   specifically. */
+.har-embed-frame-compact {
+    height: 750px;
 }
 
 .embed-loading-overlay {
@@ -1019,7 +1035,11 @@ body.menu-open {
     }
 
     .har-embed-frame-full-bleed {
-        height: 3400px;
+        height: 2600px;
+    }
+
+    .har-embed-frame-compact {
+        height: 900px;
     }
 }
 
@@ -1092,6 +1112,23 @@ body.menu-open {
     max-width: 720px;
     margin: 0 auto 3rem auto;
     text-align: center;
+}
+
+/* Modifier for sections that contain ONLY a divider + one intro
+   paragraph and nothing else (no heading, no cards, no form). The
+   default 6rem top+bottom padding is sized for content-heavy sections;
+   applied to a single short paragraph it reads as an oversized, sparse,
+   "unfinished-looking" gap — especially stacked against the next
+   section's own 6rem top padding, which compounds into a very large
+   gap between two sections that are meant to read as a connected
+   lead-in, not two disconnected blocks. */
+.content-section-intro-only {
+    padding-top: 3.5rem;
+    padding-bottom: 2.5rem;
+}
+
+.content-section-intro-only > p.section-intro {
+    margin-bottom: 0;
 }
 
 /* ------------------------------------------

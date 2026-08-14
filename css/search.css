@@ -25,11 +25,6 @@
 .search-hero .hero-vignette {
     position: absolute;
     inset: 0;
-    /* Previous gradient dipped to 0.15 opacity right at the 40% mark — exactly
-       where the title/subtitle sit — which failed contrast badly on bright,
-       high-key hero images like hero-main.webp. Darkened and flattened the
-       curve through the text zone so contrast holds regardless of which
-       hero image is used here. */
     background:
         radial-gradient(circle, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.55) 100%),
         linear-gradient(180deg, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.45) 45%, rgba(0,0,0,0.6) 100%);
@@ -40,9 +35,21 @@
     position: relative;
     z-index: 10;
     color: #fff;
-    padding: 0 2rem;
     width: 100%;
     max-width: 1100px;
+    /* Second, independent fix layered on top of the vignette above. The
+       vignette alone still depends on tuning gradient stops to whatever
+       the hero image's actual brightness distribution happens to be —
+       fragile if the image changes, and evidently still not enough
+       contrast in practice on the current bright, high-key photo. This
+       panel gives the text a guaranteed-dark surface to sit on,
+       independent of the image entirely, so contrast can't fail
+       regardless of what's behind it. */
+    padding: 2.5rem 2rem;
+    background: rgba(10, 10, 10, 0.5);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    border-radius: 18px;
 }
 
 .search-hero-content h1 {
@@ -53,9 +60,6 @@
 
 .search-hero-content p {
     font-size: 1.1rem;
-    /* opacity: 0.9 on top of an already-thin scrim compounded the contrast
-       problem — full opacity + text-shadow gives a reliable contrast floor
-       independent of the underlying image's brightness. */
     opacity: 1;
     color: #f5f5f5;
     text-shadow: 0 1px 10px rgba(0, 0, 0, 0.4);

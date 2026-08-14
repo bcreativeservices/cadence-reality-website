@@ -1,0 +1,25 @@
+# Normalize line endings to LF in the repository for all text files,
+# regardless of what line ending a given OS/editor writes locally. This
+# fixes the CRLF/LF mismatch that was making git diff show entire files
+# as rewritten even when only a few lines actually changed.
+* text=auto eol=lf
+
+# Explicit for the file types this repo actually has, so there's no
+# ambiguity from git's automatic text/binary detection.
+*.html text eol=lf
+*.css  text eol=lf
+*.js   text eol=lf
+*.json text eol=lf
+*.md   text eol=lf
+*.svg  text eol=lf
+
+# Binary assets — never touch these, line-ending normalization doesn't
+# apply and attempting it can corrupt the file.
+*.png    binary
+*.jpg    binary
+*.jpeg   binary
+*.webp   binary
+*.ico    binary
+*.woff   binary
+*.woff2  binary
+*.ttf    binary
