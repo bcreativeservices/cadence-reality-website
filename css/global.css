@@ -8,6 +8,29 @@
     box-sizing: border-box;
 }
 
+/* ------------------------------------------
+   DESIGN TOKENS — golden-ratio (φ ≈ 1.618) spacing scale.
+   Each step ≈ prior × φ, approximated to clean Fibonacci pixel
+   values. Use these instead of one-off spacing values so gaps
+   read as intentional and stay consistent site-wide.
+   ------------------------------------------ */
+
+:root {
+    --space-xs: 8px;
+    --space-sm: 13px;
+    --space-md: 21px;
+    --space-lg: 34px;
+    --space-xl: 55px;
+    --space-2xl: 89px;
+    --space-3xl: 144px;
+
+    /* Fixed header's rendered height at the top of the page (unscrolled
+       state: 1rem vertical padding + 72px logo + 1px border ≈ 105px).
+       Referenced by .page-hero on mobile so centered hero content never
+       renders underneath the frosted-glass header. */
+    --header-height-mobile: 105px;
+}
+
 html {
     scroll-behavior: smooth;
     -webkit-text-size-adjust: 100%;
@@ -912,13 +935,16 @@ body.menu-open {
 .har-embed-frame {
     position: relative;
     width: 100%;
-    /* Generous fixed height rather than a clipped box: cross-origin
-       iframes can't report their real content height back to us (the
-       browser blocks that read across origins), so we can't auto-size
-       to the exact content. Instead we give it enough room that HAR's
-       page fits without needing its own internal scrollbar, and hide
-       any excess via the iframe's own scrolling, disabled below. */
+    /* FALLBACK height only. js/har-embed-resize.js listens for the iframe
+       to report its real content height via postMessage and overrides this
+       with an exact inline height once that arrives — see that file for
+       the full explanation. This static value only matters if that
+       message never arrives (protocol unsupported, blocked, etc.), so it
+       intentionally stays generous rather than tight. transition here
+       means IF a resize message does land after initial paint, the height
+       change animates smoothly instead of the page jumping. */
     height: 1400px;
+    transition: height 0.3s ease;
     background: transparent;
 }
 
@@ -927,6 +953,11 @@ body.menu-open {
     height: 100%;
     border: none;
     display: block;
+    /* Belt-and-suspenders against any nested scrollbar: overflow:hidden
+       here (combined with scrolling="no" on every <iframe> tag) suppresses
+       HAR's page from ever showing its own internal scrollbar inside our
+       page's scrollbar, regardless of whether the wrapper's height is the
+       static fallback or the dynamically-resized exact value. */
     overflow: hidden;
 }
 
@@ -1109,10 +1140,33 @@ body.menu-open {
 
     .page-hero {
         height: 46vh;
-        min-height: 320px;
+        /* Raised from 320px to match desktop's floor (420px). At the
+           shortest common phone viewport heights, 46vh alone (~300-390px)
+           wasn't enough room for a 2-3 line heading to sit fully below
+           the fixed header once vertically centered — this guarantees a
+           consistent minimum regardless of device height. */
+        min-height: 420px;
+        /* ROOT CAUSE of the reported cropping: .page-hero has no offset
+           for the fixed, position:fixed site-header (~105px tall
+           unscrolled). Content is flex-centered within the hero's own
+           box starting at y=0, so on short mobile heroes the top line(s)
+           of a multi-line heading centered into that space land
+           underneath the header instead of below it. Reserving that
+           space via padding-top (not margin, so overflow:hidden above
+           still only clips the background image) keeps the centered
+           content's available area entirely below the header. */
+        padding-top: calc(var(--header-height-mobile) + var(--space-sm));
+    }
+
+    .page-hero .hero-content {
+        /* Explicit — this content must never scroll internally. The
+           hero's overflow:hidden exists only to clip the background
+           image at the container edge. */
+        overflow: visible;
     }
 
     .page-hero .hero-content h1 {
         font-size: 2.1rem;
+        line-height: 1.3;
     }
 }

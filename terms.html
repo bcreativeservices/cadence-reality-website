@@ -128,9 +128,37 @@
 
     <!-- TOC drawer toggle -->
     <script>
-        document.getElementById("tocButton").addEventListener("click", () => {
-            document.getElementById("tocDrawer").classList.toggle("open");
-        });
+        (function () {
+            const tocButton = document.getElementById("tocButton");
+            const tocDrawer = document.getElementById("tocDrawer");
+
+            // Same fix as privacy.html — see that file for full explanation.
+            // Locks body scroll while the drawer's own internal scroll is
+            // active, and unlocks before any TOC link's hash navigation
+            // needs to actually scroll the page.
+            function setDrawerState(open) {
+                tocDrawer.classList.toggle("open", open);
+                document.body.style.overflow = open ? "hidden" : "";
+            }
+
+            tocButton.addEventListener("click", () => {
+                setDrawerState(!tocDrawer.classList.contains("open"));
+            });
+
+            tocDrawer.querySelectorAll("a").forEach((link) => {
+                link.addEventListener("click", () => setDrawerState(false));
+            });
+
+            document.addEventListener("keydown", (e) => {
+                if (e.key === "Escape") setDrawerState(false);
+            });
+
+            document.addEventListener("click", (e) => {
+                if (!tocDrawer.classList.contains("open")) return;
+                if (tocDrawer.contains(e.target) || e.target === tocButton) return;
+                setDrawerState(false);
+            });
+        })();
     </script>
 
 </body>

@@ -120,9 +120,48 @@
 
     <!-- TOC drawer toggle -->
     <script>
-        document.getElementById("tocButton").addEventListener("click", () => {
-            document.getElementById("tocDrawer").classList.toggle("open");
-        });
+        (function () {
+            const tocButton = document.getElementById("tocButton");
+            const tocDrawer = document.getElementById("tocDrawer");
+
+            // Previously this only toggled the drawer's own class. The
+            // drawer has its own internal overflow-y:auto scroll (for long
+            // TOC lists) while the page behind it remained independently
+            // scrollable at the same time — two competing scrollable
+            // regions stacked on top of each other, which reads as a
+            // "scrollbar inside a scrollbar" even though they're DOM
+            // siblings, not nested. Locking body scroll while the drawer
+            // is open (same pattern as the lead-form modal) makes only
+            // one region scrollable at a time.
+            function setDrawerState(open) {
+                tocDrawer.classList.toggle("open", open);
+                document.body.style.overflow = open ? "hidden" : "";
+            }
+
+            tocButton.addEventListener("click", () => {
+                setDrawerState(!tocDrawer.classList.contains("open"));
+            });
+
+            // Closing (and unlocking scroll) BEFORE the browser processes
+            // the link's hash navigation is required, not just nice to
+            // have — with body scroll still locked, the default
+            // jump-to-anchor behavior can't scroll the page at all, so a
+            // TOC link would silently do nothing while the drawer was open.
+            tocDrawer.querySelectorAll("a").forEach((link) => {
+                link.addEventListener("click", () => setDrawerState(false));
+            });
+
+            document.addEventListener("keydown", (e) => {
+                if (e.key === "Escape") setDrawerState(false);
+            });
+
+            // Tapping anywhere outside the open drawer closes it
+            document.addEventListener("click", (e) => {
+                if (!tocDrawer.classList.contains("open")) return;
+                if (tocDrawer.contains(e.target) || e.target === tocButton) return;
+                setDrawerState(false);
+            });
+        })();
     </script>
 
 </body>

@@ -6,6 +6,29 @@
 document.addEventListener("DOMContentLoaded", () => {
 
     // Intersection Observer
+    //
+    // threshold is a fraction of the TARGET element's own height, not the
+    // viewport's. That's fine for short sections, but breaks completely for
+    // any .animate-section that's taller than ~6.5x the viewport — the
+    // required visible fraction can never physically fit on screen, so
+    // isIntersecting never becomes true and the section (and everything in
+    // it) stays at opacity:0 forever.
+    //
+    // This bit real content: team.html's agent grid is a CSS Grid that
+    // collapses to a single column on mobile, stacking 14 agent cards into
+    // one ~7,500px-tall section. A ~700px mobile viewport can never show 15%
+    // (~1,125px) of that at once, so the whole section — names, photos,
+    // everything — silently never revealed on mobile. (about.html's agent
+    // carousel doesn't hit this because it's a fixed-height horizontal
+    // scroller, not a stacking grid, so its total height stays short
+    // regardless of how many agents are in it.)
+    //
+    // Fix: use threshold: 0 (fires the instant any pixel intersects, so it
+    // no longer depends on the target's total height at all) combined with
+    // a negative rootMargin (so short sections still wait until they're
+    // meaningfully on screen rather than revealing on a 1px sliver at the
+    // very edge of the viewport). This is correct for sections of any
+    // height, including future ones we haven't built yet.
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -26,7 +49,8 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
     }, {
-        threshold: 0.15
+        threshold: 0,
+        rootMargin: "0px 0px -10% 0px"
     });
 
     // Tracks which sections are already being observed, so re-scans
