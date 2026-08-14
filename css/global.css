@@ -929,23 +929,52 @@ body.menu-open {
 /* ------------------------------------------
    SHARED HAR IDX EMBED FRAME
    Used for Featured Properties (home), Get More
-   Information (about), and Home Valuation pages
+   Information (about), Home Valuation, Buy, Market
+   Snapshot, and Neighborhood Finder pages.
+
+   STRATEGY (revised): every embed here is a cross-origin iframe pointing
+   at har.com. We do not control HAR's page and cannot read its real
+   content height — that's a hard browser security boundary, not
+   something any amount of CSS/JS on our side can work around. We
+   confirmed directly (listening for postMessage on the live embed) that
+   HAR's page does not send any resize/height signal either, so an
+   auto-matching height is not achievable at all, by any method, without
+   HAR adding that support on their end.
+
+   Previous approach tried to statically guess an exact height per embed
+   type. That's fundamentally the wrong tool for this job: HAR's actual
+   content height varies with result count (3 listings vs 30), so *any*
+   single fixed number is guaranteed to be wrong for some case — too
+   tall (excess blank space) for a small result set, too short (clipped
+   content, e.g. the Home Valuation form's own submit button) for a
+   large one. No amount of re-tuning the number fixes this; it's not a
+   calibration problem, it's a category error.
+
+   Correct fix: stop trying to make the box exactly fit unknowable
+   content. Instead, give the embed a fixed, comfortable "viewport"
+   height and let the iframe scroll *within itself* for anything beyond
+   that — the same pattern used by embedded Google Calendar, Calendly,
+   Typeform, etc. whenever the embed doesn't cooperate on auto-sizing.
+   This guarantees correctness for any result count: never oversized
+   (height is fixed), and nothing is ever unreachably clipped (the
+   iframe's own native scrollbar reaches all of it). The visible border
+   + shadow below make this read as an intentional, self-contained
+   widget rather than an accidental clipped viewport.
    ------------------------------------------ */
 
 .har-embed-frame {
     position: relative;
     width: 100%;
-    /* FALLBACK height only. js/har-embed-resize.js listens for the iframe
-       to report its real content height via postMessage and overrides this
-       with an exact inline height once that arrives — see that file for
-       the full explanation. This static value only matters if that
-       message never arrives (protocol unsupported, blocked, etc.), so it
-       intentionally stays generous rather than tight. transition here
-       means IF a resize message does land after initial paint, the height
-       change animates smoothly instead of the page jumping. */
-    height: 1400px;
-    transition: height 0.3s ease;
+    height: 800px;
     background: transparent;
+    /* Rounded-corner clipping for the iframe's square edges only —
+       this does NOT suppress the iframe's own internal scrollbar (that
+       lives inside the iframe's own browsing context, independent of
+       this wrapper's overflow), it only clips visual corners. */
+    overflow: hidden;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 14px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
 }
 
 .har-embed-frame iframe {
@@ -953,42 +982,38 @@ body.menu-open {
     height: 100%;
     border: none;
     display: block;
-    /* Belt-and-suspenders against any nested scrollbar: overflow:hidden
-       here (combined with scrolling="no" on every <iframe> tag) suppresses
-       HAR's page from ever showing its own internal scrollbar inside our
-       page's scrollbar, regardless of whether the wrapper's height is the
-       static fallback or the dynamically-resized exact value. */
-    overflow: hidden;
+    /* Deliberately NOT overflow:hidden here, and scrolling="no" has been
+       removed from every <iframe> tag in the HTML. This lets the iframe
+       show its own native internal scrollbar when HAR's content is
+       taller than our fixed viewport — this is the mechanism that makes
+       the whole strategy above work. It is a single, clearly-bounded,
+       intentional scroll region (signaled by the border/shadow on the
+       wrapper), not a competing/unintentional nested scroll — different
+       from the earlier TOC-drawer bug, which was two independently
+       scrollable regions with no visual boundary between them and no
+       scroll lock on the page behind it. */
 }
 
 /* Full-bleed variant: breaks out of the page's normal max-width so
    listing/search embeds span true edge-to-edge width, like a native
    part of the page rather than a boxed-in widget. Use on a section
    that itself has no max-width — see .buy-listings-section, etc.
-   CORRECTION: 1900px was still too tall for a small result set (a real
-   screenshot with 3 listings left a large blank gap before the next
-   section). Content height here is inherently variable with result
-   count, which is the core limitation of a static value — this is
-   tuned toward a more typical/moderate result count, not a worst case.
-   If a page ever shows many more results than this, the bottom of the
-   grid could get clipped instead of leaving excess space; the
-   postMessage listener in har-embed-resize.js remains in place in case
-   HAR's embed does support dynamic sizing, which would make this whole
-   tradeoff unnecessary — see that file for the open question on whether
-   it's actually firing. */
+   Larger fixed viewport than the base .har-embed-frame since these are
+   typically the primary content of their section (listing grids), so
+   they get more room before the internal scroll kicks in. */
 .har-embed-frame-full-bleed {
-    height: 1300px;
+    height: 1000px;
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
 }
 
-/* Compact variant: small, bounded-content embeds — currently just the
-   Home Valuation address-search form (valuation.html). CORRECTION: this
-   was initially assumed to be a simple address-only widget and set to
-   750px, but the live embed is actually a full multi-field search form
-   (date sold, property type, price range, subdivision, year built,
-   sort, etc.) — 750px was cutting off the form's own submit/reset
-   buttons. Raised to give it real room. */
+/* Compact variant: currently just the Home Valuation search form. Same
+   fixed-viewport-plus-internal-scroll strategy, just a shorter default
+   since this embed's content, while a full multi-field form, is
+   generally less tall than a listings grid. */
 .har-embed-frame-compact {
-    height: 1050px;
+    height: 850px;
 }
 
 .embed-loading-overlay {
@@ -1037,15 +1062,15 @@ body.menu-open {
 
 @media (max-width: 700px) {
     .har-embed-frame {
-        height: 1800px;
+        height: 650px;
     }
 
     .har-embed-frame-full-bleed {
-        height: 1600px;
+        height: 750px;
     }
 
     .har-embed-frame-compact {
-        height: 1300px;
+        height: 700px;
     }
 }
 
