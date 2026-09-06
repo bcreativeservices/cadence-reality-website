@@ -36,6 +36,9 @@
 
     <!-- Global Styles -->
     <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/home.css">
+    <link rel="stylesheet" href="css/search.css">
+    <link rel="stylesheet" href="css/valuation.css">
     <link rel="stylesheet" href="css/buyers.css">
 
     <!-- Motion & Interaction -->
@@ -43,6 +46,7 @@
     <script src="js/micro-interactions.js" defer></script>
     <script src="js/global.js" defer></script>
     <script src="js/lead-modal.js" defer></script>
+    <script src="js/property-search.js" defer></script>
     <script src="js/embed-loader.js" defer></script>
     <script src="js/har-embed-resize.js" defer></script>
 </head>
@@ -52,19 +56,153 @@
     <!-- Inject Global Header -->
     <div id="header-placeholder"></div>
 
-    <section class="embed-page-section animate-section">
-        <div class="embed-page-header">
-            <div class="section-divider"></div>
-            <h1 style="text-align:center;">Search All Listings</h1>
-            <p class="section-intro">Browse the full Houston-area MLS, powered by HAR.com</p>
-        </div>
+    <!-- Search Hero -->
+    <section class="search-hero animate-section">
+        <div class="hero-vignette"></div>
+        <img src="assets/images/home/hero-main.webp" alt="Historic Houston street" class="search-hero-image">
 
-        <div class="har-embed-frame har-embed-frame-full-bleed stagger-3">
-            <iframe
-                src="https://www.har.com/idx/mls/search?sitetype=aws&cid=736316&allmls=y&for_sale=1"
-                title="Search All Listings — HAR.com"
-                loading="lazy"
-                            ></iframe>
+        <div class="search-hero-content">
+            <h1 class="stagger-1">Find Your Next Home</h1>
+            <p class="stagger-2">Search active Houston-area listings, powered by HAR.com</p>
+
+            <!-- Predictive Search Bar (see js/property-search.js) — same
+                 engine as the homepage hero and valuation.html, submits
+                 into HAR's real search endpoint, same tab. -->
+            <form class="hero-search stagger-3" id="listingSearchForm" aria-label="Search Houston homes for sale">
+
+                <div class="hero-search-field hero-search-location">
+                    <label for="listingLocation">Location</label>
+                    <input type="text" id="listingLocation" placeholder="City, ZIP, or Neighborhood" autocomplete="off">
+                    <ul class="address-suggestions" id="listingAddressSuggestions" hidden></ul>
+                </div>
+
+                <div class="hero-search-field">
+                    <label for="listingMinPrice">Min Price</label>
+                    <select id="listingMinPrice">
+                        <option value="">No Min</option>
+                        <option value="100000">$100,000</option>
+                        <option value="150000">$150,000</option>
+                        <option value="200000">$200,000</option>
+                        <option value="300000">$300,000</option>
+                        <option value="400000">$400,000</option>
+                        <option value="600000">$600,000</option>
+                        <option value="800000">$800,000</option>
+                        <option value="1000000">$1,000,000</option>
+                        <option value="1500000">$1,500,000</option>
+                        <option value="2000000">$2,000,000</option>
+                    </select>
+                </div>
+
+                <div class="hero-search-field">
+                    <label for="listingMaxPrice">Max Price</label>
+                    <select id="listingMaxPrice">
+                        <option value="">No Max</option>
+                        <option value="200000">$200,000</option>
+                        <option value="300000">$300,000</option>
+                        <option value="400000">$400,000</option>
+                        <option value="600000">$600,000</option>
+                        <option value="800000">$800,000</option>
+                        <option value="1000000">$1,000,000</option>
+                        <option value="1500000">$1,500,000</option>
+                        <option value="2000000">$2,000,000</option>
+                        <option value="3000000">$3,000,000</option>
+                        <option value="5000000">$5,000,000+</option>
+                    </select>
+                </div>
+
+                <div class="hero-search-field hero-search-narrow">
+                    <label for="listingBeds">Beds</label>
+                    <select id="listingBeds">
+                        <option value="">Any</option>
+                        <option value="1">1+</option>
+                        <option value="2">2+</option>
+                        <option value="3">3+</option>
+                        <option value="4">4+</option>
+                        <option value="5">5+</option>
+                    </select>
+                </div>
+
+                <div class="hero-search-field hero-search-narrow">
+                    <label for="listingBaths">Baths</label>
+                    <select id="listingBaths">
+                        <option value="">Any</option>
+                        <option value="1">1+</option>
+                        <option value="2">2+</option>
+                        <option value="3">3+</option>
+                        <option value="4">4+</option>
+                        <option value="5">5+</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="hero-search-btn btn btn-primary">Search</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Quick Search Shortcuts -->
+    <section class="content-section animate-section">
+        <div class="section-divider"></div>
+        <h2 class="stagger-1" style="text-align:center;">Browse By Category</h2>
+        <p class="section-intro stagger-2">
+            Prefer to browse instead of filtering? Jump straight into a curated view of Houston's market.
+        </p>
+
+        <div class="search-shortcut-grid">
+            <a href="https://www.har.com/idx/mls/search?sitetype=aws&cid=736316&allmls=y&for_sale=1&mlsorgid=1" class="search-shortcut-card stagger-2">
+                <h3>All Active Listings</h3>
+                <p>Every home currently for sale in Greater Houston</p>
+            </a>
+            <a href="https://www.har.com/idx/mls/search?sitetype=aws&cid=736316&allmls=y&for_sale=1&mlsorgid=1&listing_price_max=500000" class="search-shortcut-card stagger-3">
+                <h3>Homes Under $500,000</h3>
+                <p>Great value across Houston's neighborhoods</p>
+            </a>
+            <a href="https://www.har.com/idx/mls/search?sitetype=aws&cid=736316&allmls=y&for_sale=1&mlsorgid=1&listing_price_min=1000000" class="search-shortcut-card stagger-4">
+                <h3>Luxury Estates $1M+</h3>
+                <p>Houston's finest properties</p>
+            </a>
+            <a href="https://www.har.com/idx/mls/search?sitetype=aws&cid=736316&allmls=y&for_sale=1&mlsorgid=1&bedroom_min=4" class="search-shortcut-card stagger-5">
+                <h3>4+ Bedroom Homes</h3>
+                <p>Room for family, guests, and everything else</p>
+            </a>
+        </div>
+    </section>
+
+    <!-- Fallback: HAR's own full-field search tool, collapsed by default —
+         same pattern as valuation.html's accordion. For visitors who want
+         to filter by subdivision, school district, amenities, lot
+         description, etc. — fields our predictive bar above doesn't cover. -->
+    <section class="content-section narrow animate-section">
+        <div class="har-tool-toggle-wrap">
+            <button type="button" class="har-tool-toggle-link" id="listingToolToggle" aria-expanded="false">
+                Want to filter by subdivision, school, or amenities? Try Advanced Search <span class="har-tool-toggle-arrow">→</span>
+            </button>
+            <div class="har-tool-accordion" id="listingToolAccordion">
+                <div class="har-embed-frame">
+                    <iframe
+                        id="listingToolIframe"
+                        title="Advanced Search — HAR.com"
+                        loading="lazy"
+                    ></iframe>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- HAR Compliance Section -->
+    <section class="har-section animate-section">
+        <div class="section-divider"></div>
+
+        <div class="har-inner">
+            <img src="assets/images/home/harlogo_transparent.webp" alt="Houston Association of REALTORS Logo" class="har-logo stagger-1" loading="lazy">
+            <h2 class="stagger-2">Search Powered by HAR.com</h2>
+
+            <p class="stagger-3">
+                Information contained on the computer print‑outs of the Multiple Listing Service (MLS) of the Houston REALTORS® Information Service (HRIS) is furnished by MLS Participants for dissemination to other MLS Participants, for their exclusive use, and should not be relied upon by Buyer/Tenant or any other person.
+            </p>
+
+            <p class="stagger-4">
+                IDX information is provided exclusively for consumers' personal, non‑commercial use and may not be used for any purpose other than to identify prospective properties consumers may be interested in purchasing. Information deemed reliable but not guaranteed to be accurate. Listing information updated daily.
+            </p>
         </div>
     </section>
 
@@ -73,6 +211,30 @@
 
     <!-- Component Loader -->
     <script src="components/includes.js"></script>
+
+    <!-- Advanced Search accordion toggle — same lazy-load-on-first-open
+         pattern as valuation.html's HAR accordion (see js/address-search.js),
+         kept inline since it's specific to this one page. -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const toggle = document.getElementById("listingToolToggle");
+            const accordion = document.getElementById("listingToolAccordion");
+            const iframe = document.getElementById("listingToolIframe");
+            const HAR_ADVANCED_SEARCH_SRC = "https://www.har.com/idx/mls/search?sitetype=aws&cid=736316&allmls=y&for_sale=1&mlsorgid=1";
+
+            if (!toggle) return;
+
+            toggle.addEventListener("click", () => {
+                const isOpen = toggle.getAttribute("aria-expanded") === "true";
+                toggle.setAttribute("aria-expanded", String(!isOpen));
+                accordion.classList.toggle("open", !isOpen);
+
+                if (!isOpen && iframe && !iframe.src) {
+                    iframe.src = HAR_ADVANCED_SEARCH_SRC;
+                }
+            });
+        });
+    </script>
 
 </body>
 </html>

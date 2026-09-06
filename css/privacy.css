@@ -31,6 +31,53 @@
 .privacy-section p {
     font-size: 1rem;
     line-height: 1.6;
+    margin-bottom: 1rem;
+}
+
+.privacy-section h3 {
+    font-size: 1.05rem;
+    font-family: 'Cormorant Garamond', serif;
+    margin: 1.8rem 0 0.6rem;
+}
+
+.privacy-section ul,
+.privacy-section ol {
+    margin: 0 0 1rem 1.3rem;
+    line-height: 1.6;
+}
+
+.privacy-section li {
+    margin-bottom: 0.5rem;
+}
+
+.privacy-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 1.2rem;
+    font-size: 0.92rem;
+}
+
+.privacy-table th,
+.privacy-table td {
+    text-align: left;
+    padding: 0.6rem 0.8rem;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.privacy-table th {
+    background: rgba(0, 0, 0, 0.03);
+    font-weight: 600;
+}
+
+@media (max-width: 700px) {
+    .privacy-table {
+        font-size: 0.85rem;
+    }
+
+    .privacy-table th,
+    .privacy-table td {
+        padding: 0.5rem;
+    }
 }
 
 /* --------------------------------------------------
