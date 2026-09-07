@@ -105,7 +105,41 @@ async function fetchWithTimeout(url, options, timeoutMs) {
     }
 }
 
-async function fetchPage(pageNum) {
+function sleep(ms) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+const RETRY_ATTEMPTS = 4;
+const RETRY_DELAYS_MS = [3000, 8000, 15000]; // between attempts 1→2, 2→3, 3→4
+
+// Retries a blocked/failed fetch a few times with increasing delay
+// before giving up on this page entirely. Observed evidence across
+// multiple runs shows genuinely inconsistent results from the same
+// source (one run got served empty content, another got a hard
+// 403) — that inconsistency means retrying within the same run has
+// a real chance of succeeding, not just waiting for the next
+// scheduled run. This still fails soft (never throws past this
+// function's caller treating it as a skip) if every attempt fails.
+async function fetchPageWithRetry(pageNum) {
+    let lastError;
+
+    for (let attempt = 1; attempt <= RETRY_ATTEMPTS; attempt++) {
+        try {
+            return await fetchPageOnce(pageNum);
+        } catch (err) {
+            lastError = err;
+            const isLastAttempt = attempt === RETRY_ATTEMPTS;
+            console.warn(`Page ${pageNum}, attempt ${attempt}/${RETRY_ATTEMPTS} failed: ${err.message}`);
+            if (!isLastAttempt) {
+                await sleep(RETRY_DELAYS_MS[attempt - 1]);
+            }
+        }
+    }
+
+    throw lastError;
+}
+
+async function fetchPageOnce(pageNum) {
     const url = `${BASE_URL}?${QUERY}&page=${pageNum}`;
     const res = await fetchWithTimeout(
         url,
@@ -143,7 +177,7 @@ async function computeStats() {
     let previousPageText = null;
 
     for (let pageNum = 1; pageNum <= MAX_PAGES && !reachedCutoff; pageNum++) {
-        const text = await fetchPage(pageNum);
+        const text = await fetchPageWithRetry(pageNum);
 
         if (text === previousPageText) {
             // Defensive: if pagination is ever broken and HAR serves

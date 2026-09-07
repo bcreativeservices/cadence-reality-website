@@ -35,7 +35,7 @@ const TRAILING_DAYS = 365;
 const MAX_PAGES = 25;
 const CACHE_SECONDS = 600; // 10 minutes — normal freshness window
 const FALLBACK_CACHE_SECONDS = 60 * 60 * 24 * 30; // 30 days — "last known good" ceiling
-const FETCH_TIMEOUT_MS = 20000;
+const FETCH_TIMEOUT_MS = 8000; // short — see retry note below on why
 
 const MIN_PLAUSIBLE_PRICE = 1000;
 const MAX_PLAUSIBLE_PRICE = 50000000;
@@ -77,7 +77,7 @@ async function fetchWithTimeout(url, options, timeoutMs) {
     }
 }
 
-async function fetchPage(pageNum) {
+async function fetchPageOnce(pageNum) {
     const url = `${SOURCE_BASE_URL}?${SOURCE_QUERY}&page=${pageNum}`;
     const res = await fetchWithTimeout(
         url,
@@ -96,6 +96,32 @@ async function fetchPage(pageNum) {
     }
 
     return stripTags(await res.text());
+}
+
+function sleep(ms) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+// Retries once more with a short delay before giving up on this
+// page. Kept brief — Cloudflare Workers on the free tier have their
+// own execution time ceiling per request, so this stays conservative
+// (2 attempts x 8s timeout + 2s delay = ~18s worst case) rather than
+// risking the Worker getting killed mid-retry.
+async function fetchPage(pageNum) {
+    const attempts = 2;
+    const delayMs = 2000;
+    let lastError;
+
+    for (let attempt = 1; attempt <= attempts; attempt++) {
+        try {
+            return await fetchPageOnce(pageNum);
+        } catch (err) {
+            lastError = err;
+            if (attempt < attempts) await sleep(delayMs);
+        }
+    }
+
+    throw lastError;
 }
 
 async function computeStats() {

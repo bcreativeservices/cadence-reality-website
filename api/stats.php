@@ -23,13 +23,18 @@
 
 header("Content-Type: application/json");
 
+// Best-effort — some hosts ignore this, but on ones that respect it,
+// this gives enough headroom for the retry logic below (worst case
+// ~18s per page) without hitting a default 30s script-kill limit.
+@set_time_limit(60);
+
 const SOURCE_BASE_URL = "https://www.har.com/idx/mls/sold/listing";
 const SOURCE_QUERY = "sitetype=aws&cid=736316&allmls=n&mlsorgid=1&isSiteIdx=1";
 const TRAILING_DAYS = 365;
 const MAX_PAGES = 25;
 const CACHE_SECONDS = 600; // 10 minutes
 const CACHE_FILE = __DIR__ . "/cache/stats-cache.json";
-const FETCH_TIMEOUT_SECONDS = 20;
+const FETCH_TIMEOUT_SECONDS = 8; // short — see retry note below on why
 
 const MIN_PLAUSIBLE_PRICE = 1000;
 const MAX_PLAUSIBLE_PRICE = 50000000;
@@ -60,6 +65,32 @@ function fetch_page(int $pageNum): string {
     return strip_tags_and_normalize($html);
 }
 
+// Retries a couple of times with a short delay before giving up on
+// this page. Kept deliberately brief (unlike the GitHub Action
+// version's longer retry budget) — most shared PHP hosting kills
+// scripts after ~30 seconds by default, so this stays well under
+// that even in the worst case (2 attempts x 8s timeout + 2s delay
+// = ~18s), leaving headroom for everything else the request does.
+function fetch_page_with_retry(int $pageNum): string {
+    $attempts = 2;
+    $delaySeconds = 2;
+    $lastException = null;
+
+    for ($attempt = 1; $attempt <= $attempts; $attempt++) {
+        try {
+            return fetch_page($pageNum);
+        } catch (Exception $e) {
+            $lastException = $e;
+            error_log("Cadence stats: page $pageNum attempt $attempt/$attempts failed: " . $e->getMessage());
+            if ($attempt < $attempts) {
+                sleep($delaySeconds);
+            }
+        }
+    }
+
+    throw $lastException;
+}
+
 function strip_tags_and_normalize(string $html): string {
     $text = preg_replace('/<script[\s\S]*?<\/script>/i', ' ', $html);
     $text = preg_replace('/<style[\s\S]*?<\/style>/i', ' ', $text);
@@ -87,7 +118,7 @@ function compute_stats(): array {
     $pattern = '/Sold Date:\s*(\d{2}\/\d{2}\/\d{4})[\s\S]*?\$([\d,]+)\s*-\s*\$([\d,]+)[\s\S]*?Represented:\s*(Seller|Buyer)[\s\S]*?(Sold|Rented)[\s\S]*?MLS#\s*(\d+)/';
 
     for ($pageNum = 1; $pageNum <= MAX_PAGES && !$reachedCutoff; $pageNum++) {
-        $text = fetch_page($pageNum);
+        $text = fetch_page_with_retry($pageNum);
 
         if ($text === $previousPageText) {
             // Defensive: broken pagination serving the same content

@@ -5,7 +5,7 @@ name: Update Sales Stats
 
 on:
   schedule:
-    - cron: "0 8 * * *" # daily at 8am UTC
+    - cron: "0 */4 * * *" # every 4 hours — more automatic chances at HAR's inconsistent bot protection, still considerate of their servers (6 attempts/day, not a hammering frequency)
   workflow_dispatch: {} # allows manually running this from the Actions tab
 
 permissions:
