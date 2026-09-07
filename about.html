@@ -82,18 +82,19 @@
     <section class="stats-section animate-section">
         <div class="stats-grid">
             <div class="stat-card stagger-1">
-                <div class="stat-number" data-count-to="4524490" data-prefix="$">$0</div>
+                <div class="stat-number" id="statValueSold" data-count-to="4524490" data-prefix="$">$0</div>
                 <div class="stat-label">Value of Real Estate Sold</div>
             </div>
             <div class="stat-card stagger-2">
-                <div class="stat-number" data-count-to="37">0</div>
+                <div class="stat-number" id="statPropertiesSold" data-count-to="37">0</div>
                 <div class="stat-label">Number of Properties Sold</div>
             </div>
             <div class="stat-card stagger-3">
-                <div class="stat-number" data-count-to="122284" data-prefix="$">$0</div>
+                <div class="stat-number" id="statAveragePrice" data-count-to="122284" data-prefix="$">$0</div>
                 <div class="stat-label">Average Listing Price</div>
             </div>
         </div>
+        <p class="stats-legend" id="statsUpdatedNote">Trailing 12 months · Mid-Price Range Average</p>
     </section>
 
     <!-- Agent Carousel -->
@@ -356,16 +357,85 @@
                 requestAnimationFrame(tick);
             }
 
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach((entry) => {
-                    if (entry.isIntersecting) {
-                        animateCount(entry.target);
-                        observer.unobserve(entry.target);
-                    }
-                });
-            }, { threshold: 0.4 });
+            function startObserving() {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach((entry) => {
+                        if (entry.isIntersecting) {
+                            animateCount(entry.target);
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                }, { threshold: 0.4 });
 
-            statNumbers.forEach((el) => observer.observe(el));
+                statNumbers.forEach((el) => observer.observe(el));
+            }
+
+            // Refresh the three stat values from data/stats.json before
+            // observing anything — this file is kept current by a daily
+            // scheduled GitHub Action (see scripts/fetch-stats.js), which
+            // reads the same trailing-12-month figures Cadence's own CRM
+            // already computes. If the fetch fails for any reason
+            // (offline, file missing), the data-count-to values already
+            // in the HTML above are used as a fallback — a real, if
+            // possibly slightly stale, snapshot rather than a broken page.
+            // Waiting for this (rather than racing it against the
+            // IntersectionObserver) guarantees whichever number is shown
+            // is the one that actually gets animated, with no chance of
+            // a stale number flashing before a fresh one loads.
+            // Tries, in order, whichever of these actually exists on
+            // the current host:
+            //   1. /api/stats.php — same-origin PHP endpoint, works
+            //      once this site is on real PHP hosting (Namecheap,
+            //      HostGator, etc.). 404s harmlessly on GitHub Pages,
+            //      which has no PHP — falls through automatically.
+            //   2. The Cloudflare Worker — today's solution while
+            //      still on GitHub Pages (see cloudflare-worker/).
+            //   3. data/stats.json — the daily-refreshed local cache,
+            //      works on any host, at most a day stale.
+            //   4. The hardcoded data-count-to values already in the
+            //      HTML above, if literally everything else fails.
+            // This means migrating hosts later needs zero changes
+            // here — deploying api/stats.php on the new host is
+            // enough for step 1 to start winning automatically.
+            const STATS_WORKER_URL = "https://cadence-stats.YOUR-SUBDOMAIN.workers.dev";
+
+            fetch("/api/stats.php")
+                .then((res) => (res.ok ? res.json() : Promise.reject()))
+                .catch(() => fetch(STATS_WORKER_URL).then((res) => (res.ok ? res.json() : Promise.reject())))
+                .catch(() => fetch("data/stats.json").then((res) => (res.ok ? res.json() : null)))
+                .then((stats) => {
+                    if (!stats) return;
+
+                    const valueEl = document.getElementById("statValueSold");
+                    const countEl = document.getElementById("statPropertiesSold");
+                    const avgEl = document.getElementById("statAveragePrice");
+
+                    if (valueEl && typeof stats.valueSold === "number") {
+                        valueEl.setAttribute("data-count-to", stats.valueSold);
+                    }
+                    if (countEl && typeof stats.propertiesSold === "number") {
+                        countEl.setAttribute("data-count-to", stats.propertiesSold);
+                    }
+                    if (avgEl && typeof stats.averagePrice === "number") {
+                        avgEl.setAttribute("data-count-to", stats.averagePrice);
+                    }
+
+                    const updatedEl = document.getElementById("statsUpdatedNote");
+                    if (updatedEl && stats.lastUpdated) {
+                        const updatedDate = new Date(stats.lastUpdated).toLocaleDateString("en-US", {
+                            month: "long",
+                            year: "numeric"
+                        });
+                        const period = stats.periodLabel || "Trailing 12 months";
+                        const methodology = stats.methodology || "Mid-Price Range Average";
+                        updatedEl.textContent = `${period} \u00b7 ${methodology} \u00b7 Updated ${updatedDate}`;
+                    }
+                })
+                .catch(() => {
+                    // Fail quietly — the fallback values already in the
+                    // HTML still animate normally.
+                })
+                .finally(startObserving);
         })();
     </script>
 

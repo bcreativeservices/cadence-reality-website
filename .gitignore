@@ -1,0 +1,5 @@
+# Wrangler's local tool cache/account state — machine-specific, not project code
+.wrangler/
+
+# In case any Node tooling ever gets installed locally
+node_modules/

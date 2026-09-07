@@ -1,0 +1,10 @@
+{
+  "valueSold": 4524490,
+  "propertiesSold": 37,
+  "averagePrice": 122284,
+  "periodLabel": "Trailing 12 months",
+  "methodology": "Mid-price range average",
+  "methodologyNote": "HAR does not publish exact closed sale prices publicly. Each sale's price is estimated as the midpoint of HAR's published sold-price range, then summed/averaged.",
+  "source": "https://www.har.com/idx/mls/sold/listing?sitetype=aws&cid=736316&allmls=n&mlsorgid=1",
+  "lastUpdated": "2026-09-06T00:00:00.000Z"
+}
