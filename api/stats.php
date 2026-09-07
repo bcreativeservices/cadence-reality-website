@@ -1,28 +1,24 @@
 <?php
 // ------------------------------------------------------------
-// Cadence Realty — Live Stats API (PHP version)
+// Cadence Realty — Live Stats API (PHP version, hardened)
 //
-// Same job as cloudflare-worker/stats-worker.js, for whenever this
-// site moves off GitHub Pages onto real PHP hosting (Namecheap,
-// HostGator, or similar cPanel/LAMP shared hosting). Runs server-
-// side, on the same server as the site itself — no CORS concerns
-// (same-origin), no third-party account needed.
+// Same job as scripts/fetch-stats.js — see that file's header for
+// the full "why mid-price-range average" and "why this is defensive
+// about failure" explanations. For whenever this site moves off
+// GitHub Pages onto real PHP hosting (Namecheap, HostGator, etc.).
+// Runs server-side, same-origin, no CORS concerns, no third-party
+// account needed.
 //
-// See scripts/fetch-stats.js for the full "why mid-price-range
-// average, not exact prices" explanation — same logic here.
-//
-// CACHING: results are cached to a local file for 10 minutes (see
-// CACHE_SECONDS). Re-scraping HAR on every single visitor's page
-// load would hammer HAR's servers and risk this server's IP getting
-// rate-limited or blocked. If a live fetch ever fails while a
-// previous cache file still exists, that last-known-good cache is
-// served instead of an error — the page should never show broken
-// data just because HAR was briefly unreachable.
+// CACHING & FAILURE BEHAVIOR: results are cached to a local file for
+// 10 minutes. If a live fetch ever fails or returns implausible data,
+// the last known-good cache is served instead — silently, with no
+// error surfaced to the visitor — and only actually errors out if
+// there is truly no prior cache to fall back on (e.g. the very first
+// request ever made, before any successful run).
 //
 // SETUP: upload this whole api/ folder to the site's PHP hosting.
 // Make sure api/cache/ is writable by PHP (chmod 755 or 775 is
-// usually enough on shared hosting). No configuration beyond that —
-// about.html already knows to look for this at /api/stats.php.
+// usually enough on shared hosting). No other configuration needed.
 // ------------------------------------------------------------
 
 header("Content-Type: application/json");
@@ -33,14 +29,23 @@ const TRAILING_DAYS = 365;
 const MAX_PAGES = 25;
 const CACHE_SECONDS = 600; // 10 minutes
 const CACHE_FILE = __DIR__ . "/cache/stats-cache.json";
+const FETCH_TIMEOUT_SECONDS = 20;
+
+const MIN_PLAUSIBLE_PRICE = 1000;
+const MAX_PLAUSIBLE_PRICE = 50000000;
+const MAX_PLAUSIBLE_PROPERTIES = 200;
 
 function fetch_page(int $pageNum): string {
     $url = SOURCE_BASE_URL . "?" . SOURCE_QUERY . "&page=" . $pageNum;
 
     $ch = curl_init($url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_USERAGENT, "Mozilla/5.0 (compatible; CadenceStatsAPI/1.0)");
-    curl_setopt($ch, CURLOPT_TIMEOUT, 15);
+    curl_setopt($ch, CURLOPT_USERAGENT, "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36");
+    curl_setopt($ch, CURLOPT_HTTPHEADER, [
+        "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
+        "Accept-Language: en-US,en;q=0.9"
+    ]);
+    curl_setopt($ch, CURLOPT_TIMEOUT, FETCH_TIMEOUT_SECONDS);
     curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
 
     $html = curl_exec($ch);
@@ -49,7 +54,7 @@ function fetch_page(int $pageNum): string {
     curl_close($ch);
 
     if ($html === false || $httpCode >= 400) {
-        throw new Exception("Fetch failed on page $pageNum: HTTP $httpCode $error");
+        throw new Exception("HTTP $httpCode $error on page $pageNum");
     }
 
     return strip_tags_and_normalize($html);
@@ -64,41 +69,90 @@ function strip_tags_and_normalize(string $html): string {
     return $text;
 }
 
+// Throws on anything that means "couldn't get trustworthy data this
+// time" — every throw here is caught by the caller and treated as a
+// reason to fall back to the last cached result, never as a reason
+// to show the visitor a broken page.
 function compute_stats(): array {
-    $cutoff = new DateTime();
+    $cutoff = DateTime::createFromFormat("Y-m-d", date("Y-m-d"));
     $cutoff->modify("-" . TRAILING_DAYS . " days");
 
     $soldMidpoints = [];
+    $seenMlsNumbers = [];
     $reachedCutoff = false;
+    $skippedGarbled = 0;
+    $skippedDuplicate = 0;
+    $previousPageText = null;
 
-    $pattern = '/Sold Date:\s*(\d{2}\/\d{2}\/\d{4})[\s\S]*?\$([\d,]+)\s*-\s*\$([\d,]+)[\s\S]*?Represented:\s*(Seller|Buyer)[\s\S]*?(Sold|Rented)/';
+    $pattern = '/Sold Date:\s*(\d{2}\/\d{2}\/\d{4})[\s\S]*?\$([\d,]+)\s*-\s*\$([\d,]+)[\s\S]*?Represented:\s*(Seller|Buyer)[\s\S]*?(Sold|Rented)[\s\S]*?MLS#\s*(\d+)/';
 
     for ($pageNum = 1; $pageNum <= MAX_PAGES && !$reachedCutoff; $pageNum++) {
         $text = fetch_page($pageNum);
+
+        if ($text === $previousPageText) {
+            // Defensive: broken pagination serving the same content
+            // repeatedly. Stop rather than hammering HAR needlessly.
+            break;
+        }
+        $previousPageText = $text;
 
         preg_match_all($pattern, $text, $matches, PREG_SET_ORDER);
 
         if (count($matches) === 0) break;
 
         foreach ($matches as $m) {
+            $mlsNum = $m[6];
+            if (isset($seenMlsNumbers[$mlsNum])) {
+                $skippedDuplicate++;
+                continue;
+            }
+            $seenMlsNumbers[$mlsNum] = true;
+
             $soldDate = DateTime::createFromFormat("m/d/Y", $m[1]);
+            if ($soldDate === false) {
+                $skippedGarbled++;
+                continue;
+            }
 
             if ($soldDate < $cutoff) {
                 $reachedCutoff = true;
                 continue;
             }
 
-            if ($m[5] !== "Sold") continue; // exclude rentals
+            if ($m[5] !== "Sold") continue; // exclude rentals, not an error
 
             $low = (int) str_replace(",", "", $m[2]);
             $high = (int) str_replace(",", "", $m[3]);
+
+            $isPlausible = $low <= $high
+                && $low >= MIN_PLAUSIBLE_PRICE
+                && $high <= MAX_PLAUSIBLE_PRICE;
+
+            if (!$isPlausible) {
+                $skippedGarbled++;
+                continue;
+            }
 
             $soldMidpoints[] = ($low + $high) / 2;
         }
     }
 
+    if ($skippedDuplicate > 0) {
+        error_log("Cadence stats: skipped $skippedDuplicate duplicate MLS# match(es).");
+    }
+    if ($skippedGarbled > 0) {
+        error_log("Cadence stats: skipped $skippedGarbled item(s) with unparseable/implausible data.");
+    }
+
     if (count($soldMidpoints) === 0) {
-        throw new Exception("Found zero trailing-12-month sold transactions — source page layout may have changed.");
+        throw new Exception("Found zero trailing-12-month sold transactions this run.");
+    }
+
+    if (count($soldMidpoints) > MAX_PLAUSIBLE_PROPERTIES) {
+        throw new Exception(
+            "Found " . count($soldMidpoints) . " sold transactions, implausibly high — " .
+            "likely a parsing malfunction. Refusing to publish."
+        );
     }
 
     $valueSold = (int) round(array_sum($soldMidpoints));
@@ -149,15 +203,15 @@ try {
     write_cache($fresh);
     echo json_encode($fresh);
 } catch (Exception $e) {
-    // Live fetch failed — serve the last known-good cache rather than
-    // an error, if one exists at all, even if it's older than the
-    // normal 10-minute window. A stale-but-real number beats a broken
-    // page. Only return an actual error if there's truly nothing to
-    // fall back on (e.g. this is the very first request ever made).
+    // Live fetch failed or returned implausible data — serve the last
+    // known-good cache if one exists, even if older than the normal
+    // 10-minute window. A stale-but-real number beats a broken page.
+    error_log("Cadence stats sync failed, falling back to cache: " . $e->getMessage());
+
     if ($cached) {
         echo json_encode($cached);
     } else {
         http_response_code(502);
-        echo json_encode(["error" => $e->getMessage()]);
+        echo json_encode(["error" => "No data available yet and live fetch failed."]);
     }
 }
