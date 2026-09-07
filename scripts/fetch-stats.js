@@ -74,14 +74,33 @@ function parseDate(mmddyyyy) {
 async function fetchPage(pageNum) {
     const url = `${BASE_URL}?${QUERY}&page=${pageNum}`;
     const res = await fetch(url, {
-        headers: { "User-Agent": "Mozilla/5.0 (compatible; CadenceStatsSync/1.0)" }
+        headers: {
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36",
+            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
+            "Accept-Language": "en-US,en;q=0.9"
+        }
     });
 
     if (!res.ok) {
         throw new Error(`Fetch failed on page ${pageNum}: ${res.status} ${res.statusText}`);
     }
 
-    return stripTags(await res.text());
+    const rawHtml = await res.text();
+    const text = stripTags(rawHtml);
+
+    // Diagnostic logging — temporary, while we're debugging why the
+    // parser found zero matches on a real GitHub Actions run despite
+    // the pattern matching HAR's real markup structure in manual
+    // testing. Safe to remove once this is confirmed working.
+    console.log(`--- Page ${pageNum} diagnostic ---`);
+    console.log("HTTP status:", res.status);
+    console.log("Raw HTML length:", rawHtml.length);
+    console.log("Contains 'Sold Date':", rawHtml.includes("Sold Date"));
+    console.log("Contains 'idx_add_cntr':", rawHtml.includes("idx_add_cntr"));
+    console.log("First 800 chars of stripped text:", text.slice(0, 800));
+    console.log("--- end diagnostic ---");
+
+    return text;
 }
 
 async function main() {
