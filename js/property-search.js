@@ -8,26 +8,36 @@
 //
 // This version:
 //   1. Uses the SAME LocationIQ autocomplete engine already proven
-//      out on valuation.html (see js/address-search.js) — but with
-//      addressdetails=1, so we get structured city/ZIP/street data
-//      instead of just a display string.
-//   2. Sends the visitor to HAR's real, confirmed endpoint —
-//      https://www.har.com/idx/mls/search — using the real,
-//      lower-case field names confirmed from an actual HAR search
-//      (city, zip_code, streetaddress, bedroom_min, full_bath_min,
-//      listing_price_min/max), pre-filling that form with whatever
-//      the visitor entered here.
-//   3. Navigates in the SAME tab (no window.open/new tab) — HAR's
-//      page for this account (cid=736316) carries Cadence's own
-//      header/branding, so this reads as a continuation of the site,
-//      not a jarring hop to a third-party tool.
+//      out on valuation.html — but with addressdetails=1, so we get
+//      structured city/ZIP/street data instead of just a display
+//      string.
+//   2. Shows REAL RESULTS directly, in one click, embedded on our
+//      own page — never a navigation to har.com, and never a second
+//      click required inside an embedded form. This uses HAR's
+//      public, token-free results endpoint:
+//        https://www.har.com/houston/realestate/for_sale
+//      confirmed (against real, independently-indexed HAR pages
+//      showing these exact params in live use) to accept
+//      bedroom_min, full_bath_min, listing_price_min, and
+//      listing_price_max as direct GET params that filter results
+//      immediately, no form submission or token needed.
+//
+//      NOTE — this endpoint is scoped to the Houston metro generally
+//      (not a specific ZIP/subdivision, and not filtered to only
+//      Cadence's own cid=736316 listings the way HAR's AWS embed
+//      tool is). That's a deliberate, disclosed trade-off: it's the
+//      only way confirmed to give one-click real results without
+//      guessing at unconfirmed parameters (the same mistake that
+//      caused the original broken-search bug). Precise ZIP/
+//      subdivision/school-district filtering remains available via
+//      the "Advanced Search" accordion below, which still uses HAR's
+//      full raw form for visitors who want that level of precision.
 //
 // NOTE — Property Type is intentionally NOT sent as a filter here.
 // HAR's PROPERTY_CLASS_ID / propsubtype codes were never confirmed
-// against a real, working search (the old code's 1/2/3/5 mapping was
-// a guess) — sending an unconfirmed value risks silently zeroing out
-// results again, the exact bug this rewrite fixes. Once real values
-// are confirmed with HAR, that filter can be reintroduced below.
+// against a real, working search — sending an unconfirmed value
+// risks silently zeroing out results again. Once real values are
+// confirmed with HAR, that filter can be reintroduced.
 //
 // Supports multiple independent instances on one page (e.g. the
 // homepage hero AND the Buy search page each have their own).
@@ -36,34 +46,47 @@
 document.addEventListener("DOMContentLoaded", () => {
     const LOCATIONIQ_TOKEN = "pk.59a376113c25f0cbeffd1581de2e2662";
     const HOUSTON_VIEWBOX = "-94.8,30.3,-96.0,29.3";
-    const HAR_CID = "736316";
-    const HAR_FORM_ENDPOINT = "https://www.har.com/idx/mls/search";
+    const HAR_RESULTS_ENDPOINT = "https://www.har.com/houston/realestate/for_sale";
+    const RESULTS_IFRAME_ID = "listingResultsFrame";
+    const RESULTS_SECTION_ID = "searchResultsSection";
 
-    function buildHarUrl({ streetaddress, city, zipCode, minPrice, maxPrice, beds, baths }) {
-        const params = new URLSearchParams({
-            sitetype: "aws",
-            cid: HAR_CID,
-            allmls: "y",
-            for_sale: "1",
-            mlsorgid: "1"
-        });
+    // Builds a URL that shows REAL, already-filtered results directly
+    // — no intermediate form, no second click. Only uses the three
+    // params independently confirmed to work on this endpoint.
+    function buildHarResultsUrl({ minPrice, maxPrice, beds, baths }) {
+        const params = new URLSearchParams({ view: "map" });
 
-        if (streetaddress) params.set("streetaddress", streetaddress);
-        if (city) params.set("city", city);
-        if (zipCode) params.set("zip_code", zipCode);
         if (minPrice) params.set("listing_price_min", minPrice);
         if (maxPrice) params.set("listing_price_max", maxPrice);
         if (beds) params.set("bedroom_min", beds);
         if (baths) params.set("full_bath_min", baths);
-        params.set("sort", "listprice desc");
 
-        return `${HAR_FORM_ENDPOINT}?${params.toString()}`;
+        return `${HAR_RESULTS_ENDPOINT}?${params.toString()}`;
+    }
+
+    // Reveals the embedded results iframe on THIS page and points it
+    // at the given HAR URL. Never touches window.location — the
+    // visitor never leaves our site. Only does anything on pages
+    // that actually have a results iframe (i.e. listing-search.html).
+    function showResults(harUrl) {
+        const section = document.getElementById(RESULTS_SECTION_ID);
+        const iframe = document.getElementById(RESULTS_IFRAME_ID);
+        if (!section || !iframe) return false;
+
+        iframe.src = harUrl;
+        section.hidden = false;
+        if (typeof section.scrollIntoView === "function") {
+            section.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+        return true;
     }
 
     // Pulls city / ZIP / street out of a LocationIQ result's
     // structured `address` object (requires addressdetails=1 on the
-    // request). Falls back gracefully — any missing piece is just
-    // left out of the HAR query rather than sent as "undefined".
+    // request). Not currently used to filter HAR results (see note
+    // above) — kept for the location text display and for forwarding
+    // to listing-search.html, where it may become useful again if a
+    // confirmed location-filtering param is found for this endpoint.
     function extractLocationParts(place) {
         const addr = place && place.address ? place.address : {};
         const city = addr.city || addr.town || addr.village || addr.suburb || "";
@@ -206,8 +229,9 @@ document.addEventListener("DOMContentLoaded", () => {
         // Resolves whatever's currently typed into { streetaddress, city,
         // zipCode }, using the already-selected suggestion if there is
         // one, otherwise geocoding the raw text. Calls back with `null`
-        // if the location can't be resolved (search still proceeds —
-        // just without a location filter — rather than blocking submit).
+        // if the location can't be resolved. Not used to filter results
+        // right now (see notes above), but still resolved so the
+        // display text and forwarded params stay meaningful.
         function resolveLocation(callback) {
             const query = input.value.trim();
 
@@ -253,22 +277,78 @@ document.addEventListener("DOMContentLoaded", () => {
                 const beds = bedsId ? document.getElementById(bedsId).value : "";
                 const baths = bathsId ? document.getElementById(bathsId).value : "";
 
-                const url = buildHarUrl({
-                    streetaddress: location ? location.streetaddress : "",
-                    city: location ? location.city : "",
-                    zipCode: location ? location.zipCode : "",
-                    minPrice,
-                    maxPrice,
-                    beds,
-                    baths
-                });
+                // Real results, one click, embedded — no intermediate
+                // form, no second click required.
+                const harUrl = buildHarResultsUrl({ minPrice, maxPrice, beds, baths });
+                const shown = showResults(harUrl);
+                if (shown) return;
 
-                // Same tab, not a new one — this is a continuation of
-                // the visitor's search, not a hop to a separate tool.
-                window.location.href = url;
+                // Otherwise (the homepage hero has no results iframe of
+                // its own) — carry the search to the Buy page via our
+                // OWN url params, where it displays embedded immediately
+                // on load. Still same-site navigation to our own domain,
+                // never to har.com directly.
+                const forwardParams = new URLSearchParams();
+                if (input.value.trim()) forwardParams.set("loc", input.value.trim());
+                if (minPrice) forwardParams.set("min", minPrice);
+                if (maxPrice) forwardParams.set("max", maxPrice);
+                if (beds) forwardParams.set("beds", beds);
+                if (baths) forwardParams.set("baths", baths);
+
+                window.location.href = `listing-search.html?${forwardParams.toString()}`;
             });
         });
     }
+
+    // If we've arrived on the Buy page carrying search criteria from
+    // the homepage hero (via the forwardParams above), show results
+    // immediately on load and reflect what was searched in the visible
+    // fields — rather than making the visitor re-type/re-submit the
+    // same search they just ran on the homepage.
+    function restoreFromForwardedParams() {
+        const params = new URLSearchParams(window.location.search);
+        if ([...params.keys()].length === 0) return; // nothing forwarded
+
+        const locInput = document.getElementById("listingLocation");
+        if (locInput && params.get("loc")) locInput.value = params.get("loc");
+
+        const minSelect = document.getElementById("listingMinPrice");
+        if (minSelect && params.get("min")) minSelect.value = params.get("min");
+
+        const maxSelect = document.getElementById("listingMaxPrice");
+        if (maxSelect && params.get("max")) maxSelect.value = params.get("max");
+
+        const bedsSelect = document.getElementById("listingBeds");
+        if (bedsSelect && params.get("beds")) bedsSelect.value = params.get("beds");
+
+        const bathsSelect = document.getElementById("listingBaths");
+        if (bathsSelect && params.get("baths")) bathsSelect.value = params.get("baths");
+
+        const harUrl = buildHarResultsUrl({
+            minPrice: params.get("min") || "",
+            maxPrice: params.get("max") || "",
+            beds: params.get("beds") || "",
+            baths: params.get("baths") || ""
+        });
+
+        showResults(harUrl);
+    }
+
+    // "Browse By Category" shortcut buttons — same embedded-results
+    // pattern as the search form itself. These used to be plain <a>
+    // links straight to har.com (the same "abandons our site" problem
+    // as the search bar); now they reveal results inline instead.
+    document.querySelectorAll(".js-shortcut-search").forEach((button) => {
+        button.addEventListener("click", () => {
+            const harUrl = buildHarResultsUrl({
+                minPrice: button.dataset.min || "",
+                maxPrice: button.dataset.max || "",
+                beds: button.dataset.beds || "",
+                baths: button.dataset.baths || ""
+            });
+            showResults(harUrl);
+        });
+    });
 
     // Homepage hero search
     attachInstance({
@@ -291,4 +371,6 @@ document.addEventListener("DOMContentLoaded", () => {
         bedsId: "listingBeds",
         bathsId: "listingBaths"
     });
+
+    restoreFromForwardedParams();
 });

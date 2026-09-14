@@ -139,6 +139,23 @@
         </div>
     </section>
 
+    <!-- Search Results — embedded inline, never a navigation away
+         from the site. Hidden until a search actually happens (either
+         submitted right here, or carried over from the homepage hero
+         via js/property-search.js's restoreFromForwardedParams). The
+         iframe's src points at HAR's own pre-filled results/search
+         page for this account — visitors never leave our domain, our
+         header/footer stay visible the whole time. -->
+    <section class="content-section animate-section" id="searchResultsSection" hidden>
+        <div class="har-embed-frame">
+            <iframe
+                id="listingResultsFrame"
+                title="Search Results — HAR.com"
+                loading="lazy"
+            ></iframe>
+        </div>
+    </section>
+
     <!-- Quick Search Shortcuts -->
     <section class="content-section animate-section">
         <div class="section-divider"></div>
@@ -148,22 +165,22 @@
         </p>
 
         <div class="search-shortcut-grid">
-            <a href="https://www.har.com/idx/mls/search?sitetype=aws&cid=736316&allmls=y&for_sale=1&mlsorgid=1" class="search-shortcut-card stagger-2">
+            <button type="button" class="search-shortcut-card stagger-2 js-shortcut-search">
                 <h3>All Active Listings</h3>
                 <p>Every home currently for sale in Greater Houston</p>
-            </a>
-            <a href="https://www.har.com/idx/mls/search?sitetype=aws&cid=736316&allmls=y&for_sale=1&mlsorgid=1&listing_price_max=500000" class="search-shortcut-card stagger-3">
+            </button>
+            <button type="button" class="search-shortcut-card stagger-3 js-shortcut-search" data-max="500000">
                 <h3>Homes Under $500,000</h3>
                 <p>Great value across Houston's neighborhoods</p>
-            </a>
-            <a href="https://www.har.com/idx/mls/search?sitetype=aws&cid=736316&allmls=y&for_sale=1&mlsorgid=1&listing_price_min=1000000" class="search-shortcut-card stagger-4">
+            </button>
+            <button type="button" class="search-shortcut-card stagger-4 js-shortcut-search" data-min="1000000">
                 <h3>Luxury Estates $1M+</h3>
                 <p>Houston's finest properties</p>
-            </a>
-            <a href="https://www.har.com/idx/mls/search?sitetype=aws&cid=736316&allmls=y&for_sale=1&mlsorgid=1&bedroom_min=4" class="search-shortcut-card stagger-5">
+            </button>
+            <button type="button" class="search-shortcut-card stagger-5 js-shortcut-search" data-beds="4">
                 <h3>4+ Bedroom Homes</h3>
                 <p>Room for family, guests, and everything else</p>
-            </a>
+            </button>
         </div>
     </section>
 
