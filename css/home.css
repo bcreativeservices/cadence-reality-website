@@ -443,3 +443,62 @@
         max-height: 260px;
     }
 }
+
+/* ------------------------------------------
+   TREC REQUIRED NOTICES
+   Deliberately its own section, not folded into the footer's small
+   -print legal row — a real regulatory visibility requirement, not
+   just styling. Dark background + gold links keeps it on-brand while
+   giving ~6.7:1 contrast (comfortably past WCAG AA for normal text).
+   ------------------------------------------ */
+
+.trec-notices {
+    background: #1a1a1a;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 1.8rem 2rem;
+    text-align: center;
+}
+
+.trec-notices-label {
+    color: rgba(255, 255, 255, 0.65);
+    font-size: 0.8rem;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    margin-bottom: 0.7rem;
+}
+
+.trec-notices-links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.trec-notices-links a {
+    color: #b08d57;
+    font-size: 16px; /* 12pt, as specified */
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+.trec-notices-links a:hover,
+.trec-notices-links a:focus-visible {
+    color: #c9a76c;
+}
+
+.trec-notices-dot {
+    color: rgba(255, 255, 255, 0.3);
+}
+
+@media (max-width: 600px) {
+    .trec-notices-links {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .trec-notices-dot {
+        display: none;
+    }
+}

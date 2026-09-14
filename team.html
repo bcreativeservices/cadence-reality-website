@@ -307,5 +307,86 @@
     <!-- Component Loader -->
     <script src="components/includes.js"></script>
 
+    <!-- Featured-agent swap: when arriving via a #agent-{slug} link
+         from about.html's "Meet Our Agents" carousel, promotes that
+         agent's photo/name/contact info into the top "principal"
+         slot (normally Jimmy Dale Janes), swapping his info down into
+         the grid slot the clicked agent vacated. Dynamic per-visit —
+         nothing here is written back to the page's actual HTML.
+
+         Deliberately swaps only photo, name, and contact links — the
+         real data every agent actually has. The principal slot's role
+         label and bio paragraph are Jimmy-specific content we don't
+         have equivalents for per agent, so those are replaced with
+         the same generic "REALTOR®" designation already used in the
+         grid, and the bio is hidden rather than left showing the
+         wrong person's biography under someone else's name/photo. -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const hash = window.location.hash;
+            if (!hash || hash === "#agent-jimmy-dale-janes") return; // already correct as-is
+
+            const targetCard = document.querySelector(hash);
+            const principal = document.getElementById("agent-jimmy-dale-janes");
+            if (!targetCard || !principal || !targetCard.classList.contains("agent-card")) return;
+
+            function readCard(card, { nameSelector }) {
+                const img = card.querySelector("img");
+                const nameEl = card.querySelector(nameSelector);
+                const links = card.querySelectorAll(".agent-contact-link");
+                return {
+                    photoSrc: img ? img.src : "",
+                    photoAlt: img ? img.alt : "",
+                    name: nameEl ? nameEl.textContent : "",
+                    phoneHref: links[0] ? links[0].getAttribute("href") : "",
+                    phoneText: links[0] ? links[0].querySelector("span").textContent : "",
+                    emailHref: links[1] ? links[1].getAttribute("href") : "",
+                    emailText: links[1] ? links[1].querySelector("span").textContent : ""
+                };
+            }
+
+            function writeCard(card, { nameSelector }, data) {
+                const img = card.querySelector("img");
+                const nameEl = card.querySelector(nameSelector);
+                const links = card.querySelectorAll(".agent-contact-link");
+
+                if (img) { img.src = data.photoSrc; img.alt = data.photoAlt; }
+                if (nameEl) nameEl.textContent = data.name;
+                if (links[0]) {
+                    links[0].setAttribute("href", data.phoneHref);
+                    links[0].querySelector("span").textContent = data.phoneText;
+                }
+                if (links[1]) {
+                    links[1].setAttribute("href", data.emailHref);
+                    links[1].querySelector("span").textContent = data.emailText;
+                }
+            }
+
+            const targetData = readCard(targetCard, { nameSelector: "h3" });
+            const principalData = readCard(principal, { nameSelector: "h2" });
+
+            // Promote the clicked agent into the principal slot.
+            writeCard(principal, { nameSelector: "h2" }, targetData);
+            const roleEl = principal.querySelector(".team-role");
+            const bioEl = principal.querySelector(".team-bio");
+            if (roleEl) roleEl.textContent = "REALTOR\u00AE";
+            if (bioEl) bioEl.hidden = true;
+
+            // Demote Jimmy into the grid slot the clicked agent vacated.
+            writeCard(targetCard, { nameSelector: "h3" }, principalData);
+
+            // The browser's native hash-scroll already happened based
+            // on the page's original layout, before this ran — correct
+            // the final scroll position now that the swap is done, and
+            // move focus there so assistive tech announces the actual
+            // (now-updated) content rather than staying wherever it was.
+            principal.setAttribute("tabindex", "-1");
+            if (typeof principal.scrollIntoView === "function") {
+                principal.scrollIntoView({ behavior: "smooth", block: "start" });
+            }
+            principal.focus({ preventScroll: true });
+        });
+    </script>
+
 </body>
 </html>
