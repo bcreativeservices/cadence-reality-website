@@ -372,5 +372,18 @@ document.addEventListener("DOMContentLoaded", () => {
         bathsId: "listingBaths"
     });
 
+    // Buyers page hero search — no results iframe on this page, so
+    // submitting here falls through to the same "forward to
+    // listing-search.html" path the homepage hero already uses.
+    attachInstance({
+        formId: "buyersSearchForm",
+        inputId: "buyersLocation",
+        suggestionsId: "buyersAddressSuggestions",
+        minPriceId: "buyersMinPrice",
+        maxPriceId: "buyersMaxPrice",
+        bedsId: "buyersBeds",
+        bathsId: "buyersBaths"
+    });
+
     restoreFromForwardedParams();
 });
