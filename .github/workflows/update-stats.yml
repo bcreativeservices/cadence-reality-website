@@ -2,10 +2,16 @@ name: Update Sales Stats
 
 # Keeps data/stats.json current for the About page's stat counters.
 # See scripts/fetch-stats.js for what this actually does and why.
+#
+# RETIRED as the source of truth (see about.html's fetch chain and
+# stats-dashboard.html): the numbers are now entered manually through the
+# StatsDashboard admin page. The automatic schedule below is turned off
+# rather than deleted, since this was hard-failing (red X) whenever HAR
+# returned zero matches, which happened often enough to be noise once the
+# feature it supported was being replaced anyway. Still runnable manually
+# from the Actions tab if ever useful again.
 
 on:
-  schedule:
-    - cron: "0 */4 * * *" # every 4 hours — more automatic chances at HAR's inconsistent bot protection, still considerate of their servers (6 attempts/day, not a hammering frequency)
   workflow_dispatch: {} # allows manually running this from the Actions tab
 
 permissions:

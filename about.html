@@ -370,15 +370,21 @@
                 statNumbers.forEach((el) => observer.observe(el));
             }
 
-            // Refresh the three stat values from data/stats.json before
-            // observing anything — this file is kept current by a daily
-            // scheduled GitHub Action (see scripts/fetch-stats.js), which
-            // reads the same trailing-12-month figures Cadence's own CRM
-            // already computes. If the fetch fails for any reason
-            // (offline, file missing), the data-count-to values already
-            // in the HTML above are used as a fallback — a real, if
-            // possibly slightly stale, snapshot rather than a broken page.
-            // Waiting for this (rather than racing it against the
+            // Refresh the three stat values before observing anything.
+            // These numbers are now entered manually by brokerage staff
+            // through the password-free (Google Sign-In) StatsDashboard
+            // admin page — see stats-dashboard.html and
+            // cloudflare-worker-dashboard/. The automatic HAR-scraping
+            // approach (scripts/fetch-stats.js, the old cloudflare-worker/
+            // Worker) is retired as the source of truth: HAR's bot
+            // protection was too inconsistent to rely on, and the client
+            // couldn't confirm the scraped numbers matched their own
+            // calculation. That old code is left in place but dormant.
+            // If the fetch fails for any reason (offline, nothing has
+            // been entered in the dashboard yet), the data-count-to
+            // values already in the HTML above are used as a fallback —
+            // a real, if possibly stale, snapshot rather than a broken
+            // page. Waiting for this (rather than racing it against the
             // IntersectionObserver) guarantees whichever number is shown
             // is the one that actually gets animated, with no chance of
             // a stale number flashing before a fresh one loads.
@@ -388,20 +394,21 @@
             //      once this site is on real PHP hosting (Namecheap,
             //      HostGator, etc.). 404s harmlessly on GitHub Pages,
             //      which has no PHP — falls through automatically.
-            //   2. The Cloudflare Worker — today's solution while
-            //      still on GitHub Pages (see cloudflare-worker/).
-            //   3. data/stats.json — the daily-refreshed local cache,
-            //      works on any host, at most a day stale.
+            //   2. The StatsDashboard Cloudflare Worker's public,
+            //      read-only endpoint — today's solution while still on
+            //      GitHub Pages (see cloudflare-worker-dashboard/).
+            //   3. data/stats.json — a local cache of the last good
+            //      value, works on any host if the Worker is unreachable.
             //   4. The hardcoded data-count-to values already in the
             //      HTML above, if literally everything else fails.
             // This means migrating hosts later needs zero changes
             // here — deploying api/stats.php on the new host is
             // enough for step 1 to start winning automatically.
-            const STATS_WORKER_URL = "https://cadence-stats.YOUR-SUBDOMAIN.workers.dev";
+            const STATS_DASHBOARD_WORKER_URL = "https://cadence-stats-dashboard.YOUR-SUBDOMAIN.workers.dev/api/stats";
 
             fetch("/api/stats.php")
                 .then((res) => (res.ok ? res.json() : Promise.reject()))
-                .catch(() => fetch(STATS_WORKER_URL).then((res) => (res.ok ? res.json() : Promise.reject())))
+                .catch(() => fetch(STATS_DASHBOARD_WORKER_URL).then((res) => (res.ok ? res.json() : Promise.reject())))
                 .catch(() => fetch("data/stats.json").then((res) => (res.ok ? res.json() : null)))
                 .then((stats) => {
                     if (!stats) return;

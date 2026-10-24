@@ -1,0 +1,24 @@
+{
+  "name": "cadence-stats-dashboard",
+  "compatibility_date": "2026-09-03",
+  "main": "worker.js",
+  "kv_namespaces": [
+    {
+      "binding": "STATS_KV",
+      "id": "REPLACE_WITH_YOUR_KV_NAMESPACE_ID"
+    }
+  ],
+  "triggers": {
+    // Fires once a day; the Worker itself decides (based on the configured
+    // frequency and the last-sent date stored in KV) whether an email
+    // actually goes out. 14:00 UTC ≈ 9am Central (8am during standard time).
+    "crons": ["0 14 * * *"]
+  },
+  "vars": {
+    // Public values — safe to commit. Secrets (see README) are set
+    // separately with `wrangler secret put` and never appear in this file.
+    "ALLOWED_ORIGIN": "https://bcreativeservices.github.io",
+    "GOOGLE_CLIENT_ID": "456594241353-g6oqerc9kktuh9od2r8fiuhrgtru7lal.apps.googleusercontent.com",
+    "DASHBOARD_URL": "https://bcreativeservices.github.io/cadence-reality-website/stats-dashboard.html"
+  }
+}

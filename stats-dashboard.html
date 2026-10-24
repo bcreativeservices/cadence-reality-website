@@ -1,0 +1,354 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" />
+<title>Stats Dashboard — Cadence Realty Services</title>
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+<style>
+  :root {
+    --gold: #b08d57;
+    --dark: #1a1a1a;
+    --dark-2: #242424;
+    --text: #f2f0ec;
+    --text-muted: #b9b6b0;
+    --danger: #c0564a;
+    --ok: #6fa06a;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+    background: var(--dark);
+    color: var(--text);
+    min-height: 100vh;
+  }
+  .wrap { max-width: 640px; margin: 0 auto; padding: 32px 20px 80px; }
+  h1 { font-size: 1.4rem; color: var(--gold); margin-bottom: 4px; }
+  .subtitle { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 32px; }
+  .card {
+    background: var(--dark-2);
+    border: 1px solid #3a3a3a;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+  .card h2 { font-size: 1rem; color: var(--gold); margin: 0 0 14px; }
+  label { display: block; font-size: 0.85rem; color: var(--text-muted); margin: 12px 0 4px; }
+  input[type="text"], input[type="number"], input[type="email"], select, textarea {
+    width: 100%;
+    padding: 10px 12px;
+    background: #121212;
+    border: 1px solid #444;
+    border-radius: 6px;
+    color: var(--text);
+    font-size: 0.95rem;
+  }
+  textarea { min-height: 60px; resize: vertical; }
+  button {
+    font-size: 0.9rem;
+    padding: 10px 18px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+  }
+  .btn-primary { background: var(--gold); color: #1a1a1a; margin-top: 16px; }
+  .btn-primary:hover { background: #c4a06c; }
+  .btn-secondary { background: transparent; border: 1px solid var(--gold); color: var(--gold); }
+  .btn-danger-outline { background: transparent; border: 1px solid var(--danger); color: var(--danger); font-size: 0.8rem; padding: 6px 10px; }
+  .row { display: flex; gap: 10px; align-items: center; }
+  .row input { flex: 1; }
+  .status-msg { font-size: 0.85rem; margin-top: 10px; min-height: 1.2em; }
+  .status-ok { color: var(--ok); }
+  .status-err { color: var(--danger); }
+  .meta { font-size: 0.8rem; color: var(--text-muted); margin-top: 4px; }
+  #signInGate { text-align: center; padding: 60px 20px; }
+  #dashboard { display: none; }
+  .qr-row { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+  .qr-row img { border-radius: 6px; background: #fff; padding: 6px; }
+  .user-row { display: flex; gap: 8px; align-items: center; margin-bottom: 8px; }
+  .primary-badge {
+    font-size: 0.7rem; background: var(--gold); color: #1a1a1a; padding: 2px 8px;
+    border-radius: 10px; font-weight: 700;
+  }
+  .topbar { display: flex; justify-content: space-between; align-items: flex-start; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div id="signInGate">
+    <h1>Cadence Realty — Stats Dashboard</h1>
+    <p class="subtitle">Sign in with an authorized Google account to continue.</p>
+    <div id="googleSignInButton" style="display:flex; justify-content:center; margin-top:20px;"></div>
+    <p id="signInError" class="status-msg status-err"></p>
+  </div>
+
+  <div id="dashboard">
+    <div class="topbar">
+      <div>
+        <h1>Stats Dashboard</h1>
+        <p class="subtitle" id="signedInAs"></p>
+      </div>
+      <button class="btn-secondary" id="logoutBtn">Sign out</button>
+    </div>
+
+    <div class="card">
+      <h2>About-page numbers</h2>
+      <label for="valueSold">Value of Real Estate Sold ($)</label>
+      <input type="number" id="valueSold" min="0" step="1" />
+
+      <label for="propertiesSold">Number of Properties Sold</label>
+      <input type="number" id="propertiesSold" min="0" step="1" />
+
+      <label for="averagePrice">Average Listing Price ($)</label>
+      <input type="number" id="averagePrice" min="0" step="1" />
+
+      <label for="periodLabel">Period label (shown next to the numbers)</label>
+      <input type="text" id="periodLabel" placeholder="e.g. Trailing 12 months" />
+
+      <label for="methodologyNote">Optional note (e.g. where these numbers came from)</label>
+      <textarea id="methodologyNote" placeholder="Optional"></textarea>
+
+      <p class="meta" id="lastUpdatedMeta">Last updated: —</p>
+      <button class="btn-primary" id="saveStatsBtn">Save numbers</button>
+      <p class="status-msg" id="statsStatusMsg"></p>
+    </div>
+
+    <div class="card">
+      <h2>Share this dashboard</h2>
+      <div class="qr-row">
+        <img id="qrImage" width="160" height="160" alt="QR code linking to this dashboard" />
+        <div>
+          <p class="meta">Scan to open this page on a phone.</p>
+          <p class="meta" id="dashboardUrlText"></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Who can access this dashboard</h2>
+      <div class="user-row">
+        <span class="primary-badge">Primary</span>
+        <input type="text" id="primaryEmailDisplay" disabled />
+      </div>
+      <div class="user-row">
+        <span class="primary-badge">Business account</span>
+        <input type="text" id="businessEmailDisplay" disabled />
+      </div>
+      <div id="editableUsersContainer"></div>
+      <button class="btn-secondary" id="addUserSlotBtn" type="button">+ Add another person</button>
+      <button class="btn-primary" id="saveUsersBtn">Save access list</button>
+      <p class="status-msg" id="usersStatusMsg"></p>
+    </div>
+
+    <div class="card">
+      <h2>Email reminders</h2>
+      <label for="reminderFrequency">How often should reminder emails go out?</label>
+      <select id="reminderFrequency">
+        <option value="weekly">Weekly</option>
+        <option value="biweekly">Every 2 weeks</option>
+        <option value="monthly">Monthly</option>
+      </select>
+
+      <label for="reminderRecipients">Who should receive reminders? (one email per line)</label>
+      <textarea id="reminderRecipients" placeholder="savannah@example.com"></textarea>
+
+      <label class="row" style="margin-top:14px;">
+        <input type="checkbox" id="reminderEnabled" style="width:auto;" />
+        <span style="color: var(--text);">Enable reminder emails</span>
+      </label>
+
+      <button class="btn-primary" id="saveRemindersBtn">Save reminder settings</button>
+      <p class="status-msg" id="remindersStatusMsg"></p>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  // ---- configuration: update these two values once you have them ----
+  const WORKER_BASE_URL = "https://cadence-stats-dashboard.YOUR-SUBDOMAIN.workers.dev";
+  const GOOGLE_CLIENT_ID = "456594241353-g6oqerc9kktuh9od2r8fiuhrgtru7lal.apps.googleusercontent.com";
+  // ----------------------------------------------------------------
+
+  const el = (id) => document.getElementById(id);
+  const signInGate = el("signInGate");
+  const dashboard = el("dashboard");
+
+  function setStatus(id, message, ok) {
+    const node = el(id);
+    node.textContent = message;
+    node.className = "status-msg " + (ok ? "status-ok" : "status-err");
+    if (message) {
+      setTimeout(() => { if (node.textContent === message) node.textContent = ""; }, 4000);
+    }
+  }
+
+  async function apiFetch(path, options = {}) {
+    const res = await fetch(WORKER_BASE_URL + path, {
+      ...options,
+      credentials: "include",
+      headers: { "Content-Type": "application/json", ...(options.headers || {}) },
+    });
+    let data = null;
+    try { data = await res.json(); } catch (e) { /* no body */ }
+    if (!res.ok) throw new Error((data && data.error) || `Request failed (${res.status})`);
+    return data;
+  }
+
+  function handleCredentialResponse(response) {
+    apiFetch("/api/auth/google", {
+      method: "POST",
+      body: JSON.stringify({ credential: response.credential }),
+    })
+      .then((data) => {
+        el("signInError").textContent = "";
+        showDashboard(data.email);
+      })
+      .catch((err) => {
+        el("signInError").textContent = err.message || "Sign-in failed.";
+      });
+  }
+
+  function initGoogleButton() {
+    if (!window.google || !window.google.accounts) {
+      setTimeout(initGoogleButton, 200);
+      return;
+    }
+    google.accounts.id.initialize({
+      client_id: GOOGLE_CLIENT_ID,
+      callback: handleCredentialResponse,
+    });
+    google.accounts.id.renderButton(el("googleSignInButton"), {
+      theme: "filled_black",
+      size: "large",
+      text: "signin_with",
+    });
+  }
+
+  function showDashboard(email) {
+    signInGate.style.display = "none";
+    dashboard.style.display = "block";
+    el("signedInAs").textContent = "Signed in as " + email;
+    loadStats();
+    loadUsers();
+    loadReminders();
+    const dashboardUrl = window.location.href.split("?")[0].split("#")[0];
+    el("dashboardUrlText").textContent = dashboardUrl;
+    el("qrImage").src =
+      "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=" + encodeURIComponent(dashboardUrl);
+  }
+
+  function loadStats() {
+    apiFetch("/api/stats").then((data) => {
+      el("valueSold").value = data.valueSold || 0;
+      el("propertiesSold").value = data.propertiesSold || 0;
+      el("averagePrice").value = data.averagePrice || 0;
+      el("periodLabel").value = data.periodLabel || "";
+      el("methodologyNote").value = data.methodologyNote || "";
+      el("lastUpdatedMeta").textContent = data.lastUpdated
+        ? `Last updated ${new Date(data.lastUpdated).toLocaleString()} by ${data.updatedBy || "unknown"}`
+        : "Last updated: never";
+    });
+  }
+
+  el("saveStatsBtn").addEventListener("click", () => {
+    apiFetch("/api/stats", {
+      method: "POST",
+      body: JSON.stringify({
+        valueSold: el("valueSold").value,
+        propertiesSold: el("propertiesSold").value,
+        averagePrice: el("averagePrice").value,
+        periodLabel: el("periodLabel").value,
+        methodologyNote: el("methodologyNote").value,
+      }),
+    })
+      .then(() => { setStatus("statsStatusMsg", "Saved.", true); loadStats(); })
+      .catch((err) => setStatus("statsStatusMsg", err.message, false));
+  });
+
+  function renderEditableUsers(list) {
+    const container = el("editableUsersContainer");
+    container.innerHTML = "";
+    const slots = [list[0] || { email: "", label: "" }, list[1] || { email: "", label: "" }];
+    slots.forEach((u, i) => {
+      const row = document.createElement("div");
+      row.className = "user-row";
+      row.innerHTML = `
+        <input type="email" placeholder="person${i + 1}@example.com" value="${u.email || ""}" data-slot="${i}" data-field="email" />
+        <input type="text" placeholder="Name (optional)" value="${u.label || ""}" style="max-width:140px;" data-slot="${i}" data-field="label" />
+      `;
+      container.appendChild(row);
+    });
+  }
+
+  function loadUsers() {
+    apiFetch("/api/users").then((data) => {
+      el("primaryEmailDisplay").value = data.primary || "";
+      el("businessEmailDisplay").value = data.business || "";
+      renderEditableUsers(data.editable || []);
+    });
+  }
+
+  el("saveUsersBtn").addEventListener("click", () => {
+    const rows = el("editableUsersContainer").querySelectorAll(".user-row");
+    const bySlot = {};
+    rows.forEach((row) => {
+      row.querySelectorAll("input").forEach((input) => {
+        const slot = input.dataset.slot;
+        bySlot[slot] = bySlot[slot] || {};
+        bySlot[slot][input.dataset.field] = input.value.trim();
+      });
+    });
+    const editable = Object.values(bySlot).filter((u) => u.email);
+    apiFetch("/api/users", { method: "POST", body: JSON.stringify({ editable }) })
+      .then(() => { setStatus("usersStatusMsg", "Saved.", true); loadUsers(); })
+      .catch((err) => setStatus("usersStatusMsg", err.message, false));
+  });
+
+  function loadReminders() {
+    apiFetch("/api/reminders").then((data) => {
+      el("reminderFrequency").value = data.frequency || "monthly";
+      el("reminderRecipients").value = (data.recipients || []).join("\n");
+      el("reminderEnabled").checked = !!data.enabled;
+    });
+  }
+
+  el("saveRemindersBtn").addEventListener("click", () => {
+    const recipients = el("reminderRecipients").value
+      .split("\n")
+      .map((s) => s.trim())
+      .filter(Boolean);
+    apiFetch("/api/reminders", {
+      method: "POST",
+      body: JSON.stringify({
+        frequency: el("reminderFrequency").value,
+        recipients,
+        enabled: el("reminderEnabled").checked,
+      }),
+    })
+      .then(() => { setStatus("remindersStatusMsg", "Saved.", true); loadReminders(); })
+      .catch((err) => setStatus("remindersStatusMsg", err.message, false));
+  });
+
+  el("logoutBtn").addEventListener("click", () => {
+    apiFetch("/api/auth/logout", { method: "POST" }).finally(() => window.location.reload());
+  });
+
+  // check for an existing session on load, in case of a page refresh
+  apiFetch("/api/session")
+    .then((data) => {
+      if (data.authenticated) {
+        showDashboard(data.email);
+      } else {
+        initGoogleButton();
+      }
+    })
+    .catch(() => initGoogleButton());
+})();
+</script>
+</body>
+</html>
