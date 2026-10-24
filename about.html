@@ -404,7 +404,7 @@
             // This means migrating hosts later needs zero changes
             // here — deploying api/stats.php on the new host is
             // enough for step 1 to start winning automatically.
-            const STATS_DASHBOARD_WORKER_URL = "https://cadence-stats-dashboard.YOUR-SUBDOMAIN.workers.dev/api/stats";
+            const STATS_DASHBOARD_WORKER_URL = "https://cadence-stats-dashboard.cadencerealty.workers.dev/api/stats";
 
             fetch("/api/stats.php")
                 .then((res) => (res.ok ? res.json() : Promise.reject()))
