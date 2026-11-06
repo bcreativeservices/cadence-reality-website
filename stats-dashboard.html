@@ -109,9 +109,6 @@
       <label for="periodLabel">Period label (shown next to the numbers)</label>
       <input type="text" id="periodLabel" placeholder="e.g. Trailing 12 months" />
 
-      <label for="methodologyNote">Optional note (e.g. where these numbers came from)</label>
-      <textarea id="methodologyNote" placeholder="Optional"></textarea>
-
       <p class="meta" id="lastUpdatedMeta">Last updated: —</p>
       <button class="btn-primary" id="saveStatsBtn">Save numbers</button>
       <p class="status-msg" id="statsStatusMsg"></p>
@@ -248,7 +245,6 @@
       el("propertiesSold").value = data.propertiesSold || 0;
       el("averagePrice").value = data.averagePrice || 0;
       el("periodLabel").value = data.periodLabel || "";
-      el("methodologyNote").value = data.methodologyNote || "";
       el("lastUpdatedMeta").textContent = data.lastUpdated
         ? `Last updated ${new Date(data.lastUpdated).toLocaleString()} by ${data.updatedBy || "unknown"}`
         : "Last updated: never";
@@ -263,7 +259,6 @@
         propertiesSold: el("propertiesSold").value,
         averagePrice: el("averagePrice").value,
         periodLabel: el("periodLabel").value,
-        methodologyNote: el("methodologyNote").value,
       }),
     })
       .then(() => { setStatus("statsStatusMsg", "Saved.", true); loadStats(); })

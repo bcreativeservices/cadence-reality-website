@@ -192,8 +192,6 @@ const DEFAULT_STATS = {
   propertiesSold: 0,
   averagePrice: 0,
   periodLabel: "Trailing 12 months",
-  methodology: "Manually entered by brokerage staff",
-  methodologyNote: "",
   lastUpdated: null,
   updatedBy: null,
 };
@@ -213,8 +211,6 @@ async function handlePostStats(request, env, email) {
     propertiesSold: Number(body.propertiesSold) || 0,
     averagePrice: Number(body.averagePrice) || 0,
     periodLabel: String(body.periodLabel || DEFAULT_STATS.periodLabel).slice(0, 120),
-    methodology: String(body.methodology || DEFAULT_STATS.methodology).slice(0, 200),
-    methodologyNote: String(body.methodologyNote || "").slice(0, 300),
     lastUpdated: new Date().toISOString(),
     updatedBy: email,
   };

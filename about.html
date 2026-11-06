@@ -434,8 +434,7 @@
                             year: "numeric"
                         });
                         const period = stats.periodLabel || "Trailing 12 months";
-                        const methodology = stats.methodology || "Mid-Price Range Average";
-                        updatedEl.textContent = `${period} \u00b7 ${methodology} \u00b7 Updated ${updatedDate}`;
+                        updatedEl.textContent = `${period} \u00b7 Updated ${updatedDate}`;
                     }
                 })
                 .catch(() => {
