@@ -34,12 +34,23 @@ const GOOGLE_JWKS = createRemoteJWKSet(
 const SESSION_COOKIE = "cadence_session";
 const SESSION_TTL_SECONDS = 60 * 60 * 12; // 12 hours
 
-function corsHeaders(env) {
+// env.ALLOWED_ORIGIN is a comma-separated list of exact origins (scheme + host,
+// no trailing slash), e.g. "https://a.example,https://b.example". The browser's
+// Origin header is echoed back only when it matches one of them; anything else
+// gets the first listed origin, which the browser will then reject.
+function corsHeaders(request, env) {
+  const allowed = String(env.ALLOWED_ORIGIN || "")
+    .split(",")
+    .map((s) => s.trim())
+    .filter(Boolean);
+  const origin = request.headers.get("Origin");
+  const allowOrigin = origin && allowed.includes(origin) ? origin : allowed[0] || "";
   return {
-    "Access-Control-Allow-Origin": env.ALLOWED_ORIGIN,
+    "Access-Control-Allow-Origin": allowOrigin,
     "Access-Control-Allow-Credentials": "true",
     "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
     "Access-Control-Allow-Headers": "Content-Type",
+    Vary: "Origin",
   };
 }
 
@@ -289,7 +300,7 @@ async function handlePostReminders(request, env) {
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
-    const headers = corsHeaders(env);
+    const headers = corsHeaders(request, env);
 
     if (request.method === "OPTIONS") {
       return new Response(null, { headers });

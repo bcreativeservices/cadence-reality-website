@@ -17,7 +17,7 @@
   "vars": {
     // Public values — safe to commit. Secrets (see README) are set
     // separately with `wrangler secret put` and never appear in this file.
-    "ALLOWED_ORIGIN": "https://bcreativeservices.github.io",
+    "ALLOWED_ORIGIN": "https://bcreativeservices.github.io,https://cadencerealtyservices.com,https://www.cadencerealtyservices.com",
     "GOOGLE_CLIENT_ID": "456594241353-g6oqerc9kktuh9od2r8fiuhrgtru7lal.apps.googleusercontent.com",
     "DASHBOARD_URL": "https://bcreativeservices.github.io/cadence-reality-website/stats-dashboard.html"
   }
