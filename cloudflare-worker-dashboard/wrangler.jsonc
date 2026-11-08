@@ -5,7 +5,7 @@
   "kv_namespaces": [
     {
       "binding": "STATS_KV",
-      "id": "REPLACE_WITH_YOUR_KV_NAMESPACE_ID"
+      "id": "229eae6554604e8989e91a8532fa5975"
     }
   ],
   "triggers": {
